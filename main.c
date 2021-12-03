@@ -1,32 +1,22 @@
 #include <stdio.h>
 
+//Temporario
+#include "windows.h"
+
 void mensagemBoasVindas();
+void menuAlunos();
+void menuInstrutores();
+void menuAulas();
+void menuPrincipal();
 
 int main(void){
+    //Temporario
+    SetConsoleOutputCP(65001);
+
     int op;
-    
     mensagemBoasVindas();
-
     do{
-        //1 - Gestão Alunos, 2 - Gestão Instrutores,  3 - Marcação/Consultas de Aulas
-        op = menuPrincipal();
-
-        switch (op)
-        {
-        case 1:
-            menuAlunos();
-            break;
-        case 2:
-            menuInstrutores();
-            break;
-        case 3:
-            menuAulas();
-            break;
-        
-        default:
-
-            break;
-        }
+        menuPrincipal();
     }while(op != 0);
 
     return 0;
@@ -46,19 +36,30 @@ void mensagemBoasVindas(){
     printf("\n,8'         `         `8.`8888. .8'       `8. `88888. 8 8888     `88.               `8888888P'  .8'       `8. `88888. 8 888888888888 ,8'         `         `8.`8888.  `8888888P'     ");
 }
 
-int menuPrincipal(){
+void menuPrincipal(){
     int op;
     printf ("\n\n< < < MENU PRINCIPAL > > >");
-    printf ("\n\t1 - Gestão de Alunos");
-    printf ("\n\t2 - Gestão de Intrutores");
-    printf ("\n\t3 - Marcação/Consultas de aulas");
-    printf ("\n\t0 - Sair");
-    printf ("\nInsira a sua opção: ");
+    printf ("\n\n\t1 - Gestão de Alunos");
+    printf ("\n\n\t2 - Gestão de Intrutores");
+    printf ("\n\n\t3 - Marcação/Consultas de aulas");
+    printf ("\n\n\t0 - Sair");
+    printf ("\n\nInsira a sua opção: ");
     scanf ("%d", &op);
-    return op;
+    switch (op)
+    {
+    case 1:
+        menuAlunos();
+        break;
+    case 2:
+        menuInstrutores();
+        break;
+    case 3:
+        menuAulas();
+        break;
+    }
 }
 
-int menuAlunos(){
+void menuAlunos(){
     int op;
     printf ("\n\n< < < MENU GESTÃO DE ALUNOS > > >");
     printf ("\n\n\t1 - Inserir novos alunos");
@@ -66,27 +67,57 @@ int menuAlunos(){
     printf ("\n\n\t0 - Voltar");
     printf ("\n\nInsira a sua opção: ");
     scanf ("%d", &op);
-    return op;
+    switch (op)
+    {
+    case 1:
+        inserirAlunos();
+        break;
+    case 2:
+        gerirAlunos();
+        break;
+    default:
+        break;
+    }
 }
 
-int menuInstrutores(){
+void menuInstrutores(){
     int op;
     printf ("\n\n< < < MENU GESTÃO DE INSTRUTORES > > >");
-    printf ("\n\t1 - Inserir novos instrutores");
-    printf ("\n\t2 - Consultar/Alterar dados do instrutor");
-    printf ("\n\t0 - Voltar");
-    printf ("\nInsira a sua opção: ");
+    printf ("\n\n\t1 - Inserir novos instrutores");
+    printf ("\n\n\t2 - Consultar/Alterar dados do instrutor");
+    printf ("\n\n\t0 - Voltar");
+    printf ("\n\nInsira a sua opção: ");
     scanf ("%d", &op);
-    return op;
+    switch (op)
+    {
+    case 1:
+        inserirInstrutores();
+        break;
+    case 2:
+        gerirInstrutores();
+        break;
+    default:
+        break;
+    }
 }
 
-int menuAulas(){
+void menuAulas(){
     int op;
     printf ("\n\n< < < MENU MARCAÇÃO/CONSULTA DE AULAS > > >");
-    printf("\n\t1 - Marcar aulas");
-    printf ("\n\t2 - Consultar aulas");
-    printf ("\n\t0 - Voltar");
-    printf ("\nInsira a sua opção: ");
+    printf("\n\n\t1 - Marcar aulas");
+    printf ("\n\n\t2 - Consultar aulas");
+    printf ("\n\n\t0 - Voltar");
+    printf ("\n\nInsira a sua opção: ");
     scanf ("%d", &op);
-    return op;
+    switch (op)
+    {
+    case 1:
+        marcarAula();
+        break;
+    case 2:
+        consultarAula();
+        break;
+    default:
+        break;
+    }
 }

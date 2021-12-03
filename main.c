@@ -14,29 +14,6 @@ void mensagemBoasVindas(){
     printf("\n,8'         `         `8.`8888. .8'       `8. `88888. 8 8888     `88.               `8888888P'  .8'       `8. `88888. 8 888888888888 ,8'         `         `8.`8888.  `8888888P'     ");
 }
 
-int menuPrincipal(){
-    int op;
-    printf ("\n\n< < < MENU PRINCIPAL > > >");
-    printf ("\n\n\t1 - Gestão de Alunos");
-    printf ("\n\n\t2 - Gestão de Intrutores");
-    printf ("\n\n\t3 - Marcação/Consultas de aulas");
-    printf ("\n\n\t0 - Sair");
-    printf ("\n\nInsira a sua opção: ");
-    scanf ("%d", &op);
-    switch (op){
-        case 1:
-            menuAlunos();
-        break;
-        case 2:
-            menuInstrutores();
-        break;
-        case 3:
-            menuAulas();
-        break;
-    }
-    return op;
-}
-
 void menuAlunos(){
     int op;
     printf ("\n\n< < < MENU GESTÃO DE ALUNOS > > >");
@@ -65,6 +42,29 @@ void menuAulas(){
     printf ("\n\n\t0 - Voltar");
     printf ("\n\nInsira a sua opção: ");
     scanf ("%d", &op);
+}
+
+int menuPrincipal(){
+    int op;
+    printf ("\n\n< < < MENU PRINCIPAL > > >");
+    printf ("\n\n\t1 - Gestão de Alunos");
+    printf ("\n\n\t2 - Gestão de Intrutores");
+    printf ("\n\n\t3 - Marcação/Consultas de aulas");
+    printf ("\n\n\t0 - Sair");
+    printf ("\n\nInsira a sua opção: ");
+    scanf ("%d", &op);
+    switch (op){
+        case 1:
+            menuAlunos();
+        break;
+        case 2:
+            menuInstrutores();
+        break;
+        case 3:
+            menuAulas();
+        break;
+    }
+    return op;
 }
 
 int main(void){

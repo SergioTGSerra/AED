@@ -1,4 +1,62 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <windows.h>
+
+int nAlunos = 0;
+
+
+typedef struct {
+        char rua[50];
+        char porta[50];
+        char cpostal[50];
+        char localidade[50];
+} MORADA;
+
+typedef struct {
+    int dia;
+    int mes;
+    int ano;
+} DATANASCIMENTO;
+
+typedef struct {
+    int dia;
+    int mes;
+    int ano;
+} DATACONCLUSAOCARTA;
+
+typedef struct {
+    int nAluno;
+    char nome[50];
+    char email[50];
+    char cartaoCidadao[50];
+    char nif[50];
+    int nCarta;
+    int ativo;
+    
+    MORADA morada;
+    DATANASCIMENTO dataNascimento;
+    DATACONCLUSAOCARTA dataConclusaoCarta;
+} ALUNOS;
+
+ALUNOS alunos[30];
+
+
+void fullscreen()
+{
+	keybd_event(VK_MENU,0x38,0,0);
+	keybd_event(VK_RETURN,0x1c,0,0);
+	keybd_event(VK_RETURN,0x1c,KEYEVENTF_KEYUP,0);
+	keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
+}
+
+void delay(int number_of_seconds)
+{
+    int milli_seconds = 1000 * number_of_seconds;
+      clock_t start_time = clock();
+      while (clock() < start_time + milli_seconds)
+        ;
+}
 
 void mensagemBoasVindas(){
     printf("\n          .         .                                                                                                                          .         .                           ");
@@ -12,6 +70,8 @@ void mensagemBoasVindas(){
     printf("\n  ,8'     `8.`'     `8.`8888.     .8'   `8. `88888.   8 8888 `8b.               `8 8888       .8' .8'   `8. `88888.   8 8888           ,8'     `8.`'     `8.`8888.`8 8888       ,8P  ");
     printf("\n ,8'       `8        `8.`8888.   .888888888. `88888.  8 8888   `8b.                8888     ,88' .888888888. `88888.  8 8888          ,8'       `8        `8.`8888.` 8888     ,88'   ");
     printf("\n,8'         `         `8.`8888. .8'       `8. `88888. 8 8888     `88.               `8888888P'  .8'       `8. `88888. 8 888888888888 ,8'         `         `8.`8888.  `8888888P'     ");
+    delay(5);
+    system("clear||cls");
 }
 
 void menuAlunos(){
@@ -23,6 +83,43 @@ void menuAlunos(){
     printf ("\n\nInsira a sua opção: ");
     scanf ("%d", &op);
 }
+
+void inserirAluno(){
+		printf ("\nInsira o Nº do aluno: ");
+		scanf ("%d", &alunos[nAlunos].nAluno);
+
+		printf ("Insira o NOME do aluno: ");
+		scanf (" %30[^\n]s", &alunos[nAlunos].nome);
+
+        printf("Insira a rua:");
+        scanf (" %30[^\n]s", &alunos[nAlunos].morada.rua);
+
+        printf("Insira a código de postal:");
+        scanf (" %30[^\n]s", &alunos[nAlunos].morada.cpostal);
+
+        printf("Insira a localidade:");
+        scanf (" %30[^\n]s", &alunos[nAlunos].morada.localidade);
+        
+		printf ("Insira a DATA DE NASCIMENTO: ");
+		scanf ("%d", &alunos[nAlunos].dataNascimento.dia);
+
+		printf ("Insira o CARTÃO DE CIDADÃO: ");
+		scanf (" %30[^\n]s", &alunos[nAlunos].cartaoCidadao);
+
+		printf ("Insira o NIF: ");
+		scanf ("%d", &alunos[nAlunos].nif);
+
+		printf ("Insira a DATA DE CONCLUSÃO DA CARTA: ");
+		scanf ("%d", &alunos[nAlunos].);
+
+		printf ("Insira o NÚMERO DA CARTA:  ");
+		scanf ("%d", &alunos[nAlunos].nCarta);
+
+		printf ("Insira a SITUAÇÃO do aluno (ATIVO / NÃO ATIVO): ");
+		scanf (" %30[^\n]s", &alunos[nAlunos].ativo);
+
+        nAlunos++;
+} 
 
 void menuInstrutores(){
     int op;
@@ -68,6 +165,7 @@ int menuPrincipal(){
 }
 
 int main(void){
+    fullscreen();
     int op;
     mensagemBoasVindas();
     do{

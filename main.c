@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <time.h>
 #include <windows.h>
+#include <locale.h>
 
 int nAlunos = 0;
-
 
 typedef struct {
         char rua[50];
@@ -53,9 +53,15 @@ void fullscreen()
 void delay(int number_of_seconds)
 {
     int milli_seconds = 1000 * number_of_seconds;
-      clock_t start_time = clock();
-      while (clock() < start_time + milli_seconds)
-        ;
+    clock_t start_time = clock();
+    while (clock() < start_time + milli_seconds);
+}
+
+void esperaApaga(char msg[255], int time){
+    system("clear||cls");
+    printf("%s", msg);
+    delay(time);
+    system("clear||cls");
 }
 
 void mensagemBoasVindas(){
@@ -74,16 +80,6 @@ void mensagemBoasVindas(){
     system("clear||cls");
 }
 
-void menuAlunos(){
-    int op;
-    printf ("\n\n< < < MENU GESTÃO DE ALUNOS > > >");
-    printf ("\n\n\t1 - Inserir novos alunos");
-    printf ("\n\n\t2 - Consultar/Alterar dados do aluno");
-    printf ("\n\n\t0 - Voltar");
-    printf ("\n\nInsira a sua opção: ");
-    scanf ("%d", &op);
-}
-
 void inserirAluno(){
 		printf ("\nInsira o Nº do aluno: ");
 		scanf ("%d", &alunos[nAlunos].nAluno);
@@ -100,8 +96,8 @@ void inserirAluno(){
         printf("Insira a localidade:");
         scanf (" %30[^\n]s", &alunos[nAlunos].morada.localidade);
         
-		printf ("Insira a DATA DE NASCIMENTO: ");
-		scanf ("%d", &alunos[nAlunos].dataNascimento.dia);
+		printf ("Insira a DATA DE NASCIMENTO (dia/mês/ano): ");
+		scanf ("%d/%d/%d", &alunos[nAlunos].dataNascimento.dia, &alunos[nAlunos].dataNascimento.mes, &alunos[nAlunos].dataNascimento.ano);
 
 		printf ("Insira o CARTÃO DE CIDADÃO: ");
 		scanf (" %30[^\n]s", &alunos[nAlunos].cartaoCidadao);
@@ -109,16 +105,38 @@ void inserirAluno(){
 		printf ("Insira o NIF: ");
 		scanf ("%d", &alunos[nAlunos].nif);
 
-		printf ("Insira a DATA DE CONCLUSÃO DA CARTA: ");
-		scanf ("%d", &alunos[nAlunos].);
+		printf ("Insira a DATA DE CONCLUSÃO DA CARTA (dia/mês/ano): ");
+		scanf ("%d/%d/%d", &alunos[nAlunos].dataNascimento.dia, &alunos[nAlunos].dataNascimento.mes, &alunos[nAlunos].dataNascimento.ano);
 
 		printf ("Insira o NÚMERO DA CARTA:  ");
 		scanf ("%d", &alunos[nAlunos].nCarta);
 
 		printf ("Insira a SITUAÇÃO do aluno (ATIVO / NÃO ATIVO): ");
 		scanf (" %30[^\n]s", &alunos[nAlunos].ativo);
-
         nAlunos++;
+        esperaApaga("Aluno inserido com sucesso! A redirecionar ....", 3);
+}
+
+void menuAlunos(){
+    int op;
+    do{
+        printf ("\n\n< < < MENU GESTÃO DE ALUNOS > > >");
+        printf ("\n\n\t1 - Inserir novos alunos");
+        printf ("\n\n\t2 - Consultar/Alterar dados do aluno");
+        printf ("\n\n\t0 - Voltar");
+        printf ("\n\nInsira a sua opção: ");
+        scanf ("%d", &op);
+        system("clear||cls");
+        switch (op) {
+            case 1:
+                inserirAluno();
+            break;
+            case 2:
+            break;
+            case 3:
+            break;
+        }
+    }while (op != 0);
 } 
 
 void menuInstrutores(){
@@ -150,6 +168,7 @@ int menuPrincipal(){
     printf ("\n\n\t0 - Sair");
     printf ("\n\nInsira a sua opção: ");
     scanf ("%d", &op);
+    system("clear||cls");
     switch (op){
         case 1:
             menuAlunos();
@@ -166,11 +185,11 @@ int menuPrincipal(){
 
 int main(void){
     fullscreen();
+    setlocale(LC_ALL, "Portuguese");
     int op;
     mensagemBoasVindas();
     do{
         op = menuPrincipal();
     }while(op != 0);
-
     return 0;
 }

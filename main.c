@@ -1,11 +1,67 @@
+////////////////////////////////////////////////////////////////////////////////////
+//Bibliotecas
+////////////////////////////////////////////////////////////////////////////////////
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include <windows.h>
 #include <locale.h>
+#include <windows.h>
 
+////////////////////////////////////////////////////////////////////////////////////
+//Variaveis Globais
+////////////////////////////////////////////////////////////////////////////////////
 int nAlunos = 0;
+int nInstrutores = 0;
 
+////////////////////////////////////////////////////////////////////////////////////
+//Funções
+////////////////////////////////////////////////////////////////////////////////////
+
+//ecra grande só funciona em windows
+void fullscreen(){
+	keybd_event(VK_MENU,0x38,0,0);
+	keybd_event(VK_RETURN,0x1c,0,0);
+	keybd_event(VK_RETURN,0x1c,KEYEVENTF_KEYUP,0);
+	keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
+}
+
+//espera algum tempo delay(tempo_em_segundos)
+void delay(int number_of_seconds){
+    int milli_seconds = 1000 * number_of_seconds;
+    clock_t start_time = clock();
+    while (clock() < start_time + milli_seconds);
+}
+
+//apaga espera algum tempo em segundos enquanto apresenta uma frase e apaga de novo esperaApaga("texto_a_apresentar", tempo_em_segundos)
+void esperaApaga(char msg[255], int time){
+    system("clear||cls");
+    printf("%s", msg);
+    delay(time);
+    system("clear||cls");
+}
+
+//mensagem quando se inicializa o programa
+void mensagemBoasVindas(){
+    printf("\n          .         .                                                                                                                          .         .                           ");
+    printf("\n         ,8.       ,8.                   .8.          8 888888888o.                 ,o888888o.           .8.          8 8888                  ,8.       ,8.           ,o888888o.     ");
+    printf("\n        ,888.     ,888.                 .888.         8 8888    `88.               8888     `88.        .888.         8 8888                 ,888.     ,888.       . 8888     `88.   ");
+    printf("\n       .`8888.   .`8888.               :88888.        8 8888     `88            ,8 8888       `8.      :88888.        8 8888                .`8888.   .`8888.     ,8 8888       `8b  ");
+    printf("\n      ,8.`8888. ,8.`8888.             . `88888.       8 8888     ,88            88 8888               . `88888.       8 8888               ,8.`8888. ,8.`8888.    88 8888        `8b ");
+    printf("\n     ,8'8.`8888,8^8.`8888.           .8. `88888.      8 8888.   ,88'            88 8888              .8. `88888.      8 8888              ,8'8.`8888,8^8.`8888.   88 8888         88 ");
+    printf("\n    ,8' `8.`8888' `8.`8888.         .8`8. `88888.     8 888888888P'             88 8888             .8`8. `88888.     8 8888             ,8' `8.`8888' `8.`8888.  88 8888         88 ");
+    printf("\n   ,8'   `8.`88'   `8.`8888.       .8' `8. `88888.    8 8888`8b                 88 8888            .8' `8. `88888.    8 8888            ,8'   `8.`88'   `8.`8888. 88 8888        ,8P ");
+    printf("\n  ,8'     `8.`'     `8.`8888.     .8'   `8. `88888.   8 8888 `8b.               `8 8888       .8' .8'   `8. `88888.   8 8888           ,8'     `8.`'     `8.`8888.`8 8888       ,8P  ");
+    printf("\n ,8'       `8        `8.`8888.   .888888888. `88888.  8 8888   `8b.                8888     ,88' .888888888. `88888.  8 8888          ,8'       `8        `8.`8888.` 8888     ,88'   ");
+    printf("\n,8'         `         `8.`8888. .8'       `8. `88888. 8 8888     `88.               `8888888P'  .8'       `8. `88888. 8 888888888888 ,8'         `         `8.`8888.  `8888888P'     ");
+    delay(5);
+    system("clear||cls");
+}
+
+////////////////////////////////////////////////////////////////////////////////////
+//Alunos
+////////////////////////////////////////////////////////////////////////////////////
+
+//Estrutura de dados definida para os aulnos
 typedef struct {
         char rua[50];
         char porta[50];
@@ -29,7 +85,7 @@ typedef struct {
     int nAluno;
     char nome[50];
     char email[50];
-    char cartaoCidadao[50];
+    char cartaoCidadao[20];
     char nif[50];
     int nCarta;
     int ativo;
@@ -41,66 +97,31 @@ typedef struct {
 
 ALUNOS alunos[30];
 
-
-void fullscreen()
-{
-	keybd_event(VK_MENU,0x38,0,0);
-	keybd_event(VK_RETURN,0x1c,0,0);
-	keybd_event(VK_RETURN,0x1c,KEYEVENTF_KEYUP,0);
-	keybd_event(VK_MENU,0x38,KEYEVENTF_KEYUP,0);
-}
-
-void delay(int number_of_seconds)
-{
-    int milli_seconds = 1000 * number_of_seconds;
-    clock_t start_time = clock();
-    while (clock() < start_time + milli_seconds);
-}
-
-void esperaApaga(char msg[255], int time){
-    system("clear||cls");
-    printf("%s", msg);
-    delay(time);
-    system("clear||cls");
-}
-
-void mensagemBoasVindas(){
-    printf("\n          .         .                                                                                                                          .         .                           ");
-    printf("\n         ,8.       ,8.                   .8.          8 888888888o.                 ,o888888o.           .8.          8 8888                  ,8.       ,8.           ,o888888o.     ");
-    printf("\n        ,888.     ,888.                 .888.         8 8888    `88.               8888     `88.        .888.         8 8888                 ,888.     ,888.       . 8888     `88.   ");
-    printf("\n       .`8888.   .`8888.               :88888.        8 8888     `88            ,8 8888       `8.      :88888.        8 8888                .`8888.   .`8888.     ,8 8888       `8b  ");
-    printf("\n      ,8.`8888. ,8.`8888.             . `88888.       8 8888     ,88            88 8888               . `88888.       8 8888               ,8.`8888. ,8.`8888.    88 8888        `8b ");
-    printf("\n     ,8'8.`8888,8^8.`8888.           .8. `88888.      8 8888.   ,88'            88 8888              .8. `88888.      8 8888              ,8'8.`8888,8^8.`8888.   88 8888         88 ");
-    printf("\n    ,8' `8.`8888' `8.`8888.         .8`8. `88888.     8 888888888P'             88 8888             .8`8. `88888.     8 8888             ,8' `8.`8888' `8.`8888.  88 8888         88 ");
-    printf("\n   ,8'   `8.`88'   `8.`8888.       .8' `8. `88888.    8 8888`8b                 88 8888            .8' `8. `88888.    8 8888            ,8'   `8.`88'   `8.`8888. 88 8888        ,8P ");
-    printf("\n  ,8'     `8.`'     `8.`8888.     .8'   `8. `88888.   8 8888 `8b.               `8 8888       .8' .8'   `8. `88888.   8 8888           ,8'     `8.`'     `8.`8888.`8 8888       ,8P  ");
-    printf("\n ,8'       `8        `8.`8888.   .888888888. `88888.  8 8888   `8b.                8888     ,88' .888888888. `88888.  8 8888          ,8'       `8        `8.`8888.` 8888     ,88'   ");
-    printf("\n,8'         `         `8.`8888. .8'       `8. `88888. 8 8888     `88.               `8888888P'  .8'       `8. `88888. 8 888888888888 ,8'         `         `8.`8888.  `8888888P'     ");
-    delay(5);
-    system("clear||cls");
-}
-
+//insere um aluno
 void inserirAluno(){
 		printf ("\nInsira o Nº do aluno: ");
 		scanf ("%d", &alunos[nAlunos].nAluno);
 
 		printf ("Insira o NOME do aluno: ");
-		scanf (" %30[^\n]s", &alunos[nAlunos].nome);
+		scanf (" %50[^\n]s", &alunos[nAlunos].nome);
 
         printf("Insira a rua:");
-        scanf (" %30[^\n]s", &alunos[nAlunos].morada.rua);
+        scanf (" %50[^\n]s", &alunos[nAlunos].morada.rua);
 
         printf("Insira a código de postal:");
-        scanf (" %30[^\n]s", &alunos[nAlunos].morada.cpostal);
+        scanf (" %50[^\n]s", &alunos[nAlunos].morada.cpostal);
 
         printf("Insira a localidade:");
-        scanf (" %30[^\n]s", &alunos[nAlunos].morada.localidade);
+        scanf (" %50[^\n]s", &alunos[nAlunos].morada.localidade);
+        
+        printf ("Insira o EMAIL do aluno: ");
+        scanf (" %50[^\n]s", &alunos[nAlunos].email); 
         
 		printf ("Insira a DATA DE NASCIMENTO (dia/mês/ano): ");
 		scanf ("%d/%d/%d", &alunos[nAlunos].dataNascimento.dia, &alunos[nAlunos].dataNascimento.mes, &alunos[nAlunos].dataNascimento.ano);
 
 		printf ("Insira o CARTÃO DE CIDADÃO: ");
-		scanf (" %30[^\n]s", &alunos[nAlunos].cartaoCidadao);
+		scanf (" %20[^\n]s", &alunos[nAlunos].cartaoCidadao);
 
 		printf ("Insira o NIF: ");
 		scanf ("%d", &alunos[nAlunos].nif);
@@ -112,11 +133,28 @@ void inserirAluno(){
 		scanf ("%d", &alunos[nAlunos].nCarta);
 
 		printf ("Insira a SITUAÇÃO do aluno (ATIVO / NÃO ATIVO): ");
-		scanf (" %30[^\n]s", &alunos[nAlunos].ativo);
+		scanf (" %50[^\n]s", &alunos[nAlunos].ativo);
         nAlunos++;
         esperaApaga("Aluno inserido com sucesso! A redirecionar ....", 3);
 }
 
+//Listar Alunos
+void listarAlunos(){
+    for(int i = 0; i<nAlunos; i++){
+        printf("%d - %s", i+1, alunos.nome[i]);
+    }
+    
+}
+
+//Gerir alunos
+void gerirAlunos(){
+    int op,
+    listarAlunos();
+    scanf("%d", &op)
+
+}
+
+//menu de gestão dos alunos
 void menuAlunos(){
     int op;
     do{
@@ -132,33 +170,122 @@ void menuAlunos(){
                 inserirAluno();
             break;
             case 2:
-            break;
-            case 3:
+                gerirDadosAlunos();
             break;
         }
     }while (op != 0);
 } 
 
+////////////////////////////////////////////////////////////////////////////////////
+//Instrutores
+////////////////////////////////////////////////////////////////////////////////////
+
+//Estrutura de dados definida para os instrutores
+typedef struct {
+    int dia;
+    int mes;
+    int ano;
+} ANOENTRADAESCOLA;
+
+typedef struct {
+    int nInstrutor;
+    char nome[50];
+    char email[50];
+    char cartaoCidadao[20];
+    int ativo;
+    ANOENTRADAESCOLA anoEntradaEscola; 
+} INSTRUTORES;
+
+INSTRUTORES instrutores[10];
+
+//insere um instrutor
+void inserirInstrutor() {
+        printf ("Insira o NOME do instrutor: ");
+	    scanf (" %30[^\n]s", &instrutores[nInstrutores].nome);
+
+        printf ("Insira o CARTÃO DE CIDADÃO: ");
+	    scanf (" %30[^\n]s", &instrutores[nInstrutores].cartaoCidadao);
+    
+        printf ("Insira o EMAIL do instrutor: ");
+        scanf (" %50[^\n]s", &instrutores[nInstrutores].email); 
+    
+        printf ("Insira o ANO DE ENTRADA NA ESCOLA: ");
+        scanf ("%d/%d/%d", &instrutores[nInstrutores].anoEntradaEscola.dia, &instrutores[nInstrutores].anoEntradaEscola.mes, &instrutores[nInstrutores].anoEntradaEscola.ano);
+    
+        printf ("Insira a SITUAÇÃO do instrutor (ATIVO / NÃO ATIVO): ");
+	    scanf (" %50[^\n]s", &instrutores[nInstrutores].ativo);
+        nInstrutores++;
+        esperaApaga("Instrutor inserido com sucesso! A redirecionar ....", 3);
+}
+
+//menu de destão dos instrutores
 void menuInstrutores(){
     int op;
-    printf ("\n\n< < < MENU GESTÃO DE INSTRUTORES > > >");
-    printf ("\n\n\t1 - Inserir novos instrutores");
-    printf ("\n\n\t2 - Consultar/Alterar dados do instrutor");
-    printf ("\n\n\t0 - Voltar");
-    printf ("\n\nInsira a sua opção: ");
-    scanf ("%d", &op);
+    do {
+        printf ("\n\n< < < MENU GESTÃO DE INSTRUTORES > > >");
+        printf ("\n\n\t1 - Inserir novos instrutores");
+        printf ("\n\n\t2 - Consultar/Alterar dados do instrutor");
+        printf ("\n\n\t0 - Voltar");
+        printf ("\n\nInsira a sua opção: ");
+        scanf ("%d", &op);
+        system("clear||cls");
+        switch (op) {
+            case 1:
+                inserirInstrutor();
+            break;
+            case 2:
+            break;
+            case 3:
+            break;
+        }
+    }while (op != 0);
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+//Aulas
+////////////////////////////////////////////////////////////////////////////////////
+
+//Estrutura de dados definida para as aulas
+
+typedef struct {
+    
+} AULAS;
+
+//marcar Aula
+void marcarAula(){
+}
+
+//consultarAula
+void consultarAulas(){
+}
+
+//menu de gestão de aulas
 void menuAulas(){
     int op;
-    printf ("\n\n< < < MENU MARCAÇÃO/CONSULTA DE AULAS > > >");
-    printf("\n\n\t1 - Marcar aulas");
-    printf ("\n\n\t2 - Consultar aulas");
-    printf ("\n\n\t0 - Voltar");
-    printf ("\n\nInsira a sua opção: ");
-    scanf ("%d", &op);
+    do{
+        printf ("\n\n< < < MENU MARCAÇÃO/CONSULTA DE AULAS > > >");
+        printf("\n\n\t1 - Marcar aulas");
+        printf ("\n\n\t2 - Consultar aulas");
+        printf ("\n\n\t0 - Voltar");
+        printf ("\n\nInsira a sua opção: ");
+        scanf ("%d", &op);
+
+        switch(op){
+            case 1:
+                marcarAula();
+            break;
+            case 2:
+                consultarAulas();
+            break;
+        }
+    }while(op != 0);
 }
 
+////////////////////////////////////////////////////////////////////////////////////
+//Função Main e Menu Principal
+////////////////////////////////////////////////////////////////////////////////////
+
+//Menu principal
 int menuPrincipal(){
     int op;
     printf ("\n\n< < < MENU PRINCIPAL > > >");
@@ -183,6 +310,7 @@ int menuPrincipal(){
     return op;
 }
 
+//função principal onde o programa é inicializado
 int main(void){
     fullscreen();
     setlocale(LC_ALL, "Portuguese");

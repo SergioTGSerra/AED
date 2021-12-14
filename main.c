@@ -12,6 +12,7 @@
 ////////////////////////////////////////////////////////////////////////////////////
 int nAlunos = 0;
 int nInstrutores = 0;
+int nAulas = 0;
 
 ////////////////////////////////////////////////////////////////////////////////////
 //Funções
@@ -53,7 +54,7 @@ void mensagemBoasVindas(){
     printf("\n  ,8'     `8.`'     `8.`8888.     .8'   `8. `88888.   8 8888 `8b.               `8 8888       .8' .8'   `8. `88888.   8 8888           ,8'     `8.`'     `8.`8888.`8 8888       ,8P  ");
     printf("\n ,8'       `8        `8.`8888.   .888888888. `88888.  8 8888   `8b.                8888     ,88' .888888888. `88888.  8 8888          ,8'       `8        `8.`8888.` 8888     ,88'   ");
     printf("\n,8'         `         `8.`8888. .8'       `8. `88888. 8 8888     `88.               `8888888P'  .8'       `8. `88888. 8 888888888888 ,8'         `         `8.`8888.  `8888888P'     ");
-    delay(5);
+    delay(1);
     system("clear||cls");
 }
 
@@ -99,59 +100,120 @@ ALUNOS alunos[30];
 
 //insere um aluno
 void inserirAluno(){
-		printf ("\nInsira o Nº do aluno: ");
+        printf ("\n\n< < < Inserção de Aluno > > >");
+		printf ("\n\n\tInsira o Nº do aluno: ");
 		scanf ("%d", &alunos[nAlunos].nAluno);
 
-		printf ("Insira o NOME do aluno: ");
+		printf ("\n\n\tInsira o nome do aluno: ");
 		scanf (" %50[^\n]s", &alunos[nAlunos].nome);
 
-        printf("Insira a rua:");
+        printf("\n\n\tInsira a rua:");
         scanf (" %50[^\n]s", &alunos[nAlunos].morada.rua);
 
-        printf("Insira a código de postal:");
+        printf("\n\n\tInsira a código de postal:");
         scanf (" %50[^\n]s", &alunos[nAlunos].morada.cpostal);
 
-        printf("Insira a localidade:");
+        printf("\n\n\tInsira a localidade:");
         scanf (" %50[^\n]s", &alunos[nAlunos].morada.localidade);
         
-        printf ("Insira o EMAIL do aluno: ");
+        printf ("\n\n\tInsira o email do aluno: ");
         scanf (" %50[^\n]s", &alunos[nAlunos].email); 
         
-		printf ("Insira a DATA DE NASCIMENTO (dia/mês/ano): ");
+		printf ("\n\n\tInsira a data de nascimento (dia/mês/ano): ");
 		scanf ("%d/%d/%d", &alunos[nAlunos].dataNascimento.dia, &alunos[nAlunos].dataNascimento.mes, &alunos[nAlunos].dataNascimento.ano);
 
-		printf ("Insira o CARTÃO DE CIDADÃO: ");
+		printf ("\n\n\tInsira o cartão de cidadão: ");
 		scanf (" %20[^\n]s", &alunos[nAlunos].cartaoCidadao);
 
-		printf ("Insira o NIF: ");
+		printf ("\n\n\tInsira o NIF: ");
 		scanf ("%d", &alunos[nAlunos].nif);
 
-		printf ("Insira a DATA DE CONCLUSÃO DA CARTA (dia/mês/ano): ");
-		scanf ("%d/%d/%d", &alunos[nAlunos].dataNascimento.dia, &alunos[nAlunos].dataNascimento.mes, &alunos[nAlunos].dataNascimento.ano);
+		printf ("\n\n\tInsira a data de conclusão da carta (dia/mês/ano): ");
+		scanf ("%d/%d/%d", &alunos[nAlunos].dataConclusaoCarta.dia, &alunos[nAlunos].dataConclusaoCarta.mes, &alunos[nAlunos].dataConclusaoCarta.ano);
 
-		printf ("Insira o NÚMERO DA CARTA:  ");
+		printf ("\n\n\tInsira o número da carta: ");
 		scanf ("%d", &alunos[nAlunos].nCarta);
 
-		printf ("Insira a SITUAÇÃO do aluno (ATIVO / NÃO ATIVO): ");
+		printf ("\n\n\tInsira a situação do aluno (ATIVO / NÃO ATIVO): ");
 		scanf (" %50[^\n]s", &alunos[nAlunos].ativo);
         nAlunos++;
-        esperaApaga("Aluno inserido com sucesso! A redirecionar ....", 3);
+        esperaApaga("\n\n\tAluno inserido com sucesso! A redirecionar ....", 3);
 }
 
 //Listar Alunos
 void listarAlunos(){
+    printf ("\n\n< < < Listagem de alunos > > >");
     for(int i = 0; i<nAlunos; i++){
-        printf("%d - %s", i+1, alunos.nome[i]);
+        printf("\n\n\t %d - %s", i+1, alunos[i].nome);
     }
-    
+    printf("\n\n\t 0 - Voltar");
 }
 
-//Gerir alunos
-void gerirAlunos(){
-    int op,
-    listarAlunos();
-    scanf("%d", &op)
+//listar dados de um aluno
+void dadosAluno(int i){
+    printf ("\n\n< < < Dados do Alunos %s > > >", alunos[i].nome);
+    printf ("\n\n\tNumero: %s", alunos[i].nome);
+    printf ("\n\n\tEmail: %s", alunos[i].email);
+    printf ("\n\n\tcartão de cidadão: %s", alunos[nAlunos].cartaoCidadao);
+    printf ("\n\n\tNIF: %d", alunos[nAlunos].nif);
+    printf ("\n\n\tNº da carta: %d", alunos[nAlunos].nCarta);
+    printf ("\n\n\tRua: %s");
+    printf ("\n\n\tCódigo-postal: %d");
+    printf ("\n\n\tLocalidae: %s");
+    printf ("\n\n\tData de nascimento: ");
+    printf ("\n\n\tData da conclusão da carta: %d/%d/%d");
+    printf ("\n\n\tSituação: %s", alunos[nAlunos].ativo);
 
+}
+
+//Lista para consultar alterar todos os alunos
+void listaTodos(){
+    int op;
+    listarAlunos();
+    printf("\n Insira o numero do aluno que deseja consultar/alterar: ");
+    scanf("%d", &op2);
+    system("clear||cls");
+    op--;
+    dadosAluno(op);
+    scanf("Caso pretenda alterar este aluno? (Y/n): ")
+}
+
+//Lista para procurar aluno por nome
+void listaNome(){
+    int op;
+    listarAlunos();
+    printf("\n Insira o numero do aluno que deseja consultar/alterar: ");
+    scanf("%d", &op2);
+    system("clear||cls");
+    op--;
+    dadosAluno(op);
+}
+
+void gerirDadosAlunos(){
+	int op;
+    do{
+        printf ("\n\n< < < Consultar/Alterar dados dos alunos > > >");
+        printf ("\n\n\t1 - Todos");
+        printf ("\n\n\t2 - Nome");
+        printf ("\n\n\t3 - Nº do aluno");
+        printf ("\n\n\t4 - Email");
+        printf ("\n\n\t5 - Cartão de cidadão");
+        printf ("\n\n\t6 - NIF");
+        printf ("\n\n\t7 - Nº da Carta");
+        printf ("\n\n\t8 - Situação do aluno");
+        printf ("\n\n\t0 - Voltar");
+        printf ("\n\nInsira a sua opção: ");
+        scanf ("%d", &op);
+        system("clear||cls");
+        switch (op) {
+            case 1:
+                listaTodos();
+            break;
+            case 2:
+                listaNome();
+            break;
+        }
+    }while (op != 0);
 }
 
 //menu de gestão dos alunos
@@ -200,19 +262,21 @@ INSTRUTORES instrutores[10];
 
 //insere um instrutor
 void inserirInstrutor() {
-        printf ("Insira o NOME do instrutor: ");
+        
+        printf ("\n\n< < < Inserção de Instrutor > > >");
+        printf ("\n\n\tInsira o NOME do instrutor: ");
 	    scanf (" %30[^\n]s", &instrutores[nInstrutores].nome);
 
-        printf ("Insira o CARTÃO DE CIDADÃO: ");
+        printf ("\n\n\tInsira o CARTÃO DE CIDADÃO: ");
 	    scanf (" %30[^\n]s", &instrutores[nInstrutores].cartaoCidadao);
     
-        printf ("Insira o EMAIL do instrutor: ");
+        printf ("\n\n\tInsira o EMAIL do instrutor: ");
         scanf (" %50[^\n]s", &instrutores[nInstrutores].email); 
     
-        printf ("Insira o ANO DE ENTRADA NA ESCOLA: ");
+        printf ("\n\n\tInsira o ANO DE ENTRADA NA ESCOLA: ");
         scanf ("%d/%d/%d", &instrutores[nInstrutores].anoEntradaEscola.dia, &instrutores[nInstrutores].anoEntradaEscola.mes, &instrutores[nInstrutores].anoEntradaEscola.ano);
     
-        printf ("Insira a SITUAÇÃO do instrutor (ATIVO / NÃO ATIVO): ");
+        printf ("\n\n\tInsira a SITUAÇÃO do instrutor (1 - Ativo / 0 - Não Ativo): ");
 	    scanf (" %50[^\n]s", &instrutores[nInstrutores].ativo);
         nInstrutores++;
         esperaApaga("Instrutor inserido com sucesso! A redirecionar ....", 3);
@@ -247,12 +311,30 @@ void menuInstrutores(){
 
 //Estrutura de dados definida para as aulas
 
+typedef struct{
+    int dia;
+    int mes;
+    int ano;
+} DATAAULA;
+
 typedef struct {
-    
+    int aluno;
+    int instrutor;
+    DATAAULA dataAula;
 } AULAS;
+
+AULAS aulas[100];
 
 //marcar Aula
 void marcarAula(){
+    printf("--- Listagem de alunos ---");
+    listarAlunos();
+    printf("\n Insira o Aluno que deseja marcar a aula: ");
+    scanf("%d", &aulas[nAulas].aluno);
+    do{
+        printf("Por favor insira um aluno válido:");
+    }while(aulas[nAulas].aluno <= 0 && aulas[nAulas].aluno >= nAlunos + 1);
+    scanf("%d/%d/%d", &aulas[nAlunos].dataAula.dia, &aulas[nAlunos].dataAula.mes, &aulas[nAlunos].dataAula.ano);
 }
 
 //consultarAula

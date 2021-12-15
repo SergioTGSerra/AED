@@ -140,15 +140,6 @@ void inserirAluno(){
         esperaApaga("\n\n\tAluno inserido com sucesso! A redirecionar ....", 3);
 }
 
-//Listar Alunos
-void listarAlunos(){
-    printf ("\n\n< < < Listagem de alunos > > >");
-    for(int i = 0; i<nAlunos; i++){
-        printf("\n\n\t %d - %s", i+1, alunos[i].nome);
-    }
-    printf("\n\n\t 0 - Voltar");
-}
-
 //listar dados de um aluno
 void dadosAluno(int i){
     printf ("\n\n< < < Dados do Alunos %s > > >", alunos[i].nome);
@@ -169,7 +160,11 @@ void dadosAluno(int i){
 //Lista para consultar alterar todos os alunos
 void listaTodos(){
     int op;
-    listarAlunos();
+    printf ("\n\n< < < Listagem de alunos > > >");
+    for(int i = 0; i<nAlunos; i++){
+        printf("\n\n\t %d - %s", i+1, alunos[i].nome);
+    }
+    printf("\n\n\t 0 - Voltar");
     printf("\n Insira o numero do aluno que deseja consultar/alterar: ");
     scanf("%d", &op2);
     system("clear||cls");

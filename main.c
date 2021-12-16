@@ -367,16 +367,20 @@ void listaTodos(){
 }
 
 //Lista para procurar aluno por nome
-void listaNome(){
-    int op;
-    printf("\n Insira o numero do aluno que deseja consultar/alterar: ");
-    scanf("%d", &op);
-    system("clear||cls");
-    op--;
-    dadosAluno(op);
+void listarNome(){
+    int i;
+    char nome[50];
+    printf ("Insira o nome do aluno que pretende consultar: ");
+    scanf (" %50[^\n]s", &nome);
+    for(i = 0; i < nAlunos; i++){
+        if((strcmp (alunos[i].nome, nome)) = 0){
+            printf("%d - %s", i, alunos[i].nome);
+        }
+    }
 }
 
-void gerirDadosAlunos(){
+//menu consultar/alterar
+void menuConsutarAlterarAlunos(){
 	int op;
     do{
         printf ("\n\n< < < Consultar/Alterar dados dos alunos > > >");
@@ -397,7 +401,7 @@ void gerirDadosAlunos(){
                 listaTodos();
             break;
             case 2:
-                listaNome();
+                listarNome();
             break;
         }
     }while (op != 0);
@@ -419,7 +423,7 @@ void menuAlunos(){
                 inserirAluno();
             break;
             case 2:
-                gerirDadosAlunos();
+                menuConsutarAlterarAlunos();
             break;
         }
     }while (op != 0);

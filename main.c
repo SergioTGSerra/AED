@@ -374,8 +374,21 @@ void listarNome(){
     scanf (" %50[^\n]s", &nome);
     for(i = 0; i < nAlunos; i++){
         if((strcmp (alunos[i].nome, nome)) == 0){
-            
             printf("\n%d - %s", i +1, alunos[i].nome);
+        }
+    }
+    printf("\n\n\t 0 - Voltar");
+    printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
+    scanf("%d", &op);
+    if(op != 0){
+        system("clear||cls");
+        op--;
+        dadosAluno(op);
+        printf("\n\n Pretende alterar este aluno? (y/N): ");
+        scanf(" %c", &op2);
+        system("clear||cls");
+        if(op2 == 'Y' || op2 == 'y'){
+            alteraAluno(op);
         }
     }
 }

@@ -42,6 +42,20 @@ void esperaApaga(char msg[100], int time){
     system("clear||cls");
 }
 
+//Função para validar uma data
+int dataValida(int dia, int mes, int ano){
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+    //printf("now: %d-%02d-%02d %02d:%02d:%02d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
+    //tm.tm_year ano atual
+    //verifica intrevalo de datas
+    if (ano > (tm.tm_year + 1900) || ano < 1900) return 0;
+    if (mes < 1 || mes > 12) return 0;
+    if (dia < 1 || dia > 31) return 0;
+
+    return 1;
+}
+
 //mensagem quando se inicializa o programa
 void mensagemBoasVindas(){
     printf("\n          .         .                                                                                                                          .         .                           ");
@@ -58,8 +72,6 @@ void mensagemBoasVindas(){
     delay(1);
     system("clear||cls");
 }
-
-//Função para aceitar apenas valores inteiros
 
 ////////////////////////////////////////////////////////////////////////////////////
 //Alunos
@@ -182,6 +194,11 @@ void inserirAluno(){
         printf ("\n\n\tInsira a data de nascimento (dia/mês/ano): ");
         scanf ("%d/%d/%d", &alunos[nAlunos].dataNascimento.dia, &alunos[nAlunos].dataNascimento.mes, &alunos[nAlunos].dataNascimento.ano);
 
+        if(dataValida(alunos[nAlunos].dataNascimento.dia, alunos[nAlunos].dataNascimento.mes, alunos[nAlunos].dataNascimento.ano) != 1) do{
+            printf ("\n\n\tPor favor insira a data de nascimento válida (dia/mês/ano): ");
+            scanf ("%d/%d/%d", &alunos[nAlunos].dataNascimento.dia, &alunos[nAlunos].dataNascimento.mes, &alunos[nAlunos].dataNascimento.ano);
+        }while(dataValida(alunos[nAlunos].dataNascimento.dia, alunos[nAlunos].dataNascimento.mes, alunos[nAlunos].dataNascimento.ano) != 1);
+
         do{
             printf ("\n\n\tInsira o cartão de cidadão: ");
             scanf (" %20[^\n]s", &alunos[nAlunos].cartaoCidadao);
@@ -201,6 +218,11 @@ void inserirAluno(){
         printf ("\n\n\tInsira a data de conclusão da carta (dia/mês/ano): ");
         scanf ("%d/%d/%d", &alunos[nAlunos].dataConclusaoCarta.dia, &alunos[nAlunos].dataConclusaoCarta.mes, &alunos[nAlunos].dataConclusaoCarta.ano);
 
+        if(dataValida(alunos[nAlunos].dataConclusaoCarta.dia, alunos[nAlunos].dataConclusaoCarta.mes, alunos[nAlunos].dataConclusaoCarta.ano) != 1) do{
+            printf ("\n\n\tPor favor insira a data de conclusão da carta válida (dia/mês/ano): ");
+            scanf ("%d/%d/%d", &alunos[nAlunos].dataConclusaoCarta.dia, &alunos[nAlunos].dataConclusaoCarta.mes, &alunos[nAlunos].dataConclusaoCarta.ano);
+        }while(dataValida(alunos[nAlunos].dataConclusaoCarta.dia, alunos[nAlunos].dataConclusaoCarta.mes, alunos[nAlunos].dataConclusaoCarta.ano) != 1);
+
         do{
             printf ("\n\n\tInsira o número da carta: ");
             scanf ("%d", &alunos[nAlunos].nCarta);
@@ -215,7 +237,7 @@ void inserirAluno(){
         printf ("\n\n\tInsira a situação do aluno (1 - ATIVO / 0 - NÃO ATIVO): ");
         scanf ("%d", &alunos[nAlunos].ativo);
         fflush(stdin);
-        if(alunos[nAlunos].ativo != 0 || alunos[nAlunos].ativo != 1) do{
+        if(alunos[nAlunos].ativo != 0 && alunos[nAlunos].ativo != 1) do{
             printf ("\n\n\tPor favor insira uma situação válida: ");
             scanf ("%d", &alunos[nAlunos].ativo);
             fflush(stdin);

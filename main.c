@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <locale.h>
+#include <ctype.h>
 #include <windows.h>
 
 ////////////////////////////////////////////////////////////////////////////////////
@@ -58,6 +59,8 @@ void mensagemBoasVindas(){
     system("clear||cls");
 }
 
+//Função para aceitar apenas valores inteiros
+
 ////////////////////////////////////////////////////////////////////////////////////
 //Alunos
 ////////////////////////////////////////////////////////////////////////////////////
@@ -98,26 +101,52 @@ typedef struct {
 
 ALUNOS alunos[30];
 
-//verifica valor se um valor esta no array
-int existeNoArray(int numeroAluno){
+int existeNoArray(int dado_i, char dado_c[20], char tipo){
     int i;
     for(i = 0; i < nAlunos; i++){
-        if(alunos[i].nAluno == numeroAluno){
-            printf ("\n\n\t Já existe um utilizador com esse numero!");
-            return 0;
-            printf("Teste");
-        }else{
-            return 1;
+        switch (tipo){
+            case 1:
+                if(alunos[i].nAluno == dado_i){
+                    printf ("\n\n\tJá existe um aluno com esse numero! Por favor insira outro.");
+                    return 1; 
+                }
+            break;
+            case 2:
+                if(strcmp(alunos[i].email, dado_c) == 0){
+                    printf ("\n\n\tJá existe um aluno com esse email! Por favor insira outro.");
+                    return 1; 
+                }
+            case 3:
+                if(strcmp(alunos[i].cartaoCidadao, dado_c) == 0){
+                    printf ("\n\n\tJá existe um aluno com esse cartão de cidadão! Por favor insira outro.");
+                    return 1; 
+                }
+            break;
+            case 4:
+                if(alunos[i].nif == dado_i){
+                    printf ("\n\n\tJá existe um aluno com esse nif! Por favor insira outro.");
+                    return 1; 
+                }
+            break;
+            case 5:
+                if(alunos[i].nCarta == dado_i){
+                    printf ("\n\n\tJá existe um aluno com esse numero de carta! Por favor insira outro.");
+                    return 1; 
+                }
+            break;
         }
     }
+    return 0;
 }
 
 //insere um aluno
 void inserirAluno(){
     int i, j, flag  = 0;
+    char msg[100];
+
     printf ("\n\n< < < Inserção de Aluno > > >");
+
     if(nAlunos > 30){
-        char msg[100];
         strcpy(msg, "\n\n\tNumero máximo de alunos (30) excedido! A redirecionar ....");
         esperaApaga(msg, 3);
     }else{
@@ -125,7 +154,13 @@ void inserirAluno(){
         do{
             printf ("\n\n\tInsira o Nº do aluno: ");
             scanf ("%d", &alunos[nAlunos].nAluno);
-        }while(existeNoArray(alunos[nAlunos].nAluno) == 1);
+            fflush(stdin);
+            if(alunos[nAlunos].nAluno <= 0) do{
+                printf ("\n\n\tPor favor insira um nº do aluno válido: ");
+                scanf ("%d", &alunos[nAlunos].nAluno);
+                fflush(stdin);
+            }while(alunos[nAlunos].nAluno <= 0);
+        }while(existeNoArray(alunos[nAlunos].nAluno, 0, 1) == 1);
 
         printf ("\n\n\tInsira o nome do aluno: ");
         scanf (" %50[^\n]s", &alunos[nAlunos].nome);
@@ -138,62 +173,55 @@ void inserirAluno(){
 
         printf("\n\n\tInsira a localidade:");
         scanf (" %50[^\n]s", &alunos[nAlunos].morada.localidade);
-        
-        printf ("\n\n\tInsira o email do aluno: ");
-        scanf (" %50[^\n]s", &alunos[nAlunos].email); 
+
+        do{
+            printf ("\n\n\tInsira o email do aluno: ");
+            scanf (" %50[^\n]s", &alunos[nAlunos].email);
+        }while(existeNoArray(0, alunos[nAlunos].email, 2) == 1);
         
         printf ("\n\n\tInsira a data de nascimento (dia/mês/ano): ");
         scanf ("%d/%d/%d", &alunos[nAlunos].dataNascimento.dia, &alunos[nAlunos].dataNascimento.mes, &alunos[nAlunos].dataNascimento.ano);
 
-        printf ("\n\n\tInsira o cartão de cidadão: ");
-        scanf (" %20[^\n]s", &alunos[nAlunos].cartaoCidadao);
+        do{
+            printf ("\n\n\tInsira o cartão de cidadão: ");
+            scanf (" %20[^\n]s", &alunos[nAlunos].cartaoCidadao);
+        }while(existeNoArray(0, alunos[nAlunos].cartaoCidadao, 3) == 1);
 
-        for(i = 0; i < nAlunos; i++){
-            if(alunos[i].cartaoCidadao == alunos[nAlunos].cartaoCidadao) flag = 1;
-            if(flag == 1){
-                do{
-                    printf ("\n\n\tJá existe um aluno com esse cartão de cidadão! \n\n\tPor favor insira outro cartão de cidadão: ");
-                    scanf ("%d", &alunos[nAlunos].cartaoCidadao);
-                }while(alunos[nAlunos].cartaoCidadao == alunos[i].cartaoCidadao);
-            }
-            flag = 0;
-        }
-
-        printf ("\n\n\tInsira o NIF: ");
-        scanf ("%d", &alunos[nAlunos].nif);
-
-        for(i = 0; i < nAlunos; i++){
-            if(alunos[i].nif == alunos[nAlunos].nif) flag = 1;
-            if(flag == 1){
-                do{
-                    printf ("\n\n\tJá existe um aluno com esse NIF! \n\n\tPor favor insira outro NIF: ");
-                    scanf ("%d", &alunos[nAlunos].nif);
-                }while(alunos[nAlunos].nif == alunos[i].nif);
-            }
-            flag = 0;
-        }
+        do{
+            printf ("\n\n\tInsira o NIF: ");
+            scanf ("%d", &alunos[nAlunos].nif);
+            fflush(stdin);
+            if(alunos[nAlunos].nif <= 0) do{
+                printf ("\n\n\tPor favor insira um nif válido: ");
+                scanf ("%d", &alunos[nAlunos].nif);
+                fflush(stdin);
+            }while(alunos[nAlunos].nif <= 0);
+        }while(existeNoArray(alunos[nAlunos].nif, 0, 4) == 1);
 
         printf ("\n\n\tInsira a data de conclusão da carta (dia/mês/ano): ");
         scanf ("%d/%d/%d", &alunos[nAlunos].dataConclusaoCarta.dia, &alunos[nAlunos].dataConclusaoCarta.mes, &alunos[nAlunos].dataConclusaoCarta.ano);
 
-        printf ("\n\n\tInsira o número da carta: ");
-        scanf ("%d", &alunos[nAlunos].nCarta);
-
-        for(i = 0; i < nAlunos; i++){
-            if(alunos[i].nCarta == alunos[nAlunos].nCarta) flag = 1;
-            if(flag == 1){
-                do{
-                    printf ("\n\n\tJá existe um aluno com esse número de carta! \n\n\tPor favor insira outro número de carta: ");
-                    scanf ("%d", &alunos[nAlunos].nCarta);
-                }while(alunos[nAlunos].nCarta == alunos[i].nCarta);
-            }
-            flag = 0;
-        }
+        do{
+            printf ("\n\n\tInsira o número da carta: ");
+            scanf ("%d", &alunos[nAlunos].nCarta);
+            fflush(stdin);
+            if(alunos[nAlunos].nCarta <= 0) do{
+                printf ("\n\n\tPor favor insira um número da carta válido: ");
+                scanf ("%d", &alunos[nAlunos].nCarta);
+                fflush(stdin);
+            }while(alunos[nAlunos].nCarta <= 0);
+        }while(existeNoArray(alunos[nAlunos].nCarta, 0, 5) == 1);
 
         printf ("\n\n\tInsira a situação do aluno (1 - ATIVO / 0 - NÃO ATIVO): ");
         scanf ("%d", &alunos[nAlunos].ativo);
+        fflush(stdin);
+        if(alunos[nAlunos].ativo != 0 || alunos[nAlunos].ativo != 1) do{
+            printf ("\n\n\tPor favor insira uma situação válida: ");
+            scanf ("%d", &alunos[nAlunos].ativo);
+            fflush(stdin);
+        }while(alunos[nAlunos].ativo != 0 && alunos[nAlunos].ativo != 1);
+
         nAlunos++;
-        char msg[100];
         strcpy(msg, "\n\n\tAluno inserido com sucesso! A redirecionar ....");
         esperaApaga(msg, 3);
     }

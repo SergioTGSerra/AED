@@ -98,28 +98,34 @@ typedef struct {
 
 ALUNOS alunos[30];
 
+//verifica valor se um valor esta no array
+int existeNoArray(int numeroAluno){
+    int i;
+    for(i = 0; i < nAlunos; i++){
+        if(alunos[i].nAluno == numeroAluno){
+            printf ("\n\n\t Já existe um utilizador com esse numero!");
+            return 0;
+            printf("Teste");
+        }else{
+            return 1;
+        }
+    }
+}
+
 //insere um aluno
 void inserirAluno(){
-    int i, flag  = 0;
+    int i, j, flag  = 0;
     printf ("\n\n< < < Inserção de Aluno > > >");
     if(nAlunos > 30){
         char msg[100];
         strcpy(msg, "\n\n\tNumero máximo de alunos (30) excedido! A redirecionar ....");
         esperaApaga(msg, 3);
     }else{
-        printf ("\n\n\tInsira o Nº do aluno: ");
-        scanf ("%d", &alunos[nAlunos].nAluno);
 
-        for(i = 0; i < nAlunos; i++){
-            if(alunos[i].nAluno == alunos[nAlunos].nAluno) flag = 1;
-            if(flag == 1){
-                do{
-                    printf ("\n\n\tJá existe um aluno com esse código! \n\n\tPor favor insira outro Nº do aluno: ");
-                    scanf ("%d", &alunos[nAlunos].nAluno);
-                }while(alunos[nAlunos].nAluno == alunos[i].nAluno);
-            }
-            flag = 0;
-        }
+        do{
+            printf ("\n\n\tInsira o Nº do aluno: ");
+            scanf ("%d", &alunos[nAlunos].nAluno);
+        }while(existeNoArray(alunos[nAlunos].nAluno) == 1);
 
         printf ("\n\n\tInsira o nome do aluno: ");
         scanf (" %50[^\n]s", &alunos[nAlunos].nome);
@@ -373,22 +379,8 @@ void listarNome(){
     printf ("Insira o nome do aluno que pretende consultar: ");
     scanf (" %50[^\n]s", &nome);
     for(i = 0; i < nAlunos; i++){
-        if((strcmp (alunos[i].nome, nome)) == 0){
+        if((alunos[i].nome == nome || alunos[i].nome[0] == nome[0])){
             printf("\n%d - %s", i +1, alunos[i].nome);
-        }
-    }
-    printf("\n\n\t 0 - Voltar");
-    printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
-    scanf("%d", &op);
-    if(op != 0){
-        system("clear||cls");
-        op--;
-        dadosAluno(op);
-        printf("\n\n Pretende alterar este aluno? (y/N): ");
-        scanf(" %c", &op2);
-        system("clear||cls");
-        if(op2 == 'Y' || op2 == 'y'){
-            alteraAluno(op);
         }
     }
 }

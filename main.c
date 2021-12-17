@@ -373,9 +373,9 @@ void listarNome(){
     printf ("Insira o nome do aluno que pretende consultar: ");
     scanf (" %50[^\n]s", &nome);
     for(i = 0; i < nAlunos; i++){
-        if((strcmp (alunos[i].nome, nome)) = 0){
+        if((strcmp (alunos[i].nome, nome)) == 0){
             
-            printf("%d - %s", i, alunos[i].nome);
+            printf("\n%d - %s", i +1, alunos[i].nome);
         }
     }
 }

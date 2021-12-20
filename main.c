@@ -613,7 +613,7 @@ void menuInstrutores(){
                 inserirInstrutor();
             break;
             case 2:
-            gerirDadosInstrutores();
+                gerirDadosInstrutores();
             break;
             case 3:
             break;
@@ -661,7 +661,7 @@ void menuAulas(){
     int op;
     do{
         printf ("\n\n< < < MENU MARCAÇÃO/CONSULTA DE AULAS > > >");
-        printf("\n\n\t1 - Marcar aulas");
+        printf ("\n\n\t1 - Marcar aulas");
         printf ("\n\n\t2 - Consultar aulas");
         printf ("\n\n\t0 - Voltar");
         printf ("\n\nInsira a sua opção: ");

@@ -152,13 +152,12 @@ int existeNoArray(int dado_i, char dado_c[20], char tipo){
 
 //insere um aluno
 void inserirAluno(){
-    system("clear||cls");
     int i, j, flag  = 0;
     char msg[100];
-
+    system("clear||cls");
     printf ("\n\n< < < Inserção de Aluno > > >");
 
-    if(nAlunos > 30){
+    if(nAlunos >= 30){
         strcpy(msg, "\n\n\tNumero máximo de alunos (30) excedido! A redirecionar ....");
         esperaApaga(msg, 3);
     }else{
@@ -271,9 +270,9 @@ void dadosAluno(int aluno){
 
 //Funcção para alterar dados de um aluno
 void alteraAluno(int aluno){
-    system("clear||cls");
     int op;
     char msg[100];
+    system("clear||cls");
     printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
     printf ("\n\n\t1 - Numero: %d", alunos[aluno].nAluno);
     printf ("\n\n\t2 - Nome: %s", alunos[aluno].nome);
@@ -354,16 +353,15 @@ void alteraAluno(int aluno){
             strcpy(msg, "\n\n\tSituação alterado com sucesso! A redirecionar ....");
         break;
     }
-
     esperaApaga(msg, 3);
     alteraAluno(aluno);
 }
 
 //Lista para consultar alterar todos os alunos
 void listaTodos(){
-    system("clear||cls");
     int op, i;
     char op2;
+    system("clear||cls");
     printf ("\n\n< < < Listagem de alunos > > >");
     for(i = 0; i<nAlunos; i++){
         printf("\n\n\t %d - %s", i+1, alunos[i].nome);
@@ -397,9 +395,9 @@ void listarNome(){
 
 //menu consultar/alterar
 void menuConsutarAlterarAlunos(){
-    system("clear||cls");
 	int op;
     do{
+        system("clear||cls");
         printf ("\n\n< < < Consultar/Alterar dados dos alunos > > >");
         printf ("\n\n\t1 - Todos");
         printf ("\n\n\t2 - Nome");
@@ -425,9 +423,9 @@ void menuConsutarAlterarAlunos(){
 
 //menu de gestão dos alunos
 void menuAlunos(){
-    system("clear||cls");
     int op;
     do{
+        system("clear||cls");
         printf ("\n\n< < < MENU GESTÃO DE ALUNOS > > >");
         printf ("\n\n\t1 - Inserir novos alunos");
         printf ("\n\n\t2 - Consultar/Alterar dados do aluno");
@@ -521,12 +519,12 @@ void listaTodosIns(){
     printf("\n\n Insira o numero do instrutor que deseja consultar/alterar: ");
     scanf("%d", &op);
     if(op != 0){
-        system("clear||cls");
+        
         op--;
         dadosInstrutor(op);
         printf("\n\n Pretende alterar este instrutor? (y/N): ");
         scanf(" %c", &op2);
-        system("clear||cls");
+        
         if(op2 == 'Y' || op2 == 'y'){
             alteraInstrutor(op);
         }
@@ -546,7 +544,7 @@ void gerirDadosInstrutores(){
         printf ("\n\n\t0 - Voltar");
         printf ("\n\nInsira a sua opção: ");
         scanf ("%d", &op);
-        system("clear||cls");
+        
         switch (op) {
             case 1:
                 listaTodosIns();
@@ -567,7 +565,7 @@ void menuInstrutores(){
         printf ("\n\n\t0 - Voltar");
         printf ("\n\nInsira a sua opção: ");
         scanf ("%d", &op);
-        system("clear||cls");
+        
         switch (op) {
             case 1:
                 inserirInstrutor();
@@ -643,10 +641,10 @@ void menuAulas(){
 ////////////////////////////////////////////////////////////////////////////////////
 
 //Menu principal
-int menuPrincipal(){
-    system("clear||cls");
+void menuPrincipal(){
     int op;
     do{
+        system("clear||cls");
         printf ("\n\n< < < MENU PRINCIPAL > > >");
         printf ("\n\n\t1 - Gestão de Alunos");
         printf ("\n\n\t2 - Gestão de Intrutores");

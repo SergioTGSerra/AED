@@ -52,7 +52,6 @@ int dataValida(int dia, int mes, int ano){
     if (ano > (tm.tm_year + 1900) || ano < 1900) return 0;
     if (mes < 1 || mes > 12) return 0;
     if (dia < 1 || dia > 31) return 0;
-
     return 1;
 }
 
@@ -153,6 +152,7 @@ int existeNoArray(int dado_i, char dado_c[20], char tipo){
 
 //insere um aluno
 void inserirAluno(){
+    system("clear||cls");
     int i, j, flag  = 0;
     char msg[100];
 
@@ -193,10 +193,11 @@ void inserirAluno(){
         
         printf ("\n\n\tInsira a data de nascimento (dia/mês/ano): ");
         scanf ("%d/%d/%d", &alunos[nAlunos].dataNascimento.dia, &alunos[nAlunos].dataNascimento.mes, &alunos[nAlunos].dataNascimento.ano);
-
+        fflush(stdin);
         if(dataValida(alunos[nAlunos].dataNascimento.dia, alunos[nAlunos].dataNascimento.mes, alunos[nAlunos].dataNascimento.ano) != 1) do{
             printf ("\n\n\tPor favor insira a data de nascimento válida (dia/mês/ano): ");
             scanf ("%d/%d/%d", &alunos[nAlunos].dataNascimento.dia, &alunos[nAlunos].dataNascimento.mes, &alunos[nAlunos].dataNascimento.ano);
+            fflush(stdin);
         }while(dataValida(alunos[nAlunos].dataNascimento.dia, alunos[nAlunos].dataNascimento.mes, alunos[nAlunos].dataNascimento.ano) != 1);
 
         do{
@@ -217,10 +218,11 @@ void inserirAluno(){
 
         printf ("\n\n\tInsira a data de conclusão da carta (dia/mês/ano): ");
         scanf ("%d/%d/%d", &alunos[nAlunos].dataConclusaoCarta.dia, &alunos[nAlunos].dataConclusaoCarta.mes, &alunos[nAlunos].dataConclusaoCarta.ano);
-
+        fflush(stdin);
         if(dataValida(alunos[nAlunos].dataConclusaoCarta.dia, alunos[nAlunos].dataConclusaoCarta.mes, alunos[nAlunos].dataConclusaoCarta.ano) != 1) do{
             printf ("\n\n\tPor favor insira a data de conclusão da carta válida (dia/mês/ano): ");
             scanf ("%d/%d/%d", &alunos[nAlunos].dataConclusaoCarta.dia, &alunos[nAlunos].dataConclusaoCarta.mes, &alunos[nAlunos].dataConclusaoCarta.ano);
+            fflush(stdin);
         }while(dataValida(alunos[nAlunos].dataConclusaoCarta.dia, alunos[nAlunos].dataConclusaoCarta.mes, alunos[nAlunos].dataConclusaoCarta.ano) != 1);
 
         do{
@@ -251,6 +253,7 @@ void inserirAluno(){
 
 //listar dados de um aluno
 void dadosAluno(int aluno){
+    system("clear||cls");
     printf ("\n\n< < < Dados do aluno %s > > >", alunos[aluno].nome);
     printf ("\n\n\tNumero: %d", alunos[aluno].nAluno);
     printf ("\n\n\tNome: %s", alunos[aluno].nome);
@@ -268,6 +271,7 @@ void dadosAluno(int aluno){
 
 //Funcção para alterar dados de um aluno
 void alteraAluno(int aluno){
+    system("clear||cls");
     int op;
     char msg[100];
     printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
@@ -287,119 +291,77 @@ void alteraAluno(int aluno){
 
     printf("\n\nInsira a opção que deseja alterar: ");
     scanf("%d", &op);
+    system("clear||cls");
+    printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
 
     switch(op){
         case 1:
-            system("clear||cls");
             strcpy(msg, "\n\n\tNão é possivel alerar o número do aluno! A redirecionar ....");
-            esperaApaga(msg, 3);
-            alteraAluno(aluno);
         break;
         case 2:
-            system("clear||cls");
-            printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
             printf ("\n\n\tAltere o nome do aluno: ");
             scanf (" %50[^\n]s", &alunos[aluno].nome);
             strcpy(msg, "\n\n\tNome alterado com sucesso! A redirecionar ....");
-            esperaApaga(msg, 3);
-            alteraAluno(aluno);
         break;
         case 3:
-            system("clear||cls");
-            printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
             printf ("\n\n\tAltere o email do aluno: ");
             scanf (" %50[^\n]s", &alunos[aluno].email);
             strcpy(msg, "\n\n\tE-mail alterado com sucesso! A redirecionar ....");
-            esperaApaga(msg, 3);
-            alteraAluno(aluno);
         break;
         case 4:
-            system("clear||cls");
-            printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
             printf ("\n\n\tAltere o Cartão de cidadão do aluno: ");
             scanf (" %50[^\n]s", &alunos[aluno].cartaoCidadao);
             strcpy(msg, "\n\n\tCartão de cidadão alterado com sucesso! A redirecionar ....");
-            esperaApaga(msg, 3);
-            alteraAluno(aluno);
         break;
         case 5:
-            system("clear||cls");
-            printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
             printf ("\n\n\tAltere o NIF do aluno: ");
             scanf (" %d", &alunos[aluno].nif);
             strcpy(msg, "\n\n\tNIF alterado com sucesso! A redirecionar ....");
-            esperaApaga(msg, 3);
-            alteraAluno(aluno);
         break;
         case 6:
-            system("clear||cls");
-            printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
             printf ("\n\n\tAltere o Nº da carta do aluno: ");
             scanf (" %d", &alunos[aluno].nCarta);
             strcpy(msg, "\n\n\tNº da carta alterado com sucesso! A redirecionar ....");
-            esperaApaga(msg, 3);
-            alteraAluno(aluno);
         break;
         case 7:
-            system("clear||cls");
-            printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
             printf ("\n\n\tAltere o Rua do aluno: ");
             scanf (" %50[^\n]s", &alunos[aluno].morada.rua);
             strcpy(msg, "\n\n\tRua alterado com sucesso! A redirecionar ....");
-            esperaApaga(msg, 3);
-            alteraAluno(aluno);
         break;
         case 8:
-            system("clear||cls");
-            printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
             printf ("\n\n\tAltere o Código-postal do aluno: ");
             scanf (" %50[^\n]s", &alunos[aluno].morada.cpostal);
             strcpy(msg, "\n\n\tCódigo-postal alterado com sucesso! A redirecionar ....");
-            esperaApaga(msg, 3);
-            alteraAluno(aluno);
         break;
         case 9:
-            system("clear||cls");
-            printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
             printf ("\n\n\tAltere o Localidade do aluno: ");
             scanf (" %50[^\n]s", &alunos[aluno].morada.localidade);
             strcpy(msg, "\n\n\tLocalidade alterado com sucesso! A redirecionar ....");
-            esperaApaga(msg, 3);
-            alteraAluno(aluno);
         break;
         case 10:
-            system("clear||cls");
-            printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
             printf ("\n\n\tAltere o Data de nascimento do aluno: ");
             scanf (" %d/%d/%d", &alunos[aluno].dataNascimento.dia, &alunos[aluno].dataNascimento.mes, &alunos[aluno].dataNascimento.ano );
             strcpy(msg, "\n\n\tData de nascimento alterado com sucesso! A redirecionar ....");
-            esperaApaga(msg, 3);
-            alteraAluno(aluno);
         break;
         case 11:
-            system("clear||cls");
-            printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
             printf ("\n\n\tAltere o Data da conclusão da carta do aluno: ");
             scanf ("%d/%d/%d", &alunos[aluno].dataConclusaoCarta.dia, &alunos[aluno].dataConclusaoCarta.mes, &alunos[aluno].dataConclusaoCarta.ano);
             strcpy(msg, "\n\n\tData da conclusão da carta alterado com sucesso! A redirecionar ....");
-            esperaApaga(msg, 3);
-            alteraAluno(aluno);
         break;
         case 12:
-            system("clear||cls");
-            printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
             printf ("\n\n\tAltere o Situação do aluno: ");
             scanf (" %d", &alunos[aluno].ativo);
             strcpy(msg, "\n\n\tSituação alterado com sucesso! A redirecionar ....");
-            esperaApaga(msg, 3);
-            alteraAluno(aluno);
         break;
     }
-    system("clear||cls");
+
+    esperaApaga(msg, 3);
+    alteraAluno(aluno);
 }
 
 //Lista para consultar alterar todos os alunos
 void listaTodos(){
+    system("clear||cls");
     int op, i;
     char op2;
     printf ("\n\n< < < Listagem de alunos > > >");
@@ -410,12 +372,10 @@ void listaTodos(){
     printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
     scanf("%d", &op);
     if(op != 0){
-        system("clear||cls");
         op--;
         dadosAluno(op);
         printf("\n\n Pretende alterar este aluno? (y/N): ");
         scanf(" %c", &op2);
-        system("clear||cls");
         if(op2 == 'Y' || op2 == 'y'){
             alteraAluno(op);
         }
@@ -437,6 +397,7 @@ void listarNome(){
 
 //menu consultar/alterar
 void menuConsutarAlterarAlunos(){
+    system("clear||cls");
 	int op;
     do{
         printf ("\n\n< < < Consultar/Alterar dados dos alunos > > >");
@@ -451,7 +412,6 @@ void menuConsutarAlterarAlunos(){
         printf ("\n\n\t0 - Voltar");
         printf ("\n\nInsira a sua opção: ");
         scanf ("%d", &op);
-        system("clear||cls");
         switch (op) {
             case 1:
                 listaTodos();
@@ -465,6 +425,7 @@ void menuConsutarAlterarAlunos(){
 
 //menu de gestão dos alunos
 void menuAlunos(){
+    system("clear||cls");
     int op;
     do{
         printf ("\n\n< < < MENU GESTÃO DE ALUNOS > > >");
@@ -473,7 +434,6 @@ void menuAlunos(){
         printf ("\n\n\t0 - Voltar");
         printf ("\n\nInsira a sua opção: ");
         scanf ("%d", &op);
-        system("clear||cls");
         switch (op) {
             case 1:
                 inserirAluno();
@@ -488,7 +448,7 @@ void menuAlunos(){
 ////////////////////////////////////////////////////////////////////////////////////
 //Instrutores
 ////////////////////////////////////////////////////////////////////////////////////
-
+/*
 //Estrutura de dados definida para os instrutores
 typedef struct {
     int dia;
@@ -620,11 +580,11 @@ void menuInstrutores(){
         }
     }while (op != 0);
 }
-
+*/
 ////////////////////////////////////////////////////////////////////////////////////
 //Aulas
 ////////////////////////////////////////////////////////////////////////////////////
-
+/*
 //Estrutura de dados definida para as aulas
 
 typedef struct{
@@ -677,44 +637,42 @@ void menuAulas(){
         }
     }while(op != 0);
 }
-
+*/
 ////////////////////////////////////////////////////////////////////////////////////
 //Função Main e Menu Principal
 ////////////////////////////////////////////////////////////////////////////////////
 
 //Menu principal
 int menuPrincipal(){
-    int op;
-    printf ("\n\n< < < MENU PRINCIPAL > > >");
-    printf ("\n\n\t1 - Gestão de Alunos");
-    printf ("\n\n\t2 - Gestão de Intrutores");
-    printf ("\n\n\t3 - Marcação/Consultas de aulas");
-    printf ("\n\n\t0 - Sair");
-    printf ("\n\nInsira a sua opção: ");
-    scanf ("%d", &op);
     system("clear||cls");
-    switch (op){
-        case 1:
-            menuAlunos();
-        break;
-        case 2:
-            menuInstrutores();
-        break;
-        case 3:
-            menuAulas();
-        break;
-    }
-    return op;
+    int op;
+    do{
+        printf ("\n\n< < < MENU PRINCIPAL > > >");
+        printf ("\n\n\t1 - Gestão de Alunos");
+        printf ("\n\n\t2 - Gestão de Intrutores");
+        printf ("\n\n\t3 - Marcação/Consultas de aulas");
+        printf ("\n\n\t0 - Sair");
+        printf ("\n\nInsira a sua opção: ");
+        scanf ("%d", &op);
+        switch (op){
+            case 1:
+                menuAlunos();
+            break;
+            case 2:
+                //menuInstrutores();
+            break;
+            case 3:
+                //menuAulas();
+            break;
+        }
+    }while(op != 0);
 }
 
 //função principal onde o programa é inicializado
 int main(void){
     fullscreen();
     setlocale(LC_ALL, "Portuguese");
-    int op;
     mensagemBoasVindas();
-    do{
-        op = menuPrincipal();
-    }while(op != 0);
+    menuPrincipal();
     return 0;
 }

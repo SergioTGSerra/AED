@@ -112,7 +112,7 @@ typedef struct {
 
 ALUNOS alunos[30];
 
-int existeNoArray(int dado_i, char dado_c[20], char tipo){
+int existeNoArray(int dado_i, char dado_s[30], char tipo){
     int i;
     for(i = 0; i < nAlunos; i++){
         switch (tipo){
@@ -123,12 +123,12 @@ int existeNoArray(int dado_i, char dado_c[20], char tipo){
                 }
             break;
             case 2:
-                if(strcmp(alunos[i].email, dado_c) == 0){
+                if(strcmp(alunos[i].email, dado_s) == 0){
                     printf ("\n\n\tJá existe um aluno com esse email! Por favor insira outro.");
                     return 1; 
                 }
             case 3:
-                if(strcmp(alunos[i].cartaoCidadao, dado_c) == 0){
+                if(strcmp(alunos[i].cartaoCidadao, dado_s) == 0){
                     printf ("\n\n\tJá existe um aluno com esse cartão de cidadão! Por favor insira outro.");
                     return 1; 
                 }
@@ -149,6 +149,7 @@ int existeNoArray(int dado_i, char dado_c[20], char tipo){
     }
     return 0;
 }
+
 
 //insere um aluno
 void inserirAluno(){
@@ -176,18 +177,18 @@ void inserirAluno(){
         printf ("\n\n\tInsira o nome do aluno: ");
         scanf (" %50[^\n]s", &alunos[nAlunos].nome);
 
-        printf("\n\n\tInsira a rua:");
-        scanf (" %50[^\n]s", &alunos[nAlunos].morada.rua);
-
-        printf("\n\n\tInsira a código de postal:");
-        scanf (" %50[^\n]s", &alunos[nAlunos].morada.cpostal);
-
         printf("\n\n\tInsira a localidade:");
         scanf (" %50[^\n]s", &alunos[nAlunos].morada.localidade);
 
+        printf("\n\n\tInsira a rua:");
+        scanf (" %50[^\n]s", &alunos[nAlunos].morada.rua);
+
+        printf("\n\n\tInsira o código de postal:");
+        scanf (" %50[^\n]s", &alunos[nAlunos].morada.cpostal);
+
         do{
             printf ("\n\n\tInsira o email do aluno: ");
-            scanf (" %50[^\n]s", &alunos[nAlunos].email);
+            scanf (" %30[^\n]s", &alunos[nAlunos].email);
         }while(existeNoArray(0, alunos[nAlunos].email, 2) == 1);
         
         printf ("\n\n\tInsira a data de nascimento (dia/mês/ano): ");
@@ -201,7 +202,7 @@ void inserirAluno(){
 
         do{
             printf ("\n\n\tInsira o cartão de cidadão: ");
-            scanf (" %20[^\n]s", &alunos[nAlunos].cartaoCidadao);
+            scanf (" %30[^\n]s", &alunos[nAlunos].cartaoCidadao);
         }while(existeNoArray(0, alunos[nAlunos].cartaoCidadao, 3) == 1);
 
         do{
@@ -215,15 +216,6 @@ void inserirAluno(){
             }while(alunos[nAlunos].nif <= 0);
         }while(existeNoArray(alunos[nAlunos].nif, 0, 4) == 1);
 
-        printf ("\n\n\tInsira a data de conclusão da carta (dia/mês/ano): ");
-        scanf ("%d/%d/%d", &alunos[nAlunos].dataConclusaoCarta.dia, &alunos[nAlunos].dataConclusaoCarta.mes, &alunos[nAlunos].dataConclusaoCarta.ano);
-        fflush(stdin);
-        if(dataValida(alunos[nAlunos].dataConclusaoCarta.dia, alunos[nAlunos].dataConclusaoCarta.mes, alunos[nAlunos].dataConclusaoCarta.ano) != 1) do{
-            printf ("\n\n\tPor favor insira a data de conclusão da carta válida (dia/mês/ano): ");
-            scanf ("%d/%d/%d", &alunos[nAlunos].dataConclusaoCarta.dia, &alunos[nAlunos].dataConclusaoCarta.mes, &alunos[nAlunos].dataConclusaoCarta.ano);
-            fflush(stdin);
-        }while(dataValida(alunos[nAlunos].dataConclusaoCarta.dia, alunos[nAlunos].dataConclusaoCarta.mes, alunos[nAlunos].dataConclusaoCarta.ano) != 1);
-
         do{
             printf ("\n\n\tInsira o número da carta: ");
             scanf ("%d", &alunos[nAlunos].nCarta);
@@ -234,6 +226,15 @@ void inserirAluno(){
                 fflush(stdin);
             }while(alunos[nAlunos].nCarta <= 0);
         }while(existeNoArray(alunos[nAlunos].nCarta, 0, 5) == 1);
+
+        printf ("\n\n\tInsira a data de conclusão da carta (dia/mês/ano): ");
+        scanf ("%d/%d/%d", &alunos[nAlunos].dataConclusaoCarta.dia, &alunos[nAlunos].dataConclusaoCarta.mes, &alunos[nAlunos].dataConclusaoCarta.ano);
+        fflush(stdin);
+        if(dataValida(alunos[nAlunos].dataConclusaoCarta.dia, alunos[nAlunos].dataConclusaoCarta.mes, alunos[nAlunos].dataConclusaoCarta.ano) != 1) do{
+            printf ("\n\n\tPor favor insira a data de conclusão da carta válida (dia/mês/ano): ");
+            scanf ("%d/%d/%d", &alunos[nAlunos].dataConclusaoCarta.dia, &alunos[nAlunos].dataConclusaoCarta.mes, &alunos[nAlunos].dataConclusaoCarta.ano);
+            fflush(stdin);
+        }while(dataValida(alunos[nAlunos].dataConclusaoCarta.dia, alunos[nAlunos].dataConclusaoCarta.mes, alunos[nAlunos].dataConclusaoCarta.ano) != 1);
 
         printf ("\n\n\tInsira a situação do aluno (1 - ATIVO / 0 - NÃO ATIVO): ");
         scanf ("%d", &alunos[nAlunos].ativo);
@@ -270,91 +271,149 @@ void dadosAluno(int aluno){
 
 //Funcção para alterar dados de um aluno
 void alteraAluno(int aluno){
-    int op;
+    /* temp_d -> dado temporario inteiro
+       temp_s -> dado temporario string
+       Nota: Estes dados temporarios estão aqui presentes para que os dados apenas fiquem
+             guardados em um variavel local da funcao para que ao procurar no array (função existeNoArray)
+             não encontre os dados que estamos a alterar.
+    */
+    int op, temp_d;
+    char temp_s[30];
     char msg[100];
-    system("clear||cls");
-    printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
-    printf ("\n\n\t1 - Numero: %d", alunos[aluno].nAluno);
-    printf ("\n\n\t2 - Nome: %s", alunos[aluno].nome);
-    printf ("\n\n\t3 - Email: %s", alunos[aluno].email);
-    printf ("\n\n\t4 - Cartão de cidadão: %s", alunos[aluno].cartaoCidadao);
-    printf ("\n\n\t5 - NIF: %d", alunos[aluno].nif);
-    printf ("\n\n\t6 - Nº da carta: %d", alunos[aluno].nCarta);
-    printf ("\n\n\t7 - Rua: %s", alunos[aluno].morada.rua);
-    printf ("\n\n\t8 - Código-postal: %s", alunos[aluno].morada.cpostal);
-    printf ("\n\n\t9 - Localidade: %s", alunos[aluno].morada.localidade);
-    printf ("\n\n\t10 - Data de nascimento: %d/%d/%d", alunos[aluno].dataNascimento.dia, alunos[aluno].dataNascimento.mes, alunos[aluno].dataNascimento.ano);
-    printf ("\n\n\t11 - Data da conclusão da carta: %d/%d/%d", alunos[aluno].dataConclusaoCarta.dia, alunos[aluno].dataConclusaoCarta.mes, alunos[aluno].dataConclusaoCarta.ano);
-    printf ("\n\n\t12 - Situação: %d", alunos[aluno].ativo);
-    printf ("\n\n\t0 - Voltar");
+    do{
+        system("clear||cls");
+        printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
+        printf ("\n\n\t1 - Número: %d", alunos[aluno].nAluno);
+        printf ("\n\n\t2 - Nome: %s", alunos[aluno].nome);
+        printf ("\n\n\t3 - Localidade: %s", alunos[aluno].morada.localidade);
+        printf ("\n\n\t4 - Rua: %s", alunos[aluno].morada.rua);
+        printf ("\n\n\t5 - Código-postal: %s", alunos[aluno].morada.cpostal);
+        printf ("\n\n\t6 - Email: %s", alunos[aluno].email);
+        printf ("\n\n\t7 - Data de nascimento: %d/%d/%d", alunos[aluno].dataNascimento.dia, alunos[aluno].dataNascimento.mes, alunos[aluno].dataNascimento.ano);
+        printf ("\n\n\t8 - Cartão de cidadão: %s", alunos[aluno].cartaoCidadao);
+        printf ("\n\n\t9 - NIF: %d", alunos[aluno].nif);
+        printf ("\n\n\t10 - Nº da carta: %d", alunos[aluno].nCarta);
+        printf ("\n\n\t11 - Data da conclusão da carta: %d/%d/%d", alunos[aluno].dataConclusaoCarta.dia, alunos[aluno].dataConclusaoCarta.mes, alunos[aluno].dataConclusaoCarta.ano);
+        printf ("\n\n\t12 - Situação: %d", alunos[aluno].ativo);
+        printf ("\n\n\t0 - Voltar");
 
-    printf("\n\nInsira a opção que deseja alterar: ");
-    scanf("%d", &op);
-    system("clear||cls");
-    printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
+        printf("\n\nInsira a opção que deseja alterar: ");
+        scanf("%d", &op);
+        system("clear||cls");
+        printf ("\n\n< < < Alterar dados do aluno %s > > >", alunos[aluno].nome);
 
-    switch(op){
-        case 1:
-            strcpy(msg, "\n\n\tNão é possivel alerar o número do aluno! A redirecionar ....");
-        break;
-        case 2:
-            printf ("\n\n\tAltere o nome do aluno: ");
-            scanf (" %50[^\n]s", &alunos[aluno].nome);
-            strcpy(msg, "\n\n\tNome alterado com sucesso! A redirecionar ....");
-        break;
-        case 3:
-            printf ("\n\n\tAltere o email do aluno: ");
-            scanf (" %50[^\n]s", &alunos[aluno].email);
-            strcpy(msg, "\n\n\tE-mail alterado com sucesso! A redirecionar ....");
-        break;
-        case 4:
-            printf ("\n\n\tAltere o Cartão de cidadão do aluno: ");
-            scanf (" %50[^\n]s", &alunos[aluno].cartaoCidadao);
-            strcpy(msg, "\n\n\tCartão de cidadão alterado com sucesso! A redirecionar ....");
-        break;
-        case 5:
-            printf ("\n\n\tAltere o NIF do aluno: ");
-            scanf (" %d", &alunos[aluno].nif);
-            strcpy(msg, "\n\n\tNIF alterado com sucesso! A redirecionar ....");
-        break;
-        case 6:
-            printf ("\n\n\tAltere o Nº da carta do aluno: ");
-            scanf (" %d", &alunos[aluno].nCarta);
-            strcpy(msg, "\n\n\tNº da carta alterado com sucesso! A redirecionar ....");
-        break;
-        case 7:
-            printf ("\n\n\tAltere o Rua do aluno: ");
-            scanf (" %50[^\n]s", &alunos[aluno].morada.rua);
-            strcpy(msg, "\n\n\tRua alterado com sucesso! A redirecionar ....");
-        break;
-        case 8:
-            printf ("\n\n\tAltere o Código-postal do aluno: ");
-            scanf (" %50[^\n]s", &alunos[aluno].morada.cpostal);
-            strcpy(msg, "\n\n\tCódigo-postal alterado com sucesso! A redirecionar ....");
-        break;
-        case 9:
-            printf ("\n\n\tAltere o Localidade do aluno: ");
-            scanf (" %50[^\n]s", &alunos[aluno].morada.localidade);
-            strcpy(msg, "\n\n\tLocalidade alterado com sucesso! A redirecionar ....");
-        break;
-        case 10:
-            printf ("\n\n\tAltere o Data de nascimento do aluno: ");
-            scanf (" %d/%d/%d", &alunos[aluno].dataNascimento.dia, &alunos[aluno].dataNascimento.mes, &alunos[aluno].dataNascimento.ano );
-            strcpy(msg, "\n\n\tData de nascimento alterado com sucesso! A redirecionar ....");
-        break;
-        case 11:
-            printf ("\n\n\tAltere o Data da conclusão da carta do aluno: ");
-            scanf ("%d/%d/%d", &alunos[aluno].dataConclusaoCarta.dia, &alunos[aluno].dataConclusaoCarta.mes, &alunos[aluno].dataConclusaoCarta.ano);
-            strcpy(msg, "\n\n\tData da conclusão da carta alterado com sucesso! A redirecionar ....");
-        break;
-        case 12:
-            printf ("\n\n\tAltere o Situação do aluno: ");
-            scanf (" %d", &alunos[aluno].ativo);
-            strcpy(msg, "\n\n\tSituação alterado com sucesso! A redirecionar ....");
-        break;
-    }
-    esperaApaga(msg, 3);
-    alteraAluno(aluno);
+        switch(op){
+            case 1:
+                strcpy(msg, "\n\n\tNão é possivel alerar o número do aluno! A redirecionar ....");
+            break;
+            case 2:
+                printf ("\n\n\tAltere o nome do aluno: ");
+                scanf (" %50[^\n]s", &alunos[aluno].nome);
+                strcpy(msg, "\n\n\tNome alterado com sucesso! A redirecionar ....");
+            break;
+            case 3:
+                printf ("\n\n\tAltere a localidade do aluno: ");
+                scanf (" %50[^\n]s", &alunos[aluno].morada.localidade);
+                strcpy(msg, "\n\n\tLocalidade alterada com sucesso! A redirecionar ....");
+            break;
+            case 4:
+                printf ("\n\n\tAltere a rua do aluno: ");
+                scanf (" %50[^\n]s", &alunos[aluno].morada.rua);
+                strcpy(msg, "\n\n\tRua alterado com sucesso! A redirecionar ....");
+            break;
+            case 5:
+                printf ("\n\n\tAltere o código de postal do aluno: ");
+                scanf (" %50[^\n]s", &alunos[aluno].morada.cpostal);
+                strcpy(msg, "\n\n\tCódigo de postal alterado com sucesso! A redirecionar ....");
+            break;
+            case 6:
+                do{
+                    //limpa string do array
+                    memset(alunos[aluno].email, 0, 30);
+                    printf ("\n\n\tAltere o email do aluno: ");
+                    scanf (" %30[^\n]s", &temp_s);
+                }while(existeNoArray(0, temp_s, 2) == 1);
+                strcpy(alunos[aluno].email, temp_s);
+                strcpy(msg, "\n\n\tE-mail alterado com sucesso! A redirecionar ....");
+            break;
+            case 7:
+                printf ("\n\n\tAltere a data de nascimento (dia/mês/ano): ");
+                scanf ("%d/%d/%d", &alunos[aluno].dataNascimento.dia, &alunos[aluno].dataNascimento.mes, &alunos[aluno].dataNascimento.ano);
+                fflush(stdin);
+                if(dataValida(alunos[aluno].dataNascimento.dia, alunos[aluno].dataNascimento.mes, alunos[aluno].dataNascimento.ano) != 1) do{
+                    printf ("\n\n\tPor favor insira a data de nascimento válida (dia/mês/ano): ");
+                    scanf ("%d/%d/%d", &alunos[aluno].dataNascimento.dia, &alunos[aluno].dataNascimento.mes, &alunos[aluno].dataNascimento.ano);
+                    fflush(stdin);
+                }while(dataValida(alunos[aluno].dataNascimento.dia, alunos[aluno].dataNascimento.mes, alunos[aluno].dataNascimento.ano) != 1);
+                strcpy(msg, "\n\n\tData de nascimento alterada com sucesso! A redirecionar ....");
+            break;
+            case 8:
+                do{
+                    //limpa string do array
+                    memset(alunos[aluno].cartaoCidadao, 0, 30);
+                    printf ("\n\n\tAltere o cartão de cidadão do aluno: ");
+                    scanf (" %30[^\n]s", &temp_s);
+                }while(existeNoArray(0, temp_s, 3) == 1);
+                strcpy(alunos[aluno].cartaoCidadao, temp_s);
+                strcpy(msg, "\n\n\tCartão de cidadão alterado com sucesso! A redirecionar ....");
+            break;
+            case 9:
+                do{
+                    //limpa inteiro do array 
+                    alunos[aluno].nif = NULL;
+                    printf ("\n\n\tAltere o NIF do aluno: ");
+                    scanf ("%d", &temp_d);
+                    fflush(stdin);
+                    if(temp_d <= 0) do{
+                        printf ("\n\n\tPor favor insira um nif válido: ");
+                        scanf ("%d", &temp_d);
+                        fflush(stdin);
+                    }while(temp_d <= 0);
+                }while(existeNoArray(temp_d, 0, 4) == 1);
+                alunos[aluno].nif = temp_d;
+                strcpy(msg, "\n\n\tNIF alterado com sucesso! A redirecionar ....");
+            break;
+            case 10:
+                do{
+                    //limpa inteiro do array 
+                    alunos[aluno].nCarta = NULL;
+                    printf ("\n\n\tAltere o número da carta do aluno: ");
+                    scanf ("%d", &temp_d);
+                    fflush(stdin);
+                    if(temp_d <= 0) do{
+                        printf ("\n\n\tPor favor insira um número da carta válido: ");
+                        scanf ("%d", &temp_d);
+                        fflush(stdin);
+                    }while(temp_d <= 0);
+                }while(existeNoArray(temp_d, 0, 5) == 1);
+                alunos[aluno].nCarta = temp_d;
+                strcpy(msg, "\n\n\tNúmero da carta alterado com sucesso! A redirecionar ....");
+            break;
+            case 11:
+                printf ("\n\n\tAltere a data de conclusão da carta (dia/mês/ano): ");
+                scanf ("%d/%d/%d", &alunos[aluno].dataConclusaoCarta.dia, &alunos[aluno].dataConclusaoCarta.mes, &alunos[aluno].dataConclusaoCarta.ano);
+                fflush(stdin);
+                if(dataValida(alunos[aluno].dataConclusaoCarta.dia, alunos[aluno].dataConclusaoCarta.mes, alunos[aluno].dataConclusaoCarta.ano) != 1) do{
+                    printf ("\n\n\tPor favor insira a data de conclusão da carta válida (dia/mês/ano): ");
+                    scanf ("%d/%d/%d", &alunos[aluno].dataConclusaoCarta.dia, &alunos[aluno].dataConclusaoCarta.mes, &alunos[aluno].dataConclusaoCarta.ano);
+                    fflush(stdin);
+                }while(dataValida(alunos[aluno].dataConclusaoCarta.dia, alunos[aluno].dataConclusaoCarta.mes, alunos[aluno].dataConclusaoCarta.ano) != 1);
+                strcpy(msg, "\n\n\tData da conclusão da carta alterado com sucesso! A redirecionar ....");
+            break;
+            case 12:
+                printf ("\n\n\tAltere a situação do aluno (1 - ATIVO / 0 - NÃO ATIVO): ");
+                scanf ("%d", &alunos[aluno].ativo);
+                fflush(stdin);
+                if(alunos[aluno].ativo != 0 && alunos[aluno].ativo != 1) do{
+                    printf ("\n\n\tPor favor insira uma situação válida: ");
+                    scanf ("%d", &alunos[aluno].ativo);
+                    fflush(stdin);
+                }while(alunos[aluno].ativo != 0 && alunos[aluno].ativo != 1);
+                strcpy(msg, "\n\n\tSituação alterado com sucesso! A redirecionar ....");
+            break;
+        }
+        if(op != 0) esperaApaga(msg, 3);
+    }while(op != 0);
 }
 
 //Lista para consultar alterar todos os alunos
@@ -380,15 +439,36 @@ void listaTodos(){
     }
 }
 
-//Lista para procurar aluno por nome
+//Procurar aluno por nome
 void listarNome(){
-    int i;
-    char nome[50];
-    printf ("Insira o nome do aluno que pretende consultar: ");
-    scanf (" %50[^\n]s", &nome);
+    int i, op, cont = 1, ids[30];
+    char nome[50], op2;
+    system("clear||cls");
+    printf ("\n\n\tInsira o nome do aluno que pretende consultar: ");
+    scanf (" %30[^\n]s", &nome);
+    if(strlen(nome) < 3) do{
+        printf("\n\n\tPor favor insira pelo menos 3 caracteres para procurar pelo nome: ");
+        scanf (" %30[^\n]s", &nome);
+    }while(strlen(nome) < 3);
+    system("clear||cls");
+    printf ("\n\n< < < Listagem de alunos que contem %s > > >", nome);
     for(i = 0; i < nAlunos; i++){
-        if((alunos[i].nome == nome || alunos[i].nome[0] == nome[0])){
-            printf("\n%d - %s", i +1, alunos[i].nome);
+        if (strstr(alunos[i].nome, nome)){
+            printf("\n\n\t%d - %s", cont, alunos[i].nome);
+            //posicao de cada aluno no array que corresponde a pesquisa
+            ids[cont] = i; 
+            cont++;
+        }
+    }
+    printf("\n\n\t 0 - Voltar");
+    printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
+    scanf("%d", &op);
+    if(op != 0){
+        dadosAluno(ids[op]); //posição do aluno no array
+        printf("\n\n Pretende alterar este aluno? (y/N): ");
+        scanf(" %c", &op2);
+        if(op2 == 'Y' || op2 == 'y'){
+            alteraAluno(ids[op]);
         }
     }
 }
@@ -443,142 +523,6 @@ void menuAlunos(){
     }while (op != 0);
 } 
 
-////////////////////////////////////////////////////////////////////////////////////
-//Instrutores
-////////////////////////////////////////////////////////////////////////////////////
-/*
-//Estrutura de dados definida para os instrutores
-typedef struct {
-    int dia;
-    int mes;
-    int ano;
-} ANOENTRADAESCOLA;
-
-typedef struct {
-    int nInstrutor;
-    char nome[50];
-    char email[50];
-    char cartaoCidadao[20];
-    int ativo;
-    ANOENTRADAESCOLA anoEntradaEscola; 
-} INSTRUTORES;
-
-INSTRUTORES instrutores[10];
-
-//insere um instrutor
-void inserirInstrutor() {
-        
-        printf ("\n\n< < < Inserção de Instrutor > > >");
-        printf ("\n\n\tInsira o NOME do instrutor: ");
-	    scanf (" %30[^\n]s", &instrutores[nInstrutores].nome);
-
-        printf ("\n\n\tInsira o CARTÃO DE CIDADÃO: ");
-	    scanf (" %30[^\n]s", &instrutores[nInstrutores].cartaoCidadao);
-    
-        printf ("\n\n\tInsira o EMAIL do instrutor: ");
-        scanf (" %50[^\n]s", &instrutores[nInstrutores].email); 
-    
-        printf ("\n\n\tInsira o ANO DE ENTRADA NA ESCOLA: ");
-        scanf ("%d/%d/%d", &instrutores[nInstrutores].anoEntradaEscola.dia, &instrutores[nInstrutores].anoEntradaEscola.mes, &instrutores[nInstrutores].anoEntradaEscola.ano);
-    
-        printf ("\n\n\tInsira a SITUAÇÃO do instrutor (1 - Ativo / 0 - Não Ativo): ");
-	    scanf (" %50[^\n]s", &instrutores[nInstrutores].ativo);
-        nInstrutores++;
-        char msg[100];
-        strcpy(msg, "\n\n\tInstrutor inserido com sucesso! A redirecionar ....");
-        esperaApaga(msg, 3);
-}
-
-//listar dados de um instrutor
-void dadosInstrutor(int instrutor){
-    printf ("\n\n< < < Dados do instrutor %s > > >", instrutores[instrutor].nome);
-    printf ("\n\n\tEmail: %s", instrutores[instrutor].email);
-    printf ("\n\n\tCartão de cidadão: %s", instrutores[instrutor].cartaoCidadao);
-    printf ("\n\n\tAno de entrada na escola: %d/%d/%d", instrutores[instrutor].anoEntradaEscola.dia, instrutores[instrutor].anoEntradaEscola.mes, instrutores[instrutor].anoEntradaEscola.ano);
-    printf ("\n\n\tSituação: %d", instrutores[instrutor].ativo);
-}
-
-//Funcção para alterar dados de um instrutor
-void alteraInstrutor(int instrutor){
-    printf ("\n\n< < < Dados do instrutor %s > > >", instrutores[instrutor].nome);
-    printf ("\n\n\tEmail: %s", instrutores[instrutor].email);
-    printf ("\n\n\tCartão de cidadão: %s", instrutores[instrutor].cartaoCidadao);
-    printf ("\n\n\tAno de entrada na escola: %d/%d/%d", instrutores[instrutor].anoEntradaEscola.dia, instrutores[instrutor].anoEntradaEscola.mes, instrutores[instrutor].anoEntradaEscola.ano);
-    printf ("\n\n\tSituação: %d", instrutores[instrutor].ativo); 
-}
-
-//Lista para consultar alterar todos os instrutores
-void listaTodosIns(){
-    int op, i;
-    char op2;
-    printf ("\n\n< < < Listagem de instrutores > > >");
-    for(i = 0; i<nInstrutores; i++){
-        printf("\n\n\t %d - %s", i+1, instrutores[i].nome);
-    }
-    printf("\n\n\t 0 - Voltar");
-    printf("\n\n Insira o numero do instrutor que deseja consultar/alterar: ");
-    scanf("%d", &op);
-    if(op != 0){
-        
-        op--;
-        dadosInstrutor(op);
-        printf("\n\n Pretende alterar este instrutor? (y/N): ");
-        scanf(" %c", &op2);
-        
-        if(op2 == 'Y' || op2 == 'y'){
-            alteraInstrutor(op);
-        }
-    }
-}
-
-void gerirDadosInstrutores(){
-	int op;
-    do{
-        printf ("\n\n< < < Consultar/Alterar dados dos alunos > > >");
-        printf ("\n\n\t1 - Todos");
-        printf ("\n\n\t2 - Nome");
-        printf ("\n\n\t4 - Email");
-        printf ("\n\n\t5 - Ano de entrada");
-        printf ("\n\n\t6 - Cartão de cidadão");
-        printf ("\n\n\t7 - Situação do instrutor");
-        printf ("\n\n\t0 - Voltar");
-        printf ("\n\nInsira a sua opção: ");
-        scanf ("%d", &op);
-        
-        switch (op) {
-            case 1:
-                listaTodosIns();
-            break;
-            case 2:
-            break;
-        }
-    }while (op != 0);
-}
-
-//menu de gestão dos instrutores
-void menuInstrutores(){
-    int op;
-    do {
-        printf ("\n\n< < < MENU GESTÃO DE INSTRUTORES > > >");
-        printf ("\n\n\t1 - Inserir novos instrutores");
-        printf ("\n\n\t2 - Consultar/Alterar dados do instrutor");
-        printf ("\n\n\t0 - Voltar");
-        printf ("\n\nInsira a sua opção: ");
-        scanf ("%d", &op);
-        
-        switch (op) {
-            case 1:
-                inserirInstrutor();
-            break;
-            case 2:
-                gerirDadosInstrutores();
-            break;
-            case 3:
-            break;
-        }
-    }while (op != 0);
-}
-*/
 ////////////////////////////////////////////////////////////////////////////////////
 //Aulas
 ////////////////////////////////////////////////////////////////////////////////////

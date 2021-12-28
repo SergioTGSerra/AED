@@ -100,7 +100,7 @@ typedef struct {
     int nAluno;
     char nome[50];
     char email[50];
-    char cartaoCidadao[20];
+    char cartaoCidadao[50];
     int nif;
     int nCarta;
     int ativo;
@@ -112,7 +112,7 @@ typedef struct {
 
 ALUNOS alunos[30];
 
-int existeNoArray(int dado_i, char dado_s[30], char tipo){
+int existeNoArray(int dado_i, char dado_s[50], char tipo){
     int i;
     for(i = 0; i < nAlunos; i++){
         switch (tipo){
@@ -149,7 +149,6 @@ int existeNoArray(int dado_i, char dado_s[30], char tipo){
     }
     return 0;
 }
-
 
 //insere um aluno
 void inserirAluno(){
@@ -188,7 +187,7 @@ void inserirAluno(){
 
         do{
             printf ("\n\n\tInsira o email do aluno: ");
-            scanf (" %30[^\n]s", &alunos[nAlunos].email);
+            scanf (" %50[^\n]s", &alunos[nAlunos].email);
         }while(existeNoArray(0, alunos[nAlunos].email, 2) == 1);
         
         printf ("\n\n\tInsira a data de nascimento (dia/mês/ano): ");
@@ -202,7 +201,7 @@ void inserirAluno(){
 
         do{
             printf ("\n\n\tInsira o cartão de cidadão: ");
-            scanf (" %30[^\n]s", &alunos[nAlunos].cartaoCidadao);
+            scanf (" %50[^\n]s", &alunos[nAlunos].cartaoCidadao);
         }while(existeNoArray(0, alunos[nAlunos].cartaoCidadao, 3) == 1);
 
         do{
@@ -440,36 +439,117 @@ void listaTodos(){
 }
 
 //Procurar aluno por nome
-void listarNome(){
-    int i, op, cont = 1, ids[30];
-    char nome[50], op2;
+void listarPorNome(){
+    int i, op, cont = 1, ids[30], flag = 0;
+    char nome[50], op2, msg[100];
     system("clear||cls");
     printf ("\n\n\tInsira o nome do aluno que pretende consultar: ");
-    scanf (" %30[^\n]s", &nome);
+    scanf (" %50[^\n]s", &nome);
     if(strlen(nome) < 3) do{
         printf("\n\n\tPor favor insira pelo menos 3 caracteres para procurar pelo nome: ");
-        scanf (" %30[^\n]s", &nome);
+        scanf (" %50[^\n]s", &nome);
     }while(strlen(nome) < 3);
     system("clear||cls");
-    printf ("\n\n< < < Listagem de alunos que contem %s > > >", nome);
     for(i = 0; i < nAlunos; i++){
         if (strstr(alunos[i].nome, nome)){
-            printf("\n\n\t%d - %s", cont, alunos[i].nome);
-            //posicao de cada aluno no array que corresponde a pesquisa
-            ids[cont] = i; 
-            cont++;
+            flag = 1;
+            break;
         }
     }
-    printf("\n\n\t 0 - Voltar");
-    printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
-    scanf("%d", &op);
-    if(op != 0){
-        dadosAluno(ids[op]); //posição do aluno no array
-        printf("\n\n Pretende alterar este aluno? (y/N): ");
-        scanf(" %c", &op2);
-        if(op2 == 'Y' || op2 == 'y'){
-            alteraAluno(ids[op]);
+    if(flag == 1){
+        printf ("\n\n< < < Listagem de alunos que contem '%s' no nome > > >", nome);
+        for(i = 0; i < nAlunos; i++){
+            if (strstr(alunos[i].nome, nome)){
+                printf("\n\n\t %d - %s", cont, alunos[i].nome);
+                //posicao de cada aluno no array que corresponde a pesquisa
+                ids[cont] = i; 
+                cont++;
+            }
         }
+        printf("\n\n\t 0 - Voltar");
+        printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
+        scanf("%d", &op);
+        if(op != 0){
+            dadosAluno(ids[op]); //posição do aluno no array
+            printf("\n\n Pretende alterar este aluno? (y/N): ");
+            scanf(" %c", &op2);
+            if(op2 == 'Y' || op2 == 'y'){
+                alteraAluno(ids[op]);
+            }
+        }
+    }else{
+        strcpy(msg, "\n\n\tNenhum aluno com esse numero encontrado! A redirecionar ....");
+        esperaApaga(msg, 4);
+    }
+}
+
+//Procurar aluno por numero
+void listarPorNumero(){
+    int i, numero, op, flag = 0;
+    char op2, msg[100];
+    system("clear||cls");
+    printf ("\n\n\tInsira o numero do aluno que pretende consultar: ");
+    scanf ("%d", &numero);
+    system("clear||cls");
+    for(i = 0; i < nAlunos; i++){
+        if (alunos[i].nAluno == numero){
+            flag = 1;
+            dadosAluno(i);
+            printf("\n\n Pretende alterar este aluno? (y/N): ");
+            scanf(" %c", &op2);
+            if(op2 == 'Y' || op2 == 'y'){
+                alteraAluno(i);
+            }
+        }
+    }
+    if(flag == 0){
+        strcpy(msg, "\n\n\tNenhum aluno com esse numero encontrado! A redirecionar ....");
+        esperaApaga(msg, 4);
+    }
+}
+
+//Procurar aluno por E-mail
+void listarPorEmail(){
+    int i, op, cont = 1, ids[30], flag = 0;
+    char email[50], op2, msg[100];
+    system("clear||cls");
+    printf ("\n\n\tInsira o email do aluno que pretende consultar: ");
+    scanf (" %50[^\n]s", &email);
+    if(strlen(email) < 3) do{
+        printf("\n\n\tPor favor insira pelo menos 3 caracteres para procurar pelo email: ");
+        scanf (" %50[^\n]s", &email);
+    }while(strlen(email) < 3);
+    system("clear||cls");
+    for(i = 0; i < nAlunos; i++){
+        if (strstr(alunos[i].email, email)){
+            flag = 1;
+            break;
+        }
+    }
+    if(flag == 1){
+        printf ("\n\n< < < Listagem de alunos que contem '%s' no email > > >", email);
+        for(i = 0; i < nAlunos; i++){
+            if (strstr(alunos[i].email, email)){
+                printf("\n\n\t %d - %s - %s", cont, alunos[i].email, alunos[i].nome);
+                //posicao de cada aluno no array que corresponde a pesquisa
+                ids[cont] = i; 
+                cont++;
+            }
+        }
+        printf("\n\n\t 0 - Voltar");
+        printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
+        scanf("%d", &op);
+        if(op != 0){
+            dadosAluno(ids[op]); //posição do aluno no array
+            printf("\n\n Pretende alterar este aluno? (y/N): ");
+            scanf(" %c", &op2);
+            if(op2 == 'Y' || op2 == 'y'){
+                alteraAluno(ids[op]);
+            }
+        }
+    }else{
+        strcpy(msg, "\n\n\tNenhum aluno com esse numero encontrado! A redirecionar ....");
+        esperaApaga(msg, 4);
     }
 }
 
@@ -495,7 +575,13 @@ void menuConsutarAlterarAlunos(){
                 listaTodos();
             break;
             case 2:
-                listarNome();
+                listarPorNome();
+            break;
+            case 3:
+                listarPorNumero();
+            break;
+            case 4:
+                listarPorEmail();
             break;
         }
     }while (op != 0);

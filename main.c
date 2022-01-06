@@ -16,6 +16,22 @@ int nInstrutores = 0;
 int nAulas = 0;
 
 ////////////////////////////////////////////////////////////////////////////////////
+//Estruturas Universais (Utilizado para outras estruturas)
+////////////////////////////////////////////////////////////////////////////////////
+typedef struct {
+        char rua[50];
+        int porta;
+        char cpostal[50];
+        char localidade[50];
+} MORADA;
+
+typedef struct {
+    int dia;
+    int mes;
+    int ano;
+} DATA;
+
+////////////////////////////////////////////////////////////////////////////////////
 //Funções
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -99,25 +115,6 @@ void mensagemBoasVindas(){
 
 //Estrutura de dados definida para os aulnos
 typedef struct {
-        char rua[50];
-        int porta;
-        char cpostal[50];
-        char localidade[50];
-} MORADA;
-
-typedef struct {
-    int dia;
-    int mes;
-    int ano;
-} DATANASCIMENTO;
-
-typedef struct {
-    int dia;
-    int mes;
-    int ano;
-} DATACONCLUSAOCARTA;
-
-typedef struct {
     int nAluno;
     char nome[50];
     char email[50];
@@ -127,8 +124,8 @@ typedef struct {
     int ativo;
     
     MORADA morada;
-    DATANASCIMENTO dataNascimento;
-    DATACONCLUSAOCARTA dataConclusaoCarta;
+    DATA dataNascimento;
+    DATA dataConclusaoCarta;
 } ALUNOS;
 
 ALUNOS alunos[30];
@@ -281,7 +278,8 @@ void inserirAluno(){
 }
 
 //consultar dados de um aluno
-void dadosAluno(int aluno){
+int dadosAluno(int aluno){
+    if (alunos[aluno].nAluno == 0) return 0;
     system("clear||cls");
     printf ("\n\n< < < Dados do aluno %s > > >", alunos[aluno].nome);
     printf ("\n\n\tNumero: %d", alunos[aluno].nAluno);
@@ -300,7 +298,8 @@ void dadosAluno(int aluno){
 }
 
 //Funcção para alterar dados de um aluno
-void alteraAluno(int aluno){
+int alteraAluno(int aluno){
+    if (alunos[aluno].nAluno == 0) return 0;
     /* temp_d -> dado temporario inteiro
        temp_s -> dado temporario string
        Nota: Estes dados temporarios estão aqui presentes para que os dados apenas fiquem
@@ -397,8 +396,8 @@ void alteraAluno(int aluno){
             break;
             case 10:
                 do{
-                    //limpa inteiro do array 
-                    alunos[aluno].nif = NULL;
+                    //"limpa" inteiro do array 
+                    alunos[aluno].nif = -1;
                     printf ("\n\n\tAltere o NIF do aluno: ");
                     scanf ("%d", &temp_d);
                     fflush(stdin);
@@ -413,8 +412,8 @@ void alteraAluno(int aluno){
             break;
             case 11:
                 do{
-                    //limpa inteiro do array 
-                    alunos[aluno].nCarta = NULL;
+                    //"limpa" inteiro do array 
+                    alunos[aluno].nCarta = -1;
                     printf ("\n\n\tAltere o número da carta do aluno: ");
                     scanf ("%d", &temp_d);
                     fflush(stdin);
@@ -467,7 +466,7 @@ void consultarTodos(){
     printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
     scanf("%d", &op);
     fflush(stdin);
-    if(op != 0){
+    if(op != 0 && alunos[op-1].nAluno != 0){
         op--;
         dadosAluno(op);
         printf("\n\n Pretende alterar este aluno? (y/N): ");
@@ -510,7 +509,7 @@ void consultarPorNome(){
         printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
         scanf("%d", &op);
         fflush(stdin);
-        if(op != 0){
+        if(op != 0 && alunos[op-1].nAluno != 0){
             dadosAluno(ids[op]); //posição do aluno no array
             printf("\n\n Pretende alterar este aluno? (y/N): ");
             scanf(" %c", &op2);
@@ -581,7 +580,7 @@ void consultarPorEmail(){
         printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
         scanf("%d", &op);
         fflush(stdin);
-        if(op != 0){
+        if(op != 0 && alunos[op-1].nAluno != 0){
             dadosAluno(ids[op]); //posição do aluno no array
             printf("\n\n Pretende alterar este aluno? (y/N): ");
             scanf(" %c", &op2);
@@ -627,7 +626,7 @@ void consultarPorCc(){
         printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
         scanf("%d", &op);
         fflush(stdin);
-        if(op != 0){
+        if(op != 0 && alunos[op-1].nAluno != 0){
             dadosAluno(ids[op]); //posição do aluno no array
             printf("\n\n Pretende alterar este aluno? (y/N): ");
             scanf(" %c", &op2);
@@ -679,7 +678,7 @@ void consultarPorNif(){
         printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
         scanf("%d", &op);
         fflush(stdin);
-        if(op != 0){
+        if(op != 0 && alunos[op-1].nAluno != 0){
             dadosAluno(ids[op]); //posição do aluno no array
             printf("\n\n Pretende alterar este aluno? (y/N): ");
             scanf(" %c", &op2);
@@ -731,7 +730,7 @@ void consultarPorNcarta(){
         printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
         scanf("%d", &op);
         fflush(stdin);
-        if(op != 0){
+        if(op != 0 && alunos[op-1].nAluno != 0){
             dadosAluno(ids[op]); //posição do aluno no array
             printf("\n\n Pretende alterar este aluno? (y/N): ");
             scanf(" %c", &op2);
@@ -775,7 +774,7 @@ void consultarPorSituacao(){
         printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
         scanf("%d", &op);
         fflush(stdin);
-        if(op != 0){
+        if(op != 0 && alunos[op-1].nAluno != 0){
             dadosAluno(ids[op]); //posição do aluno no array
             printf("\n\n Pretende alterar este aluno? (y/N): ");
             scanf(" %c", &op2);
@@ -821,7 +820,7 @@ void consultarPorCpostal(){
         printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
         scanf("%d", &op);
         fflush(stdin);
-        if(op != 0){
+        if(op != 0 && alunos[op-1].nAluno != 0){
             dadosAluno(ids[op]); //posição do aluno no array
             printf("\n\n Pretende alterar este aluno? (y/N): ");
             scanf(" %c", &op2);
@@ -867,7 +866,7 @@ void consultarPorLocalidade(){
         printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
         scanf("%d", &op);
         fflush(stdin);
-        if(op != 0){
+        if(op != 0 && alunos[op-1].nAluno != 0){
             dadosAluno(ids[op]); //posição do aluno no array
             printf("\n\n Pretende alterar este aluno? (y/N): ");
             scanf(" %c", &op2);
@@ -916,7 +915,7 @@ void ConsultarPorDNascimento(){
         printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
         scanf("%d", &op);
         fflush(stdin);
-        if(op != 0){
+        if(op != 0 && alunos[op-1].nAluno != 0){
             dadosAluno(ids[op]); //posição do aluno no array
             printf("\n\n Pretende alterar este aluno? (y/N): ");
             scanf(" %c", &op2);
@@ -966,7 +965,7 @@ void ConsultarPorDConclusaoCarta(){
         printf("\n\n Insira o numero do aluno que deseja consultar/alterar: ");
         scanf("%d", &op);
         fflush(stdin);
-        if(op != 0){
+        if(op != 0 && alunos[op-1].nAluno != 0){
             dadosAluno(ids[op]); //posição do aluno no array
             printf("\n\n Pretende alterar este aluno? (y/N): ");
             scanf(" %c", &op2);
@@ -1032,7 +1031,7 @@ void consultarPorIdade(){
         printf("\n\n Insira o aluno que deseja consultar/alterar: ");
         scanf("%d", &op);
         fflush(stdin);
-        if(op != 0){
+        if(op != 0 && alunos[op-1].nAluno != 0){
             dadosAluno(ids[op]); //posição do aluno no array
             printf("\n\n Pretende alterar este aluno? (y/N): ");
             scanf(" %c", &op2);
@@ -1045,6 +1044,152 @@ void consultarPorIdade(){
         esperaApaga(msg, 4);
     }
 }
+
+// Listar por nº da aluno
+void listarNAluno () {
+    system("clear||cls");
+    int op, i, j, temp, numeroAlunos[30];
+    //copiar array para outro array para alterar array copiado do array original
+    for(i = 0; i < 30; i++){
+        numeroAlunos[i] = alunos[i].nAluno;
+    }
+    ///////// Teste
+
+    /*for(i = 0; i < nAlunos; i++){
+        printf("\n %d", numeroAlunos[i]);
+    }*/
+
+    ////////
+    for(i = 0; i < nAlunos; i++){
+        for(j = i + 1; j < nAlunos; j++){
+            if(numeroAlunos[i] > numeroAlunos[j]){
+                temp = numeroAlunos[i];
+                numeroAlunos[i] = numeroAlunos[j];
+                numeroAlunos[j] = temp;
+            }
+        }
+    }
+    ///////// Teste
+
+    /*for(i = 0; i < nAlunos; i++){
+        printf("\n %d", numeroAlunos[i]);
+    }*/
+
+    ////////
+    for(i = 0; i < nAlunos; i++){
+        //printf("\n i = %d", i);
+        for(j = 0; j < nAlunos; j++){
+            //printf("\n j = %d e numeroAlunos = %d e alunos[j].nAluno = %d", j, numeroAlunos[i], alunos[j].nAluno);
+            if(numeroAlunos[i] == alunos[j].nAluno){
+                printf("\n %d - %s", numeroAlunos[i], alunos[j].nome);
+            }
+        }
+    }
+    scanf("%d", op);
+}
+
+// Listar por nome
+void listarNome(){
+    int i, op, j;
+    char temp[50];
+    do{
+    system("clear||cls");
+    for(i=0;i<nAlunos;i++){
+      for(j=i+1;j<nAlunos;j++){
+         if(strcmp(alunos[i].nome,alunos[j].nome)>0){
+            strcpy(temp,alunos[i].nome);
+            strcpy(alunos[i].nome,alunos[j].nome);
+            strcpy(alunos[j].nome,temp);
+         }
+      }
+    }
+    
+    printf ("\n\n< < < Listagem de alunos pelo nome > > >");
+    for(i = 0; i<nAlunos; i++){
+        printf("\n\n\t %d - %s", i+1, alunos[i].nome);
+    }
+    printf ("\n\nPrima 0 para voltar:");
+    scanf ("%d", &op);
+    } while(op != 0);
+}
+
+// Listar por localidade
+void listarLocalidade() {
+    int i, op, j;
+    char temp[25];
+    do{
+    system("clear||cls");
+      for(i=0;i<nAlunos;i++)
+      for(j=i+1;j<nAlunos;j++){
+         if(strcmp(alunos[i].morada.localidade,alunos[j].morada.localidade)>0){
+            strcpy(temp,alunos[i].morada.localidade);
+            strcpy(alunos[i].morada.localidade,alunos[j].morada.localidade);
+            strcpy(alunos[j].morada.localidade,temp);
+            
+
+         }
+      }
+    printf ("\n\n< < < Listagem de alunos pela localidade > > >");
+    for(i = 0; i<nAlunos; i++){
+        printf("\n\n\t %d - %s - %s", i +1, alunos[i].nome, alunos[i].morada.localidade);
+    }
+    printf ("\n\nPrima 0 para voltar:");
+    scanf ("%d", &op);
+    } while(op != 0);
+} 
+
+
+// Listar por código postal
+void listarCpostal() {
+    int i, op, j;
+    char temp[25];
+    do{
+    system("clear||cls");
+      for(i=0;i<nAlunos;i++)
+      for(j=i+1;j<nAlunos;j++){
+         if(strcmp(alunos[i].morada.cpostal,alunos[j].morada.cpostal)>0){
+            strcpy(temp,alunos[i].morada.cpostal);
+            strcpy(alunos[i].morada.cpostal,alunos[j].morada.cpostal);
+            strcpy(alunos[j].morada.cpostal,temp);
+            
+         }
+      }
+    printf ("\n\n< < < Listagem de alunos pelo código postal > > >");
+    for(i = 0; i<nAlunos; i++){
+        printf("\n\n\t %d - %s - %s", i+1, alunos[i].nome, alunos[i].morada.cpostal);
+    }
+    printf ("\n\nPrima 0 para voltar:");
+    scanf ("%d", &op);
+    } while(op != 0);
+} 
+
+
+//Listar por conclusão da carta
+void listarAlunosConclusaoCarta(){
+    int i, op, j;
+    char temp[50];
+    do{
+    system("clear||cls");
+    printf ("\n\n< < < Listagem de alunos que concluiram a carta > > >");
+    for(i=0;i<nAlunos;i++){
+      for(j=i+1;j<nAlunos;j++){
+         if(strcmp(alunos[i].nome,alunos[j].nome)>0){
+            strcpy(temp,alunos[i].nome);
+            strcpy(alunos[i].nome,alunos[j].nome);
+            strcpy(alunos[j].nome,temp);
+         }
+      }
+    }
+    for(i=0;i<=nAlunos;i++){
+        if (alunos[i].nCarta != 0){
+            printf("\n\n\t %d - %s", i+1, alunos[i].nome);
+        }
+    }
+    printf ("\n\nPrima 0 para voltar:");
+    scanf ("%d", &op);
+    } while(op != 0);
+}
+
 
 //menu consultar/alterar
 void menuConsutarAlterarAlunos(){
@@ -1118,6 +1263,21 @@ void menuConsutarAlterarAlunos(){
             case 13:
                 consultarPorSituacao();
             break;
+            case 14:
+                listarNAluno();
+            break;
+            case 15:
+                listarNome();
+            break;
+            case 16:
+                listarLocalidade();
+            break;
+            case 17:
+                listarCpostal();
+            break;
+            case 18:
+                listarAlunosConclusaoCarta();
+            break;
         }
     }while (op != 0);
 }
@@ -1147,20 +1307,14 @@ void menuAlunos(){
 ////////////////////////////////////////////////////////////////////////////////////
 //Aulas
 ////////////////////////////////////////////////////////////////////////////////////
-/*
-//Estrutura de dados definida para as aulas
 
-typedef struct{
-    int dia;
-    int mes;
-    int ano;
-} DATAAULA;
+//Estrutura de dados definida para as aulas
 
 typedef struct {
     int aluno;
     int hora;
     int instrutor;
-    DATAAULA dataAula;
+    DATA dataAula;
 } AULAS;
 
 AULAS aulas[100];
@@ -1170,27 +1324,32 @@ void marcarAula(){
     int i;
     char op, msg[100];
     system("clear||cls");
-    printf ("/n/nPor favor insira uma data: ");
+    printf ("\n\n< < < Marcar Aula de Condução > > >");
+
+    //Data Aula
+    printf ("\n\n\tInsira a data da aula (dia/mês/ano): ");
     scanf ("%d/%d/%d", &aulas[nAulas].dataAula.dia, &aulas[nAulas].dataAula.mes, &aulas[nAulas].dataAula.ano);
-    printf ("/n/nPor favor insira uma hora: ");
+    fflush(stdin);
+    if(dataValida(aulas[nAulas].dataAula.dia, aulas[nAulas].dataAula.mes, aulas[nAulas].dataAula.ano) != 1) do{
+        printf ("\n\n\tPor favor insira uma data de aula válida (dia/mês/ano): ");
+        scanf ("%d/%d/%d", &aulas[nAulas].dataAula.dia, &aulas[nAulas].dataAula.mes, &aulas[nAulas].dataAula.ano);
+        fflush(stdin);
+    }while(dataValida(aulas[nAulas].dataAula.dia, aulas[nAulas].dataAula.mes, aulas[nAulas].dataAula.ano) != 1);
+
+    //Hora Aula
+    printf ("\n\nPor favor insira uma hora: ");
     scanf ("%d", &aulas[nAulas].hora);
-    printf("/n/n--- Listagem de alunos ---");
+    fflush(stdin);
+
+    //Alunos Aula
+    printf("\n\n< < <  Listagem de alunos > > >");
     for (i = 0; i < nAlunos; i++){
-    printf ("/n/n%d - %s", alunos[i].nAluno, alunos[i].nome);
+        printf ("\n\n%d - %s", i+1, alunos[i].nome);
     }
     printf("\n\n Insira o Aluno que deseja marcar a aula: ");
-    scanf("%d", &aulas[nAulas].aluno);
+    scanf("%d", &aulas[nAulas].aluno-1);
     fflush(stdin);
-    do{
-        printf("\nPor favor insira um aluno válido:");
-    }while(aulas[nAulas].aluno <= 0 && aulas[nAulas].aluno >= nAlunos + 1);
-    printf("--- Listagem de Instrutores ---");
-    printf("\n\n Insira o Instrutor que deseja marcar a aula: ");
-    scanf("%d", &aulas[nAulas].instrutor);
-    fflush(stdin);
-    do{
-        printf("\nPor favor insira um instrutor válido:");
-    }while(aulas[nAulas].instrutor <= 0 && aulas[nAulas].instrutor >= nInstrutores + 1);
+
     printf ("Pretende confirmar a marrcação da aula?(y/N)/n(NOTA:Depois de confirmada a aula não pode ser desmaracada!!)");
     scanf ("%c", &op);
     nAulas++;
@@ -1203,8 +1362,6 @@ void marcarAula(){
        esperaApaga(msg, 4); 
     }
 }
-
-
 
 //consultarAula
 void consultarAulas(){
@@ -1251,7 +1408,6 @@ void menuAulas(){
         }
     }while(op != 0);
 }
-*/
 
 ////////////////////////////////////////////////////////////////////////////////////
 //Função Main e Menu Principal
@@ -1277,7 +1433,7 @@ void menuPrincipal(){
                 //menuInstrutores();
             break;
             case 3:
-                //menuAulas();
+                menuAulas();
             break;
         }
     }while(op != 0);

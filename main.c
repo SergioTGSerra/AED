@@ -1044,11 +1044,12 @@ void consultarPorIdade(){
         esperaApaga(msg, 4);
     }
 }
-
+/*
 // Listar por nº da aluno
 void listarNAluno () {
-    system("clear||cls");
     int op, i, j, temp, numeroAlunos[30];
+	do{	
+    system("clear||cls");
     //copiar array para outro array para alterar array copiado do array original
     for(i = 0; i < 30; i++){
         numeroAlunos[i] = alunos[i].nAluno;
@@ -1060,7 +1061,7 @@ void listarNAluno () {
     }*/
 
     ////////
-    for(i = 0; i < nAlunos; i++){
+/*    for(i = 0; i < nAlunos; i++){
         for(j = i + 1; j < nAlunos; j++){
             if(numeroAlunos[i] > numeroAlunos[j]){
                 temp = numeroAlunos[i];
@@ -1076,6 +1077,7 @@ void listarNAluno () {
     }*/
 
     ////////
+ /*   printf ("\n\n< < < Listagem de alunos pelo número > > >");
     for(i = 0; i < nAlunos; i++){
         //printf("\n i = %d", i);
         for(j = 0; j < nAlunos; j++){
@@ -1085,7 +1087,9 @@ void listarNAluno () {
             }
         }
     }
-    scanf("%d", op);
+    printf ("Prima 0 para voltar:");
+    scanf("%d", &op);
+    }while(op != 0);
 }
 
 // Listar por nome
@@ -1116,22 +1120,36 @@ void listarNome(){
 // Listar por localidade
 void listarLocalidade() {
     int i, op, j;
-    char temp[25];
+    char temp[50], localidadeAlunos[50][30];
     do{
     system("clear||cls");
-      for(i=0;i<nAlunos;i++)
+    for(i = 0; i < 30; i++){
+        strcpy(localidadeAlunos[i],alunos[i].morada.localidade);
+    }
+	for(i = 0; i < nAlunos; i++){
+        printf("\n %s", localidadeAlunos[i]);
+    }
+      for(i=0;i<nAlunos;i++){
       for(j=i+1;j<nAlunos;j++){
-         if(strcmp(alunos[i].morada.localidade,alunos[j].morada.localidade)>0){
-            strcpy(temp,alunos[i].morada.localidade);
-            strcpy(alunos[i].morada.localidade,alunos[j].morada.localidade);
-            strcpy(alunos[j].morada.localidade,temp);
-            
-
+         if(strcmp(localidadeAlunos[i],localidadeAlunos[j])>0){
+            strcpy(temp,localidadeAlunos[i]);
+            strcpy(localidadeAlunos[i],localidadeAlunos[j]);
+            strcpy(localidadeAlunos[j],temp);
          }
       }
+    }
+    for(i = 0; i < nAlunos; i++){
+        printf("\n %s", localidadeAlunos[i]);
+    }
     printf ("\n\n< < < Listagem de alunos pela localidade > > >");
     for(i = 0; i<nAlunos; i++){
-        printf("\n\n\t %d - %s - %s", i +1, alunos[i].nome, alunos[i].morada.localidade);
+    	printf("\n i = %d", i);
+        for(j=0;j<nAlunos;j++){
+        	printf("\n j = %d e localidadeAlunos = %s e alunos[j].morada.localidade = %s", j, localidadeAlunos[i], alunos[j].morada.localidade);
+			if (strcmp(alunos[j].morada.localidade,localidadeAlunos[i])==0){
+            	printf("\n\n\t %s - %s", localidadeAlunos[i], alunos[j].nome);
+    		}
+    	}
     }
     printf ("\n\nPrima 0 para voltar:");
     scanf ("%d", &op);
@@ -1142,21 +1160,28 @@ void listarLocalidade() {
 // Listar por código postal
 void listarCpostal() {
     int i, op, j;
-    char temp[25];
+    char temp[25], cpostalAlunos[50][30];
     do{
     system("clear||cls");
+    	for(i = 0; i < 30; i++){
+        strcpy(cpostalAlunos[i],alunos[i].morada.cpostal);
+    }	
       for(i=0;i<nAlunos;i++)
       for(j=i+1;j<nAlunos;j++){
-         if(strcmp(alunos[i].morada.cpostal,alunos[j].morada.cpostal)>0){
-            strcpy(temp,alunos[i].morada.cpostal);
-            strcpy(alunos[i].morada.cpostal,alunos[j].morada.cpostal);
-            strcpy(alunos[j].morada.cpostal,temp);
+         if(strcmp(cpostalAlunos[i],cpostalAlunos[j])>0){
+            strcpy(temp,cpostalAlunos[i]);
+            strcpy(cpostalAlunos[i],cpostalAlunos[j]);
+            strcpy(cpostalAlunos[j],temp);
             
          }
       }
     printf ("\n\n< < < Listagem de alunos pelo código postal > > >");
     for(i = 0; i<nAlunos; i++){
-        printf("\n\n\t %d - %s - %s", i+1, alunos[i].nome, alunos[i].morada.cpostal);
+        for(j=0;j<nAlunos;j++){
+			if (strcmp(alunos[j].morada.cpostal,cpostalAlunos[i])==0){
+            	printf("\n\n\t %s - %s", cpostalAlunos[i], alunos[j].nome);
+    		}
+    	}
     }
     printf ("\n\nPrima 0 para voltar:");
     scanf ("%d", &op);
@@ -1171,25 +1196,34 @@ void listarAlunosConclusaoCarta(){
     do{
     system("clear||cls");
     printf ("\n\n< < < Listagem de alunos que concluiram a carta > > >");
+    
     for(i=0;i<nAlunos;i++){
       for(j=i+1;j<nAlunos;j++){
-         if(strcmp(alunos[i].nome,alunos[j].nome)>0){
+      
+         if(alunos[i].nCarta != 0 &&strcmp(alunos[i].nome,alunos[j].nome)>0){
             strcpy(temp,alunos[i].nome);
             strcpy(alunos[i].nome,alunos[j].nome);
             strcpy(alunos[j].nome,temp);
+           
+        printf("\n %s", alunos[i].nome);
+        }
          }
       }
-    }
+    
+
+    
     for(i=0;i<=nAlunos;i++){
-        if (alunos[i].nCarta != 0){
-            printf("\n\n\t %d - %s", i+1, alunos[i].nome);
+    		
+            printf("\n\n\t %d - %s", i+1, alunos[i-1].nome);
         }
-    }
+        
+    
     printf ("\n\nPrima 0 para voltar:");
     scanf ("%d", &op);
     } while(op != 0);
 }
 
+*/
 
 //menu consultar/alterar
 void menuConsutarAlterarAlunos(){

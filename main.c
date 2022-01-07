@@ -1102,7 +1102,7 @@ void listarNome(){
     scanf ("%d", &op);
     } while(op != 0);
 }
-
+/*
 // Listar por localidade
 void listarLocalidade() {
     int i, op, j;
@@ -1208,7 +1208,7 @@ void listarAlunosConclusaoCarta(){
     scanf ("%d", &op);
     } while(op != 0);*/
 }
-
+*/
 //menu consultar/alterar
 void menuConsutarAlterarAlunos(){
 	int op;
@@ -1321,7 +1321,1004 @@ void menuAlunos(){
         }
     }while (op != 0);
 }
+////////////////////////////////////////////////////////////////////////////////////
+//Instrutores
+////////////////////////////////////////////////////////////////////////////////////
 
+//Estrutura de dados definida para os instrutores
+typedef struct {
+    int nInstrutor;
+    char nome[50];
+    char email[50];
+    char cartaoCidadao[50];
+    int nif;
+    int ativo;
+    
+    MORADA morada;
+    DATA dataNascimento;
+} INSTRUTORES;
+
+INSTRUTORES instrutores[30];
+
+int existeNOArray(int dado_i, char dado_s[50], char tipo){
+    int i;
+    for(i = 0; i < nInstrutores; i++){
+        switch (tipo){
+            case 1:
+                if(instrutores[i].nInstrutor == dado_i){
+                    printf ("\n\n\tJá existe um instrutor com esse numero! Por favor insira outro.");
+                    return 1; 
+                }
+            break;
+            case 2:
+                if(strcmp(instrutores[i].email, dado_s) == 0){
+                    printf ("\n\n\tJá existe um instrutor com esse email! Por favor insira outro.");
+                    return 1; 
+                }
+            case 3:
+                if(strcmp(instrutores[i].cartaoCidadao, dado_s) == 0){
+                    printf ("\n\n\tJá existe um instrutor com esse cartão de cidadão! Por favor insira outro.");
+                    return 1; 
+                }
+            break;
+            case 4:
+                if(instrutores[i].nif == dado_i){
+                    printf ("\n\n\tJá existe um instrutor com esse nif! Por favor insira outro.");
+                    return 1; 
+                }
+            break;
+        }
+    }
+    return 0;
+}
+
+//insere um instrutor
+void inserirInstrutor(){
+    int i, j, flag  = 0, concluiCarta = 0;
+    char msg[100];
+    system("clear||cls");
+    printf ("\n\n< < < Inserção de Instrutor > > >");
+
+    if(nInstrutores >= 30){
+        strcpy(msg, "\n\n\tNumero máximo de instrutores (30) excedido! A redirecionar ....");
+        esperaApaga(msg, 3);
+    }else{
+
+        do{
+            printf ("\n\n\tInsira o Nº do instrutor: ");
+            scanf ("%d", &instrutores[nInstrutores].nInstrutor);
+            fflush(stdin);
+            if(instrutores[nInstrutores].nInstrutor <= 0) do{
+                printf ("\n\n\tPor favor insira um nº do instrutor válido: ");
+                scanf ("%d", &instrutores[nInstrutores].nInstrutor);
+                fflush(stdin);
+            }while(instrutores[nInstrutores].nInstrutor <= 0);
+        }while(existeNoArray(instrutores[nInstrutores].nInstrutor, 0, 1) == 1);
+
+        printf ("\n\n\tInsira o nome do instrutor: ");
+        scanf (" %50[^\n]s", &instrutores[nInstrutores].nome);
+
+        printf("\n\n\tInsira a localidade:");
+        scanf (" %50[^\n]s", &instrutores[nInstrutores].morada.localidade);
+
+        printf("\n\n\tInsira a rua:");
+        scanf (" %50[^\n]s", &instrutores[nInstrutores].morada.rua);
+
+        printf("\n\n\tInsira a porta:");
+        scanf ("%d", &instrutores[nInstrutores].morada.porta);
+        fflush(stdin);
+
+        printf("\n\n\tInsira o código de postal:");
+        scanf (" %50[^\n]s", &instrutores[nInstrutores].morada.cpostal);
+
+        do{
+            printf ("\n\n\tInsira o email do instrutor: ");
+            scanf (" %50[^\n]s", &instrutores[nInstrutores].email);
+        }while(existeNoArray(0, instrutores[nInstrutores].email, 2) == 1);
+        
+        printf ("\n\n\tInsira a data de nascimento (dia/mês/ano): ");
+        scanf ("%d/%d/%d", &instrutores[nInstrutores].dataNascimento.dia, &instrutores[nInstrutores].dataNascimento.mes, &instrutores[nInstrutores].dataNascimento.ano);
+        fflush(stdin);
+        if(dataValida(instrutores[nInstrutores].dataNascimento.dia, instrutores[nInstrutores].dataNascimento.mes, instrutores[nInstrutores].dataNascimento.ano) != 1) do{
+            printf ("\n\n\tPor favor insira a data de nascimento válida (dia/mÃªs/ano): ");
+            scanf ("%d/%d/%d", &instrutores[nInstrutores].dataNascimento.dia, &instrutores[nInstrutores].dataNascimento.mes, &instrutores[nInstrutores].dataNascimento.ano);
+            fflush(stdin);
+        }while(dataValida(instrutores[nInstrutores].dataNascimento.dia, instrutores[nInstrutores].dataNascimento.mes, instrutores[nInstrutores].dataNascimento.ano) != 1);
+
+        do{
+            printf ("\n\n\tInsira o cartão de cidadão: ");
+            scanf (" %50[^\n]s", &instrutores[nInstrutores].cartaoCidadao);
+        }while(existeNoArray(0, instrutores[nInstrutores].cartaoCidadao, 3) == 1);
+
+        do{
+            printf ("\n\n\tInsira o NIF: ");
+            scanf ("%d", &instrutores[nInstrutores].nif);
+            fflush(stdin);
+            if(instrutores[nInstrutores].nif <= 0) do{
+                printf ("\n\n\tPor favor insira um nif válido: ");
+                scanf ("%d", &instrutores[nInstrutores].nif);
+                fflush(stdin);
+            }while(instrutores[nInstrutores].nif <= 0);
+        }while(existeNoArray(instrutores[nInstrutores].nif, 0, 4) == 1);
+
+        printf ("\n\n\tInsira a situação do instrutor (1 - ATIVO / 0 - NÃO ATIVO): ");
+        scanf ("%d", &instrutores[nInstrutores].ativo);
+        fflush(stdin);
+        if(instrutores[nInstrutores].ativo != 0 && instrutores[nInstrutores].ativo != 1) do{
+            printf ("\n\n\tPor favor insira uma situação válida: ");
+            scanf ("%d", &instrutores[nInstrutores].ativo);
+            fflush(stdin);
+        }while(instrutores[nInstrutores].ativo != 0 && instrutores[nInstrutores].ativo != 1);
+
+        nInstrutores++;
+        strcpy(msg, "\n\n\tInstrutor inserido com sucesso! A redirecionar ....");
+        esperaApaga(msg, 3);
+    }
+}
+
+//consultar dados de um instrutor
+int dadosInstrutor(int instrutor){
+    if (instrutores[instrutor].nInstrutor == 0) return 0;
+    system("clear||cls");
+    printf ("\n\n< < < Dados do instrutor %s > > >", instrutores[instrutor].nome);
+    printf ("\n\n\tNumero: %d", instrutores[instrutor].nInstrutor);
+    printf ("\n\n\tNome: %s", instrutores[instrutor].nome);
+    printf ("\n\n\tLocalidae: %s", instrutores[instrutor].morada.localidade);
+    printf ("\n\n\tRua: %s", instrutores[instrutor].morada.rua);
+    printf ("\n\n\tPorta: %d", instrutores[instrutor].morada.porta);
+    printf ("\n\n\tCódigo-postal: %s", instrutores[instrutor].morada.cpostal);
+    printf ("\n\n\tEmail: %s", instrutores[instrutor].email);
+    printf ("\n\n\tData de nascimento: %d/%d/%d", instrutores[instrutor].dataNascimento.dia, instrutores[instrutor].dataNascimento.mes, instrutores[instrutor].dataNascimento.ano);
+    printf ("\n\n\tCartão de cidadão: %s", instrutores[instrutor].cartaoCidadao);
+    printf ("\n\n\tNIF: %d", instrutores[instrutor].nif);
+    printf ("\n\n\tSituação: %d", instrutores[instrutor].ativo);
+}
+
+//FuncÃ§Ã£o para alterar dados de um instrutor
+int alteraInstrutor(int instrutor){
+    if (instrutores[instrutor].nInstrutor == 0) return 0;
+    /* temp_d -> dado temporario inteiro
+       temp_s -> dado temporario string
+       Nota: Estes dados temporarios estÃ£o aqui presentes para que os dados apenas fiquem
+             guardados em um variavel local da funcao para que ao procurar no array (funÃ§Ã£o existeNoArray)
+             nÃ£o encontre os dados que estamos a alterar.
+    */
+    int op, temp_d;
+    char temp_s[30];
+    char msg[100];
+    do{
+        system("clear||cls");
+        printf ("\n\n< < < Alterar dados do instrutor %s > > >", instrutores[instrutor].nome);
+        printf ("\n\n\t1 - Número: %d", instrutores[instrutor].nInstrutor);
+        printf ("\n\n\t2 - Nome: %s", instrutores[instrutor].nome);
+        printf ("\n\n\t3 - Localidade: %s", instrutores[instrutor].morada.localidade);
+        printf ("\n\n\t4 - Rua: %s", instrutores[instrutor].morada.rua);
+        printf ("\n\n\t5 - Porta: %d", instrutores[instrutor].morada.porta);
+        printf ("\n\n\t6 - Código-postal: %s", instrutores[instrutor].morada.cpostal);
+        printf ("\n\n\t7 - Email: %s", instrutores[instrutor].email);
+        printf ("\n\n\t8 - Data de nascimento: %d/%d/%d", instrutores[instrutor].dataNascimento.dia, instrutores[instrutor].dataNascimento.mes, instrutores[instrutor].dataNascimento.ano);
+        printf ("\n\n\t9 - Cartão de cidadão: %s", instrutores[instrutor].cartaoCidadao);
+        printf ("\n\n\t10 - NIF: %d", instrutores[instrutor].nif);
+        printf ("\n\n\t11 - Situação: %d", instrutores[instrutor].ativo);
+        printf ("\n\n\t0 - Voltar");
+
+        printf("\n\nInsira a opção que deseja alterar: ");
+        scanf("%d", &op);
+        fflush(stdin);
+        system("clear||cls");
+        printf ("\n\n< < < Alterar dados do instrutor %s > > >", instrutores[instrutor].nome);
+
+        switch(op){
+            case 1:
+                strcpy(msg, "\n\n\tNão é possivel alerar o número do instrutor! A redirecionar ....");
+            break;
+            case 2:
+                printf ("\n\n\tAltere o nome do instrutor: ");
+                scanf (" %50[^\n]s", &instrutores[instrutor].nome);
+                strcpy(msg, "\n\n\tNome alterado com sucesso! A redirecionar ....");
+            break;
+            case 3:
+                printf ("\n\n\tAltere a localidade do instrutor: ");
+                scanf (" %50[^\n]s", &instrutores[instrutor].morada.localidade);
+                strcpy(msg, "\n\n\tLocalidade alterada com sucesso! A redirecionar ....");
+            break;
+            case 4:
+                printf ("\n\n\tAltere a rua do instrutor: ");
+                scanf (" %50[^\n]s", &instrutores[instrutor].morada.rua);
+                strcpy(msg, "\n\n\tRua alterado com sucesso! A redirecionar ....");
+            break;
+            case 5:
+                printf ("\n\n\tAltere a porta do instrutor: ");
+                scanf ("%d", &instrutores[instrutor].morada.porta);
+                fflush(stdin);
+                strcpy(msg, "\n\n\tPorta alterada com sucesso! A redirecionar ....");
+            break;
+            case 6:
+                printf ("\n\n\tAltere o código de postal do instrutor: ");
+                scanf (" %50[^\n]s", &instrutores[instrutor].morada.cpostal);
+                strcpy(msg, "\n\n\tCódigo de postal alterado com sucesso! A redirecionar ....");
+            break;
+            case 7:
+                do{
+                    //limpa string do array
+                    memset(instrutores[instrutor].email, 0, 30);
+                    printf ("\n\n\tAltere o email do instrutor: ");
+                    scanf (" %30[^\n]s", &temp_s);
+                }while(existeNoArray(0, temp_s, 2) == 1);
+                strcpy(instrutores[instrutor].email, temp_s);
+                strcpy(msg, "\n\n\tE-mail alterado com sucesso! A redirecionar ....");
+            break;
+            case 8:
+                printf ("\n\n\tAltere a data de nascimento (dia/mês/ano): ");
+                scanf ("%d/%d/%d", &instrutores[instrutor].dataNascimento.dia, &instrutores[instrutor].dataNascimento.mes, &instrutores[instrutor].dataNascimento.ano);
+                fflush(stdin);
+                if(dataValida(instrutores[instrutor].dataNascimento.dia, instrutores[instrutor].dataNascimento.mes, instrutores[instrutor].dataNascimento.ano) != 1) do{
+                    printf ("\n\n\tPor favor insira a data de nascimento válida (dia/mÃªs/ano): ");
+                    scanf ("%d/%d/%d", &instrutores[instrutor].dataNascimento.dia, &instrutores[instrutor].dataNascimento.mes, &instrutores[instrutor].dataNascimento.ano);
+                    fflush(stdin);
+                }while(dataValida(instrutores[instrutor].dataNascimento.dia, instrutores[instrutor].dataNascimento.mes, instrutores[instrutor].dataNascimento.ano) != 1);
+                strcpy(msg, "\n\n\tData de nascimento alterada com sucesso! A redirecionar ....");
+            break;
+            case 9:
+                do{
+                    //limpa string do array
+                    memset(instrutores[instrutor].cartaoCidadao, 0, 30);
+                    printf ("\n\n\tAltere o cartão de cidadão do instrutor: ");
+                    scanf (" %30[^\n]s", &temp_s);
+                }while(existeNoArray(0, temp_s, 3) == 1);
+                strcpy(instrutores[instrutor].cartaoCidadao, temp_s);
+                strcpy(msg, "\n\n\tCartão de cidadão alterado com sucesso! A redirecionar ....");
+            break;
+            case 10:
+                do{
+                    //"limpa" inteiro do array 
+                    instrutores[instrutor].nif = -1;
+                    printf ("\n\n\tAltere o NIF do instrutor: ");
+                    scanf ("%d", &temp_d);
+                    fflush(stdin);
+                    if(temp_d <= 0) do{
+                        printf ("\n\n\tPor favor insira um nif válido: ");
+                        scanf ("%d", &temp_d);
+                        fflush(stdin);
+                    }while(temp_d <= 0);
+                }while(existeNoArray(temp_d, 0, 4) == 1);
+                instrutores[instrutor].nif = temp_d;
+                strcpy(msg, "\n\n\tNIF alterado com sucesso! A redirecionar ....");
+            break;
+            case 11:
+                printf ("\n\n\tAltere a situaçãoo do instrutor (1 - ATIVO / 0 - NÃƒO ATIVO): ");
+                scanf ("%d", &instrutores[instrutor].ativo);
+                fflush(stdin);
+                if(instrutores[instrutor].ativo != 0 && instrutores[instrutor].ativo != 1) do{
+                    printf ("\n\n\tPor favor insira uma situação válida: ");
+                    scanf ("%d", &instrutores[instrutor].ativo);
+                    fflush(stdin);
+                }while(instrutores[instrutor].ativo != 0 && instrutores[instrutor].ativo != 1);
+                strcpy(msg, "\n\n\tSituação alterado com sucesso! A redirecionar ....");
+            break;
+        }
+        if(op != 0) esperaApaga(msg, 3);
+    }while(op != 0);
+}
+
+//consultar para consultar/alterar todos os instrutores
+void consultarTodosIns(){
+    int op, i;
+    char op2;
+    system("clear||cls");
+    printf ("\n\n< < < Listagem de instrutores > > >");
+    for(i = 0; i<nInstrutores; i++){
+        printf("\n\n\t %d - %s", i+1, instrutores[i].nome);
+    }
+    printf("\n\n\t 0 - Voltar");
+    printf("\n\n Insira o numero do instrutor que deseja consultar/alterar: ");
+    scanf("%d", &op);
+    fflush(stdin);
+    if(op != 0 && instrutores[op-1].nInstrutor != 0){
+        op--;
+        dadosInstrutor(op);
+        printf("\n\n Pretende alterar este instrutor? (y/N): ");
+        scanf(" %c", &op2);
+        if(op2 == 'Y' || op2 == 'y'){
+            alteraInstrutor(op);
+        }
+    }
+}
+
+//Procurar instrutor por nome
+void consultarInsPorNome(){
+    int i, op, cont = 1, ids[30], flag = 0;
+    char nome[50], op2, msg[100];
+    system("clear||cls");
+    printf ("\n\n\tInsira o nome do instrutor que pretende consultar: ");
+    scanf (" %50[^\n]s", &nome);
+    if(strlen(nome) < 3) do{
+        printf("\n\n\tPor favor insira pelo menos 3 caracteres para procurar pelo nome: ");
+        scanf (" %50[^\n]s", &nome);
+    }while(strlen(nome) < 3);
+    system("clear||cls");
+    for(i = 0; i < nInstrutores; i++){
+        if (strstr(instrutores[i].nome, nome)){
+            flag = 1;
+            break;
+        }
+    }
+    if(flag == 1){
+        printf ("\n\n< < < Listagem de instrutores que contem '%s' no nome > > >", nome);
+        for(i = 0; i < nInstrutores; i++){
+            if (strstr(instrutores[i].nome, nome)){
+                printf("\n\n\t %d - %s", cont, instrutores[i].nome);
+                //posicao de cada instrutor no array que corresponde a pesquisa
+                ids[cont] = i; 
+                cont++;
+            }
+        }
+        printf("\n\n\t 0 - Voltar");
+        printf("\n\n Insira o numero do instrutor que deseja consultar/alterar: ");
+        scanf("%d", &op);
+        fflush(stdin);
+        if(op != 0 && instrutores[op-1].nInstrutor != 0){
+            dadosInstrutor(ids[op]); //posição do instrutor no array
+            printf("\n\n Pretende alterar este instrutor? (y/N): ");
+            scanf(" %c", &op2);
+            if(op2 == 'Y' || op2 == 'y'){
+                alteraInstrutor(ids[op]);
+            }
+        }
+    }else{
+        strcpy(msg, "\n\n\tNenhum instrutor com esse numero encontrado! A redirecionar ....");
+        esperaApaga(msg, 4);
+    }
+}
+
+//Procurar instrutor por numero
+void consultarInsPorNumero(){
+    int i, numero, op, flag = 0;
+    char op2, msg[100];
+    system("clear||cls");
+    printf ("\n\n\tInsira o numero do instrutor que pretende consultar: ");
+    scanf ("%d", &numero);
+    system("clear||cls");
+    for(i = 0; i < nInstrutores; i++){
+        if (instrutores[i].nInstrutor == numero){
+            flag = 1;
+            dadosInstrutor(i);
+            printf("\n\n Pretende alterar este instrutor? (y/N): ");
+            scanf(" %c", &op2);
+            if(op2 == 'Y' || op2 == 'y'){
+                alteraInstrutor(i);
+            }
+        }
+    }
+    if(flag == 0){
+        strcpy(msg, "\n\n\tNenhum instrutor com esse numero encontrado! A redirecionar ....");
+        esperaApaga(msg, 4);
+    }
+}
+
+//Procurar instrutor por E-mail
+void consultarInsPorEmail(){
+    int i, op, cont = 1, ids[30], flag = 0;
+    char email[50], op2, msg[100];
+    system("clear||cls");
+    printf ("\n\n\tInsira o email do instrutor que pretende consultar: ");
+    scanf (" %50[^\n]s", &email);
+    if(strlen(email) < 3) do{
+        printf("\n\n\tPor favor insira pelo menos 3 caracteres para procurar pelo email: ");
+        scanf (" %50[^\n]s", &email);
+    }while(strlen(email) < 3);
+    system("clear||cls");
+    for(i = 0; i < nInstrutores; i++){
+        if (strstr(instrutores[i].email, email)){
+            flag = 1;
+            break;
+        }
+    }
+    if(flag == 1){
+        printf ("\n\n< < < Listagem de instrutores que contem '%s' no email > > >", email);
+        for(i = 0; i < nInstrutores; i++){
+            if (strstr(instrutores[i].email, email)){
+                printf("\n\n\t %d - %s - %s", cont, instrutores[i].email, instrutores[i].nome);
+                //posicao de cada instrutor no array que corresponde a pesquisa
+                ids[cont] = i;
+                cont++;
+            }
+        }
+        printf("\n\n\t 0 - Voltar");
+        printf("\n\n Insira o numero do instrutor que deseja consultar/alterar: ");
+        scanf("%d", &op);
+        fflush(stdin);
+        if(op != 0 && instrutores[op-1].nInstrutor != 0){
+            dadosInstrutor(ids[op]); //posição do instrutor no array
+            printf("\n\n Pretende alterar este instrutor? (y/N): ");
+            scanf(" %c", &op2);
+            if(op2 == 'Y' || op2 == 'y'){
+                alteraInstrutor(ids[op]);
+            }
+        }
+    }else{
+        strcpy(msg, "\n\n\tNenhum instrutor com esse email encontrado! A redirecionar ....");
+        esperaApaga(msg, 4);
+    }
+}
+
+//Procurar instrutor por Cartão de Cidadão
+void consultarInsPorCc(){
+    int i, op, cont = 1, ids[30], flag = 0;
+    char cc[50], op2, msg[100];
+    system("clear||cls");
+    printf ("\n\n\tInsira o Cartão de Cidadão do instrutor que pretende consultar: ");
+    scanf (" %50[^\n]s", &cc);
+    if(strlen(cc) < 3) do{
+        printf("\n\n\tPor favor insira pelo menos 3 caracteres para procurar pelo Cartão de Cidadão: ");
+        scanf (" %50[^\n]s", &cc);
+    }while(strlen(cc) < 3);
+    system("clear||cls");
+    for(i = 0; i < nInstrutores; i++){
+        if (strstr(instrutores[i].cartaoCidadao, cc)){
+            flag = 1;
+            break;
+        }
+    }
+    if(flag == 1){
+        printf ("\n\n< < < Listagem de instrutores que contem '%s' no Cartão de Cidadão > > >", cc);
+        for(i = 0; i < nInstrutores; i++){
+            if (strstr(instrutores[i].cartaoCidadao, cc)){
+                printf("\n\n\t %d - %s - %s", cont, instrutores[i].cartaoCidadao, instrutores[i].nome);
+                //posicao de cada instrutor no array que corresponde a pesquisa
+                ids[cont] = i;
+                cont++;
+            }
+        }
+        printf("\n\n\t 0 - Voltar");
+        printf("\n\n Insira o numero do instrutor que deseja consultar/alterar: ");
+        scanf("%d", &op);
+        fflush(stdin);
+        if(op != 0 && instrutores[op-1].nInstrutor != 0){
+            dadosInstrutor(ids[op]); //posição do instrutor no array
+            printf("\n\n Pretende alterar este instrutor? (y/N): ");
+            scanf(" %c", &op2);
+            if(op2 == 'Y' || op2 == 'y'){
+                alteraInstrutor(ids[op]);
+            }
+        }
+    }else{
+        strcpy(msg, "\n\n\tNenhum instrutor com esse Cartão de Cidadão encontrado! A redirecionar ....");
+        esperaApaga(msg, 4);
+    }
+}
+
+//Procurar instrutor por NIF
+void consultarInsPorNif(){
+    int i, op, cont = 1, ids[30], flag = 0;
+    //str vai converter o inteiro para caracter para procurar uma parte do nif
+    char nif[50], op2, msg[100], str[30];
+    system("clear||cls");
+    printf ("\n\n\tInsira o NIF do instrutor que pretende consultar: ");
+    scanf (" %50[^\n]s", &nif);
+    if(strlen(nif) < 3) do{
+        printf("\n\n\tPor favor insira pelo menos 3 caracteres para procurar pelo NIF: ");
+        scanf (" %50[^\n]s", &nif);
+    }while(strlen(nif) < 3);
+    system("clear||cls");
+    //verifica se existe no array
+    for(i = 0; i < nInstrutores; i++){
+        //str vai converter o inteiro para caracter para procurar uma parte do nif
+        sprintf(str, "%d", instrutores[i].nif);
+        if (strstr(str, nif)){
+            flag = 1;
+            break;
+        }
+    }
+    if(flag == 1){
+        printf ("\n\n< < < Listagem de instrutores que contem '%s' no NIF > > >", nif);
+        for(i = 0; i < nInstrutores; i++){
+            //str vai converter o inteiro para caracter para procurar uma parte do nif
+            sprintf(str, "%d", instrutores[i].nif);
+            if (strstr(str, nif)){
+                printf("\n\n\t %d - %d - %s", cont, instrutores[i].nif, instrutores[i].nome);
+                //posicao de cada instrutor no array que corresponde a pesquisa
+                ids[cont] = i;
+                cont++;
+            }
+        }
+        printf("\n\n\t 0 - Voltar");
+        printf("\n\n Insira o numero do instrutor que deseja consultar/alterar: ");
+        scanf("%d", &op);
+        fflush(stdin);
+        if(op != 0 && instrutores[op-1].nInstrutor != 0){
+            dadosInstrutor(ids[op]); //posição do instrutor no array
+            printf("\n\n Pretende alterar este instrutor? (y/N): ");
+            scanf(" %c", &op2);
+            if(op2 == 'Y' || op2 == 'y'){
+                alteraInstrutor(ids[op]);
+            }
+        }
+    }else{
+        strcpy(msg, "\n\n\tNenhum instrutor com esse NIF encontrado! A redirecionar ....");
+        esperaApaga(msg, 4);
+    }
+}
+
+//Procurar instrutor por situação
+void consultarInsPorSituacao(){
+    int i, situacao, op, cont = 1, flag = 0;
+    char msg[100], ids[30], op2;
+    system("clear||cls");
+    printf ("\n\n\tInsira a SituaÃ§Ã£o que pretende consultar (1 - Ativo / 0 - Inativo): ");
+    scanf("%d", &situacao);
+    fflush(stdin);
+    system("clear||cls");
+    for(i = 0; i < nInstrutores; i++){
+        if(instrutores[i].ativo == situacao){
+            flag = 1;
+            break;
+        }
+    }
+    if((situacao == 1 || situacao == 0) && (flag = 1)){
+        if(situacao == 1) printf ("\n\n< < < Listagem de instrutores Ativos > > >");
+        if(situacao == 0) printf ("\n\n< < < Listagem de instrutores Inativos > > >");
+        for(i = 0; i < nInstrutores; i++){
+            if(instrutores[i].ativo == situacao){
+               printf("\n\n\t %d - %s", cont, instrutores[i].nome);
+                //posicao de cada instrutor no array que corresponde a pesquisa
+                ids[cont] = i;
+                cont++;                 
+            }
+        }
+        printf("\n\n\t 0 - Voltar");
+        printf("\n\n Insira o numero do instrutor que deseja consultar/alterar: ");
+        scanf("%d", &op);
+        fflush(stdin);
+        if(op != 0 && instrutores[op-1].nInstrutor != 0){
+            dadosInstrutor(ids[op]); //posição do instrutor no array
+            printf("\n\n Pretende alterar este instrutor? (y/N): ");
+            scanf(" %c", &op2);
+            if(op2 == 'Y' || op2 == 'y'){
+                alteraInstrutor(ids[op]);
+            }
+        }
+    }else{
+        strcpy(msg, "\n\n\tNenhum instrutor com essa Situação foi encontrado! A redirecionar ....");
+        esperaApaga(msg, 4);
+    }
+}
+
+//Procurar instrutor por cpostal
+void consultarInsPorCpostal(){
+    int i, op, cont = 1, ids[30], flag = 0;
+    char cpostal[50], op2, msg[100];
+    system("clear||cls");
+    printf ("\n\n\tInsira o Código de Postal do instrutor que pretende consultar: ");
+    scanf (" %50[^\n]s", &cpostal);
+    if(strlen(cpostal) < 3) do{
+        printf("\n\n\tPor favor insira pelo menos 3 caracteres para procurar pelo Código de Postal: ");
+        scanf (" %50[^\n]s", &cpostal);
+    }while(strlen(cpostal) < 3);
+    system("clear||cls");
+    for(i = 0; i < nInstrutores; i++){
+        if (strstr(instrutores[i].morada.cpostal, cpostal)){
+            flag = 1;
+            break;
+        }
+    }
+    if(flag == 1){
+        printf ("\n\n< < < Listagem de instrutores que contem '%s' no Código de Postal > > >", cpostal);
+        for(i = 0; i < nInstrutores; i++){
+            if (strstr(instrutores[i].morada.cpostal, cpostal)){
+                printf("\n\n\t %d - %s - %s", cont, instrutores[i].morada.cpostal, instrutores[i].nome);
+                //posicao de cada instrutor no array que corresponde a pesquisa
+                ids[cont] = i;
+                cont++;
+            }
+        }
+        printf("\n\n\t 0 - Voltar");
+        printf("\n\n Insira o numero do instrutor que deseja consultar/alterar: ");
+        scanf("%d", &op);
+        fflush(stdin);
+        if(op != 0 && instrutores[op-1].nInstrutor != 0){
+            dadosInstrutor(ids[op]); //posição do instrutor no array
+            printf("\n\n Pretende alterar este instrutor? (y/N): ");
+            scanf(" %c", &op2);
+            if(op2 == 'Y' || op2 == 'y'){
+                alteraInstrutor(ids[op]);
+            }
+        }
+    }else{
+        strcpy(msg, "\n\n\tNenhum instrutor com esse Código postal encontrado! A redirecionar ....");
+        esperaApaga(msg, 4);
+    }
+}
+
+//Procurar instrutor por Localidade
+void consultarInsPorLocalidade(){
+    int i, op, cont = 1, ids[30], flag = 0;
+    char localidade[50], op2, msg[100];
+    system("clear||cls");
+    printf ("\n\n\tInsira a localidade do instrutor que pretende consultar: ");
+    scanf (" %50[^\n]s", &localidade);
+    if(strlen(localidade) < 3) do{
+        printf("\n\n\tPor favor insira pelo menos 3 caracteres para procurar pela localidade: ");
+        scanf (" %50[^\n]s", &localidade);
+    }while(strlen(localidade) < 3);
+    system("clear||cls");
+    for(i = 0; i < nInstrutores; i++){
+        if (strstr(instrutores[i].morada.localidade, localidade)){
+            flag = 1;
+            break;
+        }
+    }
+    if(flag == 1){
+        printf ("\n\n< < < Listagem de instrutores que contem '%s' na localidade > > >", localidade);
+        for(i = 0; i < nInstrutores; i++){
+            if (strstr(instrutores[i].morada.localidade, localidade)){
+                printf("\n\n\t %d - %s - %s", cont, instrutores[i].morada.localidade, instrutores[i].nome);
+                //posicao de cada instrutor no array que corresponde a pesquisa
+                ids[cont] = i;
+                cont++;
+            }
+        }
+        printf("\n\n\t 0 - Voltar");
+        printf("\n\n Insira o numero do instrutor que deseja consultar/alterar: ");
+        scanf("%d", &op);
+        fflush(stdin);
+        if(op != 0 && instrutores[op-1].nInstrutor != 0){
+            dadosInstrutor(ids[op]); //posição do instrutor no array
+            printf("\n\n Pretende alterar este instrutor? (y/N): ");
+            scanf(" %c", &op2);
+            if(op2 == 'Y' || op2 == 'y'){
+                alteraInstrutor(ids[op]);
+            }
+        }
+    }else{
+        strcpy(msg, "\n\n\tNenhum instrutor com essa localidade encontrado! A redirecionar ....");
+        esperaApaga(msg, 4);
+    }
+}
+
+//Procurar por data de nascimento
+void ConsultarInsPorDNascimento(){
+    int i, op, cont = 1, ids[30], flag = 0, dia, mes, ano;
+    char op2, msg[100];
+    system("clear||cls");
+    
+    printf ("\n\n\tInsira a data de nascimento do instrutor que pretende consultar (dia/mÃªs/ano): ");
+    scanf ("%d/%d/%d", &dia, &mes, &ano);
+    if(dataValida(dia, mes, ano) != 1)do{
+        printf ("\n\n\tPor favor insira a data de nascimento válida (dia/mÃªs/ano): ");
+        scanf ("%d/%d/%d", &dia, &mes, &ano);
+        fflush(stdin);
+    }while(dataValida(dia, mes, ano) != 1);
+    
+    system("clear||cls");
+    for(i = 0; i < nInstrutores; i++){
+        if (instrutores[i].dataNascimento.dia == dia && instrutores[i].dataNascimento.mes == mes && instrutores[i].dataNascimento.ano == ano){
+            flag = 1;
+            break;
+        }
+    }
+    if(flag == 1){
+        printf ("\n\n< < < Listagem de instrutores que nasceram em %d/%d/%d ! > > >", dia, mes, ano);
+        for(i = 0; i < nInstrutores; i++){
+            if (instrutores[i].dataNascimento.dia == dia && instrutores[i].dataNascimento.mes == mes && instrutores[i].dataNascimento.ano == ano){
+                printf("\n\n\t %d - %d/%d/%d - %s", cont, dia, mes, ano, instrutores[i].nome);
+                //posicao de cada instrutor no array que corresponde a pesquisa
+                ids[cont] = i;
+                cont++;
+            }
+        }
+        printf("\n\n\t 0 - Voltar");
+        printf("\n\n Insira o numero do instrutor que deseja consultar/alterar: ");
+        scanf("%d", &op);
+        fflush(stdin);
+        if(op != 0 && instrutores[op-1].nInstrutor != 0){
+            dadosInstrutor(ids[op]); //posição do instrutor no array
+            printf("\n\n Pretende alterar este instrutor? (y/N): ");
+            scanf(" %c", &op2);
+            if(op2 == 'Y' || op2 == 'y'){
+                alteraInstrutor(ids[op]);
+            }
+        }
+    }else{
+        strcpy(msg, "\n\n\tNenhum instrutor com essa data de nascimento encontrado! A redirecionar ....");
+        esperaApaga(msg, 4);
+    }
+}
+
+//Procurar Instrutor Por Idades
+void consultaInsrPorIdade(){
+    int i, op, cont = 1, ids[30], flag = 0, idade, mensagemAtiva1 = 0, mensagemAtiva2 = 0, idadeCalculada;
+    char op2, msg[100];
+    system("clear||cls");
+    
+    printf ("\n\n\tInsira a idade que pretende consultar : ");
+    scanf ("%d", &idade);
+    fflush(stdin);
+    
+    if(idade < 1 || idade > 150)do{
+        printf ("\n\n\tPor favor insira uma idade válida : ");
+        scanf ("%d", &idade);
+        fflush(stdin);
+    }while(idade < 1 || idade > 150);
+    
+    system("clear||cls");
+
+    for(i = 0; i < nInstrutores; i++){
+        idadeCalculada = calculaIdade(instrutores[i].dataNascimento.dia, instrutores[i].dataNascimento.mes, instrutores[i].dataNascimento.ano);
+        if(idadeCalculada > idade){
+            flag = 1;
+            break;
+        }else{
+            flag = 1;
+            break;
+        }
+    }
+
+    if(flag == 1){
+        
+        for(i = 0; i < nInstrutores; i++){
+            idadeCalculada = calculaIdade(instrutores[i].dataNascimento.dia, instrutores[i].dataNascimento.mes, instrutores[i].dataNascimento.ano);
+            if(idadeCalculada > idade){
+                if(mensagemAtiva1 == 0) printf ("\n\n< < < Listagem de instrutores com idade igual ou superior a %d ! > > >", idade);
+                mensagemAtiva1 = 1;
+                printf("\n\n\t %d - %d - %s", cont, idadeCalculada, instrutores[i].nome);
+                ids[cont] = i;
+                cont++;
+            }else{
+                if(mensagemAtiva2 == 0) printf ("\n\n< < < Listagem de instrutores com inferior a %d ! > > >", idade);
+                mensagemAtiva2 = 1;
+                printf("\n\n\t %d - %d - %s", cont, idadeCalculada, instrutores[i].nome);
+                ids[cont] = i;
+                cont++;
+            }
+        }
+
+        printf("\n\n\t 0 - Voltar");
+        printf("\n\n Insira o instrutor que deseja consultar/alterar: ");
+        scanf("%d", &op);
+        fflush(stdin);
+        if(op != 0 && instrutores[op-1].nInstrutor != 0){
+            dadosInstrutor(ids[op]); //posição do instrutor no array
+            printf("\n\n Pretende alterar este instrutor? (y/N): ");
+            scanf(" %c", &op2);
+            if(op2 == 'Y' || op2 == 'y'){
+                alteraInstrutor(ids[op]);
+            }
+        }
+    }else{
+        strcpy(msg, "\n\n\tNenhum instrutor encontrado! A redirecionar ....");
+        esperaApaga(msg, 4);
+    }
+}
+
+// Listar por nº da instrutor
+void listarNInstrutor () {
+    int op, i, j, temp, numeroInstrutores[30];
+	do{	
+    system("clear||cls");
+    //copiar array para outro array para alterar array copiado do array original
+    for(i = 0; i < 30; i++){
+        numeroInstrutores[i] = instrutores[i].nInstrutor;
+    }
+    for(i = 0; i < nInstrutores; i++){
+        for(j = i + 1; j < nInstrutores; j++){
+            if(numeroInstrutores[i] > numeroInstrutores[j]){
+                temp = numeroInstrutores[i];
+                numeroInstrutores[i] = numeroInstrutores[j];
+                numeroInstrutores[j] = temp;
+            }
+        }
+    }
+    printf ("\n\n< < < Listagem de instrutores pelo número > > >");
+    for(i = 0; i < nInstrutores; i++){
+        //printf("\n i = %d", i);
+        for(j = 0; j < nInstrutores; j++){
+            //printf("\n j = %d e numeroInstrutores = %d e instrutores[j].nInstrutor = %d", j, numeroInstrutores[i], instrutores[j].nInstrutor);
+            if(numeroInstrutores[i] == instrutores[j].nInstrutor){
+                printf("\n %d - %s", numeroInstrutores[i], instrutores[j].nome);
+            }
+        }
+    }
+    printf ("Prima 0 para voltar:");
+    scanf("%d", &op);
+    }while(op != 0);
+}
+
+// Listar por nome
+void listarPorNome(){
+    int i, op, j;
+    char temp[50];
+    do{
+    system("clear||cls");
+    for(i=0;i<nInstrutores;i++){
+      for(j=i+1;j<nInstrutores;j++){
+         if(strcmp(instrutores[i].nome,instrutores[j].nome)>0){
+            strcpy(temp,instrutores[i].nome);
+            strcpy(instrutores[i].nome,instrutores[j].nome);
+            strcpy(instrutores[j].nome,temp);
+         }
+      }
+    }
+    
+    printf ("\n\n< < < Listagem de instrutores pelo nome > > >");
+    for(i = 0; i<nInstrutores; i++){
+        printf("\n\n\t %d - %s", i+1, instrutores[i].nome);
+    }
+    printf ("\n\nPrima 0 para voltar:");
+    scanf ("%d", &op);
+    } while(op != 0);
+}
+/*
+// Listar por localidade
+void listarPorLocalidade() {
+    int i, op, j;
+    char temp[50], localidadeInstrutores[50][30];
+    do{
+    system("clear||cls");
+    for(i = 0; i < 30; i++){
+        strcpy(localidadeInstrutores[i],instrutores[i].morada.localidade);
+    }
+	for(i = 0; i < nInstrutores; i++){
+        printf("\n %s", localidadeInstrutores[i]);
+    }
+      for(i=0;i<nInstrutores;i++){
+      for(j=i+1;j<nInstrutores;j++){
+         if(strcmp(localidadeInstrutores[i],localidadeInstrutores[j])>0){
+            strcpy(temp,localidadeInstrutores[i]);
+            strcpy(localidadeInstrutores[i],localidadeInstrutores[j]);
+            strcpy(localidadeInstrutores[j],temp);
+         }
+      }
+    }
+    for(i = 0; i < nInstrutores; i++){
+        printf("\n %s", localidadeInstrutores[i]);
+    }
+    printf ("\n\n< < < Listagem de instrutores pela localidade > > >");
+    for(i = 0; i<nInstrutores; i++){
+    	printf("\n i = %d", i);
+        for(j=0;j<nInstrutores;j++){
+        	printf("\n j = %d e localidadeInstrutores = %s e instrutores[j].morada.localidade = %s", j, localidadeInstrutores[i], instrutores[j].morada.localidade);
+			if (strcmp(instrutores[j].morada.localidade,localidadeInstrutores[i])==0){
+            	printf("\n\n\t %s - %s", localidadeInstrutores[i], instrutores[j].nome);
+    		}
+    	}
+    }
+    printf ("\n\nPrima 0 para voltar:");
+    scanf ("%d", &op);
+    } while(op != 0);
+} 
+
+
+// Listar por código postal
+void listarPorCpostal() {
+    int i, op, j;
+    char temp[25], cpostalInstrutores[50][30];
+    do{
+    system("clear||cls");
+    	for(i = 0; i < 30; i++){
+        strcpy(cpostalInstrutores[i],instrutores[i].morada.cpostal);
+    }	
+      for(i=0;i<nInstrutores;i++)
+      for(j=i+1;j<nInstrutores;j++){
+         if(strcmp(cpostalInstrutores[i],cpostalInstrutores[j])>0){
+            strcpy(temp,cpostalInstrutores[i]);
+            strcpy(cpostalInstrutores[i],cpostalInstrutores[j]);
+            strcpy(cpostalInstrutores[j],temp);
+            
+         }
+      }
+    printf ("\n\n< < < Listagem de instrutores pelo código postal > > >");
+    for(i = 0; i<nInstrutores; i++){
+        for(j=0;j<nInstrutores;j++){
+			if (strcmp(instrutores[j].morada.cpostal,cpostalInstrutores[i])==0){
+            	printf("\n\n\t %s - %s", cpostalInstrutores[i], instrutores[j].nome);
+    		}
+    	}
+    }
+    printf ("\n\nPrima 0 para voltar:");
+    scanf ("%d", &op);
+    } while(op != 0);
+}
+*/
+//menu consultar/alterar
+void menuConsutarAlterarInstrutores(){
+	int op;
+    do{
+        /*
+            NÂº,Nome,Locali,Rua,Porta,CPostal,Email,DN,CC,Nif,NÂºCarta,DCC,Situa.
+        */
+        system("clear||cls");
+        printf ("\n\n< < < Consultar/Alterar dados dos instrutores > > >");
+        printf ("\n\n\t1 - Todos");
+        printf ("\n\n\t2 - Nº do instrutor");
+        printf ("\n\n\t3 - Nome");
+        printf ("\n\n\t4 - Localidade");
+        printf ("\n\n\t5 - Código de Postal");
+        printf ("\n\n\t6 - Email");
+        printf ("\n\n\t7 - Data de nascimento");
+        printf ("\n\n\t8 - Cartão de cidadão");
+        printf ("\n\n\t9 - NIF");
+        printf ("\n\n\t10 - Idades");
+        printf ("\n\n\t11 - Situação do instrutor");
+        printf ("\n\n\n\n< < < Listar(Maior -> Pequeno)/Alterar dados dos instrutores > > >");
+        printf ("\n\n\t12 - Nº do instrutor");
+        printf ("\n\n\t13 - Nome");
+        printf ("\n\n\t14 - Localidade");
+        printf ("\n\n\t15 - Código de Postal");
+        printf ("\n\n\t0 - Voltar");
+        printf ("\n\n\n\nInsira a sua opÃ§Ã£o: ");
+        scanf ("%d", &op);
+        switch (op) {
+            case 1:
+                consultarTodosIns();
+            break;
+            case 2:
+                consultarInsPorNumero();
+            break;
+            case 3:
+                consultarInsPorNome();
+            break;
+            case 4:
+                consultarInsPorLocalidade();
+            break;
+            case 5:
+                consultarInsPorCpostal();
+            break;
+            case 6:
+                consultarInsPorEmail();
+            break;
+            case 7:
+                ConsultarInsPorDNascimento();
+            break;
+            case 8:
+                consultarInsPorCc();
+            break;
+            case 9:
+                consultarInsPorNif();
+            break;
+            case 10:
+                consultarPorIdade();
+            break;
+            case 11:
+                consultarInsPorSituacao();
+            break;
+            case 12:
+                listarNInstrutor();
+            break;
+            case 13:
+                listarPorNome();
+            break;
+            case 14:
+                listarPorLocalidade();
+            break;
+            case 15:
+                listarPorCpostal();
+            break;
+        }
+    }while (op != 0);
+}
+
+//menu de gestÃ£o dos instrutores
+void menuInstrutores(){
+    int op;
+    do{
+        system("clear||cls");
+        printf ("\n\n< < < MENU GESTÃƒO DE INSTRUTORES > > >");
+        printf ("\n\n\t1 - Inserir novos instrutores");
+        printf ("\n\n\t2 - Consultar/Alterar dados do instrutor");
+        printf ("\n\n\t0 - Voltar");
+        printf ("\n\nInsira a sua opção: ");
+        scanf ("%d", &op);
+        switch (op) {
+            case 1:
+                inserirInstrutor();
+            break;
+            case 2:
+                menuConsutarAlterarInstrutores();
+            break;
+        }
+    }while (op != 0);
+}
 ////////////////////////////////////////////////////////////////////////////////////
 //Aulas
 ////////////////////////////////////////////////////////////////////////////////////

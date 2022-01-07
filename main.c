@@ -1044,7 +1044,7 @@ void consultarPorIdade(){
         esperaApaga(msg, 4);
     }
 }
-/*
+
 // Listar por nº da aluno
 void listarNAluno () {
     int op, i, j, temp, numeroAlunos[30];
@@ -1054,14 +1054,7 @@ void listarNAluno () {
     for(i = 0; i < 30; i++){
         numeroAlunos[i] = alunos[i].nAluno;
     }
-    ///////// Teste
-
-    /*for(i = 0; i < nAlunos; i++){
-        printf("\n %d", numeroAlunos[i]);
-    }*/
-
-    ////////
-/*    for(i = 0; i < nAlunos; i++){
+    for(i = 0; i < nAlunos; i++){
         for(j = i + 1; j < nAlunos; j++){
             if(numeroAlunos[i] > numeroAlunos[j]){
                 temp = numeroAlunos[i];
@@ -1070,14 +1063,7 @@ void listarNAluno () {
             }
         }
     }
-    ///////// Teste
-
-    /*for(i = 0; i < nAlunos; i++){
-        printf("\n %d", numeroAlunos[i]);
-    }*/
-
-    ////////
- /*   printf ("\n\n< < < Listagem de alunos pelo número > > >");
+    printf ("\n\n< < < Listagem de alunos pelo número > > >");
     for(i = 0; i < nAlunos; i++){
         //printf("\n i = %d", i);
         for(j = 0; j < nAlunos; j++){
@@ -1191,7 +1177,7 @@ void listarCpostal() {
 
 //Listar por conclusão da carta
 void listarAlunosConclusaoCarta(){
-    int i, op, j;
+    /*int i, op, j;
     char temp[50];
     do{
     system("clear||cls");
@@ -1220,10 +1206,8 @@ void listarAlunosConclusaoCarta(){
     
     printf ("\n\nPrima 0 para voltar:");
     scanf ("%d", &op);
-    } while(op != 0);
+    } while(op != 0);*/
 }
-
-*/
 
 //menu consultar/alterar
 void menuConsutarAlterarAlunos(){

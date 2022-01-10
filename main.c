@@ -237,7 +237,7 @@ void inserirAluno(){
             }while(alunos[nAlunos].nif <= 0);
         }while(existeNoArray(alunos[nAlunos].nif, 0, 4) == 1);
 
-        printf("\n\n\tO aluna já concluiu a carta? (1 - Sim / 0 - Não): ");
+        printf("\n\n\tO aluno(a) já concluiu a carta? (1 - Sim / 0 - Não): ");
         scanf ("%d", &concluiCarta);
 
         if(concluiCarta == 1){
@@ -1047,8 +1047,7 @@ void consultarPorIdade(){
 
 // Listar por nº da aluno
 void listarNAluno () {
-    int op, i, j, temp, numeroAlunos[30];
-	do{	
+    int i, j, temp, numeroAlunos[30];
     system("clear||cls");
     //copiar array para outro array para alterar array copiado do array original
     for(i = 0; i < nAlunos; i++){
@@ -1065,201 +1064,138 @@ void listarNAluno () {
     }
     printf ("\n\n< < < Listagem de alunos pelo número > > >");
     for(i = 0; i < nAlunos; i++){
-        //printf("\n i = %d", i);
         for(j = 0; j < nAlunos; j++){
-            //printf("\n j = %d e numeroAlunos = %d e alunos[j].nAluno = %d", j, numeroAlunos[i], alunos[j].nAluno);
             if(numeroAlunos[i] == alunos[j].nAluno){
                 printf("\n %d - %s", numeroAlunos[i], alunos[j].nome);
             }
         }
     }
-    printf ("Prima 0 para voltar:");
-    scanf("%d", &op);
-    }while(op != 0);
+    printf ("\n\n (Prima qualquer tecla para voltar!)");
+    getch();    
 }
 
 // Listar por nome
 void listarNome(){
-    int i, op, j;
+    int i, j;
     char temp[50];
-    do{
     system("clear||cls");
     for(i=0;i<nAlunos;i++){
-      for(j=i+1;j<nAlunos;j++){
-         if(strcmp(alunos[i].nome,alunos[j].nome)>0){
-            strcpy(temp,alunos[i].nome);
-            strcpy(alunos[i].nome,alunos[j].nome);
-            strcpy(alunos[j].nome,temp);
-         }
-      }
+        for(j=i+1;j<nAlunos;j++){
+            if(strcmp(alunos[i].nome,alunos[j].nome)>0){
+                strcpy(temp,alunos[i].nome);
+                strcpy(alunos[i].nome,alunos[j].nome);
+                strcpy(alunos[j].nome,temp);
+            }
+        }
     }
-    
     printf ("\n\n< < < Listagem de alunos pelo nome > > >");
     for(i = 0; i<nAlunos; i++){
         printf("\n\n\t %d - %s", i+1, alunos[i].nome);
     }
-    printf ("\n\nPrima 0 para voltar:");
-    scanf ("%d", &op);
-    } while(op != 0);
+    printf ("\n\n (Prima qualquer tecla para voltar!)");
+    getch();
 }
-
-
-void listarLocalidade() {
-    int i, op, j;
-    char localAlunos[30][50], nomeAlunos[30][50], temp1[50], temp2[50];
-    system("clear||cls");
-    do{
-        //Copia da estrutura para o array dentro da funcao
-        for(i = 0; i < nAlunos; i++){
-            strcpy(localAlunos[i],alunos[i].morada.localidade);
-            strcpy(nomeAlunos[i],alunos[i].nome);
-        }
-        for(i=0;i<nAlunos;i++){
-            for(j=i+1;j<nAlunos;j++){
-                if(strcmp(localAlunos[i],localAlunos[j])>0){
-                    strcpy(temp1,localAlunos[i]);
-                    strcpy(localAlunos[i],localAlunos[j]);
-                    strcpy(localAlunos[j],temp1);
-                    strcpy(temp2,nomeAlunos[i]);
-                    strcpy(nomeAlunos[i],nomeAlunos[j]);
-                    strcpy(nomeAlunos[j],temp2);
-                }
-            }
-        }
-        for(i = 0; i < nAlunos; i++){
-            printf("\n %s", localAlunos[i]);
-        }
-        printf ("\n\n< < < Listagem de alunos pela localidade > > >");
-        for(i = 0; i<nAlunos; i++){
-            printf("\n i = %d", i);
-            for(j=0;j<nAlunos;j++){
-                printf("\n j = %d e localAlunos = %s e alunos[j].morada.localidade = %s", j, localAlunos[i], alunos[j].morada.localidade);
-                if (strcmp(alunos[j].morada.localidade,localAlunos[i])==0){
-                    printf("\n\n\t %s - %s", localAlunos[i], alunos[j].nome);
-                }
-            }
-        }
-        printf ("\n\nPrima 0 para voltar:");
-        scanf ("%d", &op);
-    }while(op != 0);
-}
-
-/*
-
-array[30][2]={nome, localidade}
-
-organizar pela localidade e quado a localidade é alterada os nome tambem é alterado
-ou seja se uma localidade passar para a posição 0 o nome que está
-
-*/
-
 
 // Listar por localidade
-/*
 void listarLocalidade() {
-    int i, op, j;
-    char temp[50], localidadeAlunos[50][30];
-    do{
+    int i, j;
+    char localAlunos[30][50], nomeAlunos[30][50], temp1[50], temp2[50];
     system("clear||cls");
-    for(i = 0; i < 30; i++){
-        strcpy(localidadeAlunos[i],alunos[i].morada.localidade);
-    }
-	for(i = 0; i < nAlunos; i++){
-        printf("\n %s", localidadeAlunos[i]);
-    }
-      for(i=0;i<nAlunos;i++){
-      for(j=i+1;j<nAlunos;j++){
-         if(strcmp(localidadeAlunos[i],localidadeAlunos[j])>0){
-            strcpy(temp,localidadeAlunos[i]);
-            strcpy(localidadeAlunos[i],localidadeAlunos[j]);
-            strcpy(localidadeAlunos[j],temp);
-         }
-      }
-    }
+    //Copia da estrutura para o array dentro da funcao
     for(i = 0; i < nAlunos; i++){
-        printf("\n %s", localidadeAlunos[i]);
+        strcpy(localAlunos[i],alunos[i].morada.localidade);
+        strcpy(nomeAlunos[i],alunos[i].nome);
+    }
+    for(i=0;i<nAlunos;i++){
+        for(j=i+1;j<nAlunos;j++){
+            if(strcmp(localAlunos[i],localAlunos[j])>0){
+                strcpy(temp1,localAlunos[i]);
+                strcpy(localAlunos[i],localAlunos[j]);
+                strcpy(localAlunos[j],temp1);
+                strcpy(temp2,nomeAlunos[i]);
+                strcpy(nomeAlunos[i],nomeAlunos[j]);
+                strcpy(nomeAlunos[j],temp2);
+            }
+        }
     }
     printf ("\n\n< < < Listagem de alunos pela localidade > > >");
     for(i = 0; i<nAlunos; i++){
-    	printf("\n i = %d", i);
         for(j=0;j<nAlunos;j++){
-        	printf("\n j = %d e localidadeAlunos = %s e alunos[j].morada.localidade = %s", j, localidadeAlunos[i], alunos[j].morada.localidade);
-			if (strcmp(alunos[j].morada.localidade,localidadeAlunos[i])==0){
-            	printf("\n\n\t %s - %s", localidadeAlunos[i], alunos[j].nome);
-    		}
-    	}
+            if (strcmp(alunos[j].morada.localidade,localAlunos[i])==0){
+                printf("\n\n\t %s - %s", localAlunos[i], alunos[j].nome);
+            }
+        }
     }
-    printf ("\n\nPrima 0 para voltar:");
-    scanf ("%d", &op);
-    } while(op != 0);
+    printf ("\n\n (Prima qualquer tecla para voltar!)");
+    getch();
 }
-
-*/
 
 // Listar por código postal
 void listarCpostal() {
-    int i, op, j;
-    char temp[25], cpostalAlunos[50][30];
-    do{
+    int i, j;
+    char cpostalAlunos[30][50], nomeAlunos[30][50], temp1[50], temp2[50];
     system("clear||cls");
-    	for(i = 0; i < 30; i++){
+    //Copia da estrutura para o array dentro da funcao
+    for(i = 0; i < nAlunos; i++){
         strcpy(cpostalAlunos[i],alunos[i].morada.cpostal);
-    }	
-      for(i=0;i<nAlunos;i++)
-      for(j=i+1;j<nAlunos;j++){
-         if(strcmp(cpostalAlunos[i],cpostalAlunos[j])>0){
-            strcpy(temp,cpostalAlunos[i]);
-            strcpy(cpostalAlunos[i],cpostalAlunos[j]);
-            strcpy(cpostalAlunos[j],temp);
-            
-         }
-      }
-    printf ("\n\n< < < Listagem de alunos pelo código postal > > >");
-    for(i = 0; i<nAlunos; i++){
-        for(j=0;j<nAlunos;j++){
-			if (strcmp(alunos[j].morada.cpostal,cpostalAlunos[i])==0){
-            	printf("\n\n\t %s - %s", cpostalAlunos[i], alunos[j].nome);
-    		}
-    	}
+        strcpy(nomeAlunos[i],alunos[i].nome);
     }
-    printf ("\n\nPrima 0 para voltar:");
-    scanf ("%d", &op);
-    } while(op != 0);
-} 
+    for(i=0;i<nAlunos;i++){
+        for(j=i+1;j<nAlunos;j++){
+            if(strcmp(cpostalAlunos[i],cpostalAlunos[j])>0){
+                strcpy(temp1,cpostalAlunos[i]);
+                strcpy(cpostalAlunos[i],cpostalAlunos[j]);
+                strcpy(cpostalAlunos[j],temp1);
+                strcpy(temp2,nomeAlunos[i]);
+                strcpy(nomeAlunos[i],nomeAlunos[j]);
+                strcpy(nomeAlunos[j],temp2);
+            }
+        }
+    }
+    printf ("\n\n< < < Listagem de alunos pelo Código de Postal > > >");
+    for(i = 0; i<nAlunos; i++){
+        printf("\n i = %d", i);
+        for(j=0;j<nAlunos;j++){
+            printf("\n j = %d e cpostalAlunos = %s e alunos[j].morada.cpostal = %s", j, cpostalAlunos[i], alunos[j].morada.cpostal);
+            if (strcmp(alunos[j].morada.cpostal,cpostalAlunos[i])==0){
+                printf("\n\n\t %s - %s", cpostalAlunos[i], alunos[j].nome);
+            }
+        }
+    }
+    printf ("\n\n (Prima qualquer tecla para voltar!)");
+    getch();
+}
 
 //Listar por conclusão da carta
-/*void listarAlunosConclusaoCarta(){
-    int i, op, j;
-    char temp[50];
-    do{
+void listarAlunosConclusaoCarta(){
+    int i, j, anoCCarta[30];
+    char temp[50], nomeAlunos[30][50];
     system("clear||cls");
+    //Copia da estrutura para o array dentro da funcao
+    for(i = 0; i < nAlunos; i++){
+        strcpy(cpostalAlunos[i],alunos[i].morada.cpostal);
+        strcpy(nomeAlunos[i],alunos[i].nome);
+    }
     printf ("\n\n< < < Listagem de alunos que concluiram a carta > > >");
-    
-    for(i=0;i<nAlunos;i++){
-      for(j=i+1;j<nAlunos;j++){
-      
-         if(alunos[i].nCarta != 0 &&strcmp(alunos[i].nome,alunos[j].nome)>0){
-            strcpy(temp,alunos[i].nome);
-            strcpy(alunos[i].nome,alunos[j].nome);
-            strcpy(alunos[j].nome,temp);
-           
-        printf("\n %s", alunos[i].nome);
-        }
-         }
-      }
-    
 
-    
-    for(i=0;i<=nAlunos;i++){
-    		
-            printf("\n\n\t %d - %s", i+1, alunos[i-1].nome);
+    for(i=0;i<nAlunos;i++){
+        for(j=i;j<nAlunos;j++){
+            if(alunos[i].nCarta != 0 &&strcmp(alunos[i].nome,alunos[j].nome)>0){
+                strcpy(temp,alunos[i].nome);
+                strcpy(alunos[i].nome,alunos[j].nome);
+                strcpy(alunos[j].nome,temp);
+                printf("\n %s", alunos[i].nome);
+            }
         }
-        
+    }
+
+    for(i=0;i<=nAlunos;i++){
+        printf("\n\n\t %d - %s", i+1, alunos[i-1].nome);
+    }
     
-    printf ("\n\nPrima 0 para voltar:");
-    scanf ("%d", &op);
-    } while(op != 0);
-}*/
+    printf ("\n\n (Prima qualquer tecla para voltar!)");
+    getch();
+}
 
 //menu consultar/alterar
 void menuConsutarAlterarAlunos(){

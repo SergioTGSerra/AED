@@ -1157,9 +1157,7 @@ void listarCpostal() {
     }
     printf("\n\n< < < Listagem de alunos pelo Código de Postal > > >");
     for(i = 0; i<nAlunos; i++){
-        printf("\n i = %d", i);
         for(j=0;j<nAlunos;j++){
-            printf("\n j = %d e cpostalAlunos = %s e alunos[j].morada.cpostal = %s", j, cpostalAlunos[i], alunos[j].morada.cpostal);
             if (strcmp(alunos[j].morada.cpostal,cpostalAlunos[i])==0){
                 printf("\n\n\t %s - %s", cpostalAlunos[i], alunos[j].nome);
             }
@@ -1171,7 +1169,7 @@ void listarCpostal() {
 
 //Listar por conclusão da carta
 void listarAlunosConclusaoCarta(){
-    int i, j, anoCCarta[30];
+    int i, j, anoCCarta[30], temp2;
     char temp[50], nomeAlunos[30][50];
     system("clear||cls");
     //Copia da estrutura para o array dentro da funcao
@@ -1179,25 +1177,25 @@ void listarAlunosConclusaoCarta(){
         anoCCarta[i] = alunos[i].dataConclusaoCarta.ano;
         strcpy(nomeAlunos[i],alunos[i].nome);
     }
-    printf("\n\n< < < Listagem de alunos que concluiram a carta > > >");
-    if (anoCCarta != 0){
-        for(i=0;i<nAlunos;i++){
-            for(j=i;j<nAlunos;j++){
-                if(strcmp(nomeAlunos[i],nomeAlunos[j])>0){
-                    strcpy(temp,nomeAlunos[i]);
-                    strcpy(nomeAlunos[i],nomeAlunos[j]);
-                    strcpy(nomeAlunos[j],temp);
-                }
-            }
-        }
-    
-        for(i=0;i<=nAlunos;i++){
-            for(j=0;j<nAlunos;j++){ 
-                printf("\n\n\t%d - %s", i+1, alunos[j].nome);
-            }
+    printf ("\n\n< < < Listagem de alunos que concluiram a carta > > >");
+    for(i=0;i<nAlunos;i++){
+        for(j=i;j<nAlunos;j++){
+            if(strcmp(alunos[i].nome,alunos[j].nome)>0){
+            	strcpy(temp,alunos[i].nome);
+                strcpy(alunos[i].nome,alunos[j].nome);
+                strcpy(alunos[j].nome,temp);
+                temp2 = anoCCarta[i];
+                anoCCarta[i] = anoCCarta[j];
+                anoCCarta[j] = temp2;
+        	}
         }
     }
-    printf("\n\n (Prima qualquer tecla para voltar!)");
+    for(i=0;i<nAlunos;i++){
+        if (anoCCarta[i] != 0){
+            printf("\n\n\t%s - %d", alunos[i].nome, anoCCarta[i]);
+        }
+    }
+    printf ("\n\n (Prima qualquer tecla para voltar!)");
     getch();
 }
 

@@ -1051,7 +1051,7 @@ void listarNAluno () {
 	do{	
     system("clear||cls");
     //copiar array para outro array para alterar array copiado do array original
-    for(i = 0; i < 30; i++){
+    for(i = 0; i < nAlunos; i++){
         numeroAlunos[i] = alunos[i].nAluno;
     }
     for(i = 0; i < nAlunos; i++){
@@ -1102,8 +1102,60 @@ void listarNome(){
     scanf ("%d", &op);
     } while(op != 0);
 }
+
+
+void listarLocalidade() {
+    int i, op, j;
+    char localAlunos[30][50], nomeAlunos[30][50], temp1[50], temp2[50];
+    system("clear||cls");
+    do{
+        //Copia da estrutura para o array dentro da funcao
+        for(i = 0; i < nAlunos; i++){
+            strcpy(localAlunos[i],alunos[i].morada.localidade);
+            strcpy(nomeAlunos[i],alunos[i].nome);
+        }
+        for(i=0;i<nAlunos;i++){
+            for(j=i+1;j<nAlunos;j++){
+                if(strcmp(localAlunos[i],localAlunos[j])>0){
+                    strcpy(temp1,localAlunos[i]);
+                    strcpy(localAlunos[i],localAlunos[j]);
+                    strcpy(localAlunos[j],temp1);
+                    strcpy(temp2,nomeAlunos[i]);
+                    strcpy(nomeAlunos[i],nomeAlunos[j]);
+                    strcpy(nomeAlunos[j],temp2);
+                }
+            }
+        }
+        for(i = 0; i < nAlunos; i++){
+            printf("\n %s", localAlunos[i]);
+        }
+        printf ("\n\n< < < Listagem de alunos pela localidade > > >");
+        for(i = 0; i<nAlunos; i++){
+            printf("\n i = %d", i);
+            for(j=0;j<nAlunos;j++){
+                printf("\n j = %d e localAlunos = %s e alunos[j].morada.localidade = %s", j, localAlunos[i], alunos[j].morada.localidade);
+                if (strcmp(alunos[j].morada.localidade,localAlunos[i])==0){
+                    printf("\n\n\t %s - %s", localAlunos[i], alunos[j].nome);
+                }
+            }
+        }
+        printf ("\n\nPrima 0 para voltar:");
+        scanf ("%d", &op);
+    }while(op != 0);
+}
+
 /*
+
+array[30][2]={nome, localidade}
+
+organizar pela localidade e quado a localidade é alterada os nome tambem é alterado
+ou seja se uma localidade passar para a posição 0 o nome que está
+
+*/
+
+
 // Listar por localidade
+/*
 void listarLocalidade() {
     int i, op, j;
     char temp[50], localidadeAlunos[50][30];
@@ -1140,8 +1192,9 @@ void listarLocalidade() {
     printf ("\n\nPrima 0 para voltar:");
     scanf ("%d", &op);
     } while(op != 0);
-} 
+}
 
+*/
 
 // Listar por código postal
 void listarCpostal() {
@@ -1174,10 +1227,9 @@ void listarCpostal() {
     } while(op != 0);
 } 
 
-
 //Listar por conclusão da carta
-void listarAlunosConclusaoCarta(){
-    /*int i, op, j;
+/*void listarAlunosConclusaoCarta(){
+    int i, op, j;
     char temp[50];
     do{
     system("clear||cls");
@@ -1206,9 +1258,9 @@ void listarAlunosConclusaoCarta(){
     
     printf ("\n\nPrima 0 para voltar:");
     scanf ("%d", &op);
-    } while(op != 0);*/
-}
-*/
+    } while(op != 0);
+}*/
+
 //menu consultar/alterar
 void menuConsutarAlterarAlunos(){
 	int op;

@@ -125,7 +125,7 @@ typedef struct {
     
     MORADA morada;
     DATA dataNascimento;
-    DATA dataConclusaoCarta;
+    DATA dataConclusaoCarta;5
 } ALUNOS;
 
 ALUNOS alunos[30];
@@ -932,7 +932,7 @@ void ConsultarPorDNascimento(){
     }
 }
 
-//Procurar por data de nascimento
+//Procurar por data de conclusão da carta
 void ConsultarPorDConclusaoCarta(){
     int i, op, cont = 1, ids[30], flag = 0, dia, mes, ano;
     char op2, msg[100];
@@ -1329,6 +1329,7 @@ typedef struct {
     
     MORADA morada;
     DATA dataNascimento;
+    DATA entradaEscola;
 } INSTRUTORES;
 
 INSTRUTORES instrutores[30];
@@ -1432,7 +1433,17 @@ void inserirInstrutor(){
                 scanf("%d", &instrutores[nInstrutores].nif);
                 fflush(stdin);
             }while(instrutores[nInstrutores].nif <= 0);
-        }while(existeNoArrayINST(instrutores[nInstrutores].nif, 0, 4) == 1);      
+        }while(existeNoArrayINST(instrutores[nInstrutores].nif, 0, 4) == 1);     
+         
+        printf("\n\n\tInsira a data de entrada na escola (dia/mês/ano): ");
+        scanf("%d/%d/%d", &instrutores[nInstrutores].entradaEscola.dia, &instrutores[nInstrutores].entradaEscola.mes, &instrutores[nInstrutores].entradaEscola.ano);
+        fflush(stdin);
+        if(dataValida(instrutores[nInstrutores].entradaEscola.dia, instrutores[nInstrutores].entradaEscola.mes, instrutores[nInstrutores].entradaEscola.ano) != 1) do{
+            printf("\n\n\tPor favor insira a data de entrada na escola válida (dia/mês/ano): ");
+            scanf("%d/%d/%d", &instrutores[nInstrutores].entradaEscola.dia, &instrutores[nInstrutores].entradaEscola.mes, &instrutores[nInstrutores].entradaEscola.ano);
+            fflush(stdin);
+        }while(dataValida(instrutores[nInstrutores].entradaEscola.dia, instrutores[nInstrutores].entradaEscola.mes, instrutores[nInstrutores].entradaEscola.ano) != 1);
+       
 
         printf("\n\n\tInsira a situação do instrutor (1 - ATIVO / 0 - NÃO ATIVO): ");
         scanf("%d", &instrutores[nInstrutores].ativo);
@@ -1464,6 +1475,7 @@ int dadosInstrutor(int instrutor){
     printf("\n\n\tData de nascimento: %d/%d/%d", instrutores[instrutor].dataNascimento.dia, instrutores[instrutor].dataNascimento.mes, instrutores[instrutor].dataNascimento.ano);
     printf("\n\n\tCartão de cidadão: %s", instrutores[instrutor].cartaoCidadao);
     printf("\n\n\tNIF: %d", instrutores[instrutor].nif);
+    printf("\n\n\tData de entrada na escola: %d/%d/%d", instrutores[instrutor].entradaEscola.dia, instrutores[instrutor].entradaEscola.mes, instrutores[instrutor].entradaEscola.ano);
     printf("\n\n\tSituação: %d", instrutores[instrutor].ativo);
 }
 
@@ -2018,6 +2030,55 @@ void ConsultarPorDNascimentoINST(){
     }
 }
 
+//Procurar por data de entrada na escola
+void ConsultarPorDEntradEscolaINST(){
+    int i, op, cont = 1, ids[30], flag = 0, dia, mes, ano;
+    char op2, msg[100];
+    system("clear||cls");
+    
+    printf("\n\n\tInsira a data de entrada na escola do instrutor que pretende consultar (dia/mês/ano): ");
+    scanf("%d/%d/%d", &dia, &mes, &ano);
+    if(dataValida(dia, mes, ano) != 1)do{
+        printf("\n\n\tPor favor insira a data de entrada na escola válida (dia/mês/ano): ");
+        scanf("%d/%d/%d", &dia, &mes, &ano);
+        fflush(stdin);
+    }while(dataValida(dia, mes, ano) != 1);
+    
+    system("clear||cls");
+    for(i = 0; i < nInstrutores; i++){
+        if (instrutores[i].entradaEscola.dia == dia && instrutores[i].entradaEscola.mes == mes && instrutores[i].entradaEscola.ano == ano){
+            flag = 1;
+            break;
+        }
+    }
+    if(flag == 1){
+        printf("\n\n< < < Listagem de instrutores que entraram na escola em %d/%d/%d ! > > >", dia, mes, ano);
+        for(i = 0; i < nInstrutores; i++){
+            if (instrutores[i].entradaEscola.dia == dia && instrutores[i].entradaEscola.mes == mes && instrutores[i].entradaEscola.ano == ano){
+                printf("\n\n\t %d - %d/%d/%d - %s", cont, dia, mes, ano, instrutores[i].nome);
+                //posicao de cada instrutor no array que corresponde a pesquisa
+                ids[cont] = i;
+                cont++;
+            }
+        }
+        printf("\n\n\t 0 - Voltar");
+        printf("\n\n Insira o numero do instrutor que deseja consultar/alterar: ");
+        scanf("%d", &op);
+        fflush(stdin);
+        if(op != 0 && instrutores[op-1].nInstrutor != 0){
+            dadosInstrutor(ids[op]); //posição do instrutor no array
+            printf("\n\n Pretende alterar este instrutor? (y/N): ");
+            scanf(" %c", &op2);
+            if(op2 == 'Y' || op2 == 'y'){
+                alteraInstrutor(ids[op]);
+            }
+        }
+    }else{
+        strcpy(msg, "\n\n\tNenhum instrutor com essa data de entrada na escola encontrado! A redirecionar ....");
+        esperaApaga(msg, 4);
+    }
+}
+
 // Listar por nº da instrutor
 void listarNInstrutor () {
     int i, j, temp, numeroInstrutores[30];
@@ -2127,9 +2188,7 @@ void listarCpostalINST() {
     }
     printf("\n\n< < < Listagem de instrutores pelo Código de Postal > > >");
     for(i = 0; i<nInstrutores; i++){
-        printf("\n i = %d", i);
         for(j=0;j<nInstrutores;j++){
-            printf("\n j = %d e cpostalInstrutores = %s e instrutores[j].morada.cpostal = %s", j, cpostalInstrutores[i], instrutores[j].morada.cpostal);
             if (strcmp(instrutores[j].morada.cpostal,cpostalInstrutores[i])==0){
                 printf("\n\n\t %s - %s", cpostalInstrutores[i], instrutores[j].nome);
             }
@@ -2157,12 +2216,13 @@ void menuConsutarAlterarInstrutores(){
         printf("\n\n\t7 - Data de nascimento");
         printf("\n\n\t8 - Cartão de cidadão");
         printf("\n\n\t9 - NIF");
-        printf("\n\n\t10 - Situação do instrutor");
+        printf("\n\n\t10 - Data de entrada na escola");
+        printf("\n\n\t11 - Situação do instrutor");
         printf("\n\n\n\n< < < Listar(Maior -> Pequeno)/Alterar dados dos instrutores > > >");
-        printf("\n\n\t11 - Nº do instrutor");
-        printf("\n\n\t12 - Nome");
-        printf("\n\n\t13 - Localidade");
-        printf("\n\n\t14 - Código de Postal");
+        printf("\n\n\t12 - Nº do instrutor");
+        printf("\n\n\t13 - Nome");
+        printf("\n\n\t14 - Localidade");
+        printf("\n\n\t15 - Código de Postal");
         printf("\n\n\t0 - Voltar");
         printf("\n\n\n\nInsira a sua opção: ");
         scanf("%d", &op);
@@ -2196,18 +2256,21 @@ void menuConsutarAlterarInstrutores(){
                 consultarPorNifINST();
             break;
             case 10:
-                consultarPorSituacaoINST();
+                ConsultarPorDEntradEscolaINST();
             break;
             case 11:
-                listarNInstrutor();
+                consultarPorSituacaoINST();
             break;
             case 12:
-                listarNomeINST();
+                listarNInstrutor();
             break;
             case 13:
-                listarLocalidadeINST();
+                listarNomeINST();
             break;
             case 14:
+                listarLocalidadeINST();
+            break;
+            case 15:
                 listarCpostalINST();
             break;
         }
@@ -2251,6 +2314,27 @@ typedef struct {
 
 AULAS aulas[100];
 
+int existeNoArrayAula(int dado_i, char dado_s[50], char tipo){
+    int i;
+    for(i = 0; i < nAulas; i++){
+        switch (tipo){
+            case 1:
+                if(aulas[i].aluno == dado_i){
+                    printf("\n\n\tEsse aluno já tem aula marcada! Por favor insira outro.");
+                    return 1; 
+                }
+            break;
+            case 2:
+                if(aulas[i].instrutor == dado_i){
+                    printf("\n\n\tEsse instrutor já tem aula marcada! Por favor insira outro.");
+                    return 1; 
+                }
+            }
+        }
+    }
+    return 0;
+}
+
 //marcar Aula
 void marcarAula(){
     int i;
@@ -2274,7 +2358,8 @@ void marcarAula(){
     fflush(stdin);
 
     //Alunos Aula
-    printf("\n\n< < <  Listagem de alunos > > >");
+    system("clear||cls");
+    printf("\n\n< < <  Marcar Aula - Listagem de alunos > > >");
     for (i = 0; i < nAlunos; i++){
         printf("\n\n%d - %s", i+1, alunos[i].nome);
     }
@@ -2282,16 +2367,53 @@ void marcarAula(){
     scanf("%d", &aulas[nAulas].aluno-1);
     fflush(stdin);
 
-    printf("Pretende confirmar a marrcação da aula?(y/N)/n(NOTA:Depois de confirmada a aula não pode ser desmaracada!!)");
+    //Instrutores Aula
+    system("clear||cls");
+    printf("\n\n< < <  Marcar Aula - Listagem de instrutores > > >");
+    for (i = 0; i < nInstrutores; i++){
+        printf("\n\n%d - %s", i+1, instrutores[i].nome);
+    }
+    printf("\n\n Insira o Intrutor que deseja marcar a aula: ");
+    scanf("%d", &aulas[nAulas].instrutor-1);
+    fflush(stdin);
+
+    printf("Pretende confirmar a marcação da aula?(y/N)/n(NOTA:Depois de confirmada a aula não pode ser desmaracada!!)");
     scanf("%c", &op);
     nAulas++;
     if (op == 'y' || op == 'Y'){
         strcpy(msg, "\n\n\tAula marcada com sucesso!! A redirecionar ....");
-       esperaApaga(msg, 4); 
+        esperaApaga(msg, 4); 
     }
     else {
        strcpy(msg, "\n\n\tAula não marcada! A redirecionar ....");
        esperaApaga(msg, 4); 
+    }
+}
+
+//consultar dados de uma aula
+int dadosAulas(int aula){
+    if (aulas[aula].aluno == 0) return 0;
+    system("clear||cls");
+    printf("\n\n< < < Dados da aula de %d/%d/%d > > >", aulas[nAulas].dataAula.dia, aulas[nAulas].dataAula.mes, aulas[nAulas].dataAula.ano);
+    printf("\n\n\tHora: %d", aulas[aula].hora);
+    printf("\n\n\tAluno: %d", aulas[aula].aluno);
+    printf("\n\n\tInstrutor: %d", aulas[aula].instrutor);
+}
+
+//Consultar aula por dia
+void consultaAulaDia(){
+    int i, op, flag = 0;
+    char msg[100];
+    system("clear||cls");
+    //se existe aulas no array flag = 1
+    for(int i=0;i<nAulas;i++) if(aulas[i] != "0") flag = 1;
+    if(flag = 1){
+        for(i=0; i < nAulas; i++){
+            
+        }
+    }else{
+        strcpy(msg, "\n\n\tNenhuma aula foi inserida ainda! A redirecionar ....");
+        esperaApaga(msg, 4);
     }
 }
 
@@ -2310,6 +2432,7 @@ void consultarAulas(){
     fflush(stdin);
     switch(op){
         case 1:
+            consultaAulaDia();
         break;
         case 2:
         break;

@@ -125,7 +125,7 @@ typedef struct {
     
     MORADA morada;
     DATA dataNascimento;
-    DATA dataConclusaoCarta;5
+    DATA dataConclusaoCarta;
 } ALUNOS;
 
 ALUNOS alunos[30];

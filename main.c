@@ -2314,77 +2314,77 @@ typedef struct {
 
 AULAS aulas[100];
 
-int existeNoArrayAula(int dado_i, char dado_s[50], char tipo){
-    int i;
-    for(i = 0; i < nAulas; i++){
-        switch (tipo){
-            case 1:
-                if(aulas[i].aluno == dado_i){
-                    printf("\n\n\tEsse aluno já tem aula marcada! Por favor insira outro.");
-                    return 1; 
-                }
-            break;
-            case 2:
-                if(aulas[i].instrutor == dado_i){
-                    printf("\n\n\tEsse instrutor já tem aula marcada! Por favor insira outro.");
-                    return 1; 
-                }
-            }
-        }
-    }
-    return 0;
-}
-
 //marcar Aula
 void marcarAula(){
-    int i;
+    int i, cont = 1, flag = 0;
     char op, msg[100];
     system("clear||cls");
     printf("\n\n< < < Marcar Aula de Condução > > >");
 
-    //Data Aula
-    printf("\n\n\tInsira a data da aula (dia/mês/ano): ");
-    scanf("%d/%d/%d", &aulas[nAulas].dataAula.dia, &aulas[nAulas].dataAula.mes, &aulas[nAulas].dataAula.ano);
-    fflush(stdin);
-    if(dataValida(aulas[nAulas].dataAula.dia, aulas[nAulas].dataAula.mes, aulas[nAulas].dataAula.ano) != 1) do{
-        printf("\n\n\tPor favor insira uma data de aula válida (dia/mês/ano): ");
+    int exiteDataHora(int dia, int mes, int ano, int hora){
+        for(i = 0; i < nAulas; i++){
+            if(dia == aulas[i].dataAula.dia
+            && mes == aulas[i].dataAula.mes
+            && ano == aulas[i].dataAula.ano
+            && hora == aulas[i].hora
+            )return 1;
+        }
+        return 0;
+    }
+
+    do{
+        if(flag == 1) printf("\n\n\tJá existe uma aula marcada nesse dia a essa hora, por favor ensira outro dia/hora!");
+        //Data Aula
+        printf("\n\n\tInsira a data da aula (dia/mês/ano): ");
         scanf("%d/%d/%d", &aulas[nAulas].dataAula.dia, &aulas[nAulas].dataAula.mes, &aulas[nAulas].dataAula.ano);
         fflush(stdin);
-    }while(dataValida(aulas[nAulas].dataAula.dia, aulas[nAulas].dataAula.mes, aulas[nAulas].dataAula.ano) != 1);
+        if(dataValida(aulas[nAulas].dataAula.dia, aulas[nAulas].dataAula.mes, aulas[nAulas].dataAula.ano) != 1) do{
+            printf("\n\n\tPor favor insira uma data de aula válida (dia/mês/ano): ");
+            scanf("%d/%d/%d", &aulas[nAulas].dataAula.dia, &aulas[nAulas].dataAula.mes, &aulas[nAulas].dataAula.ano);
+            fflush(stdin);
+        }while(dataValida(aulas[nAulas].dataAula.dia, aulas[nAulas].dataAula.mes, aulas[nAulas].dataAula.ano) != 1);
 
-    //Hora Aula
-    printf("\n\nPor favor insira uma hora: ");
-    scanf("%d", &aulas[nAulas].hora);
-    fflush(stdin);
+        //Hora Aula
+        printf("\n\n\tPor favor insira uma hora: ");
+        scanf("%d", &aulas[nAulas].hora);
+        fflush(stdin);
 
+        flag = 1;
+
+    }while(exiteDataHora(aulas[nAulas].dataAula.dia, aulas[nAulas].dataAula.mes, aulas[nAulas].dataAula.ano, aulas[nAulas].hora) == 1);
+    
     //Alunos Aula
     system("clear||cls");
     printf("\n\n< < <  Marcar Aula - Listagem de alunos > > >");
     for (i = 0; i < nAlunos; i++){
-        printf("\n\n%d - %s", i+1, alunos[i].nome);
+        if (alunos[i].ativo == 1){
+            printf("\n\n%d - %s", alunos[i].nAluno, alunos[i].nome);
+        }
     }
-    printf("\n\n Insira o Aluno que deseja marcar a aula: ");
-    scanf("%d", &aulas[nAulas].aluno-1);
+    printf("\n\n Insira o nº do Aluno que deseja marcar a aula: ");
+    scanf("%d", &aulas[nAulas].aluno);
     fflush(stdin);
 
     //Instrutores Aula
     system("clear||cls");
     printf("\n\n< < <  Marcar Aula - Listagem de instrutores > > >");
     for (i = 0; i < nInstrutores; i++){
-        printf("\n\n%d - %s", i+1, instrutores[i].nome);
+        if (instrutores[i].ativo == 1){
+            printf("\n\n%d - %s", instrutores[i].nInstrutor, instrutores[i].nome);
+        }
     }
-    printf("\n\n Insira o Intrutor que deseja marcar a aula: ");
-    scanf("%d", &aulas[nAulas].instrutor-1);
+    printf("\n\n Insira o nº do Instrutor que deseja marcar a aula: ");
+    scanf("%d", &aulas[nAulas].instrutor);
     fflush(stdin);
 
-    printf("Pretende confirmar a marcação da aula?(y/N)/n(NOTA:Depois de confirmada a aula não pode ser desmaracada!!)");
+    printf("\n(NOTA:Depois de confirmada a aula não pode ser desmaracada!!)\nPretende confirmar a marcação da aula?(y/N): ");
     scanf("%c", &op);
     nAulas++;
     if (op == 'y' || op == 'Y'){
         strcpy(msg, "\n\n\tAula marcada com sucesso!! A redirecionar ....");
         esperaApaga(msg, 4); 
     }
-    else {
+    else{
        strcpy(msg, "\n\n\tAula não marcada! A redirecionar ....");
        esperaApaga(msg, 4); 
     }
@@ -2402,19 +2402,38 @@ int dadosAulas(int aula){
 
 //Consultar aula por dia
 void consultaAulaDia(){
-    int i, op, flag = 0;
-    char msg[100];
+	int i, op, cont = 1, ids[30], flag = 0, dia, mes, ano;
+    char op2, msg[100];
     system("clear||cls");
-    //se existe aulas no array flag = 1
-    for(int i=0;i<nAulas;i++) if(aulas[i] != "0") flag = 1;
-    if(flag = 1){
-        for(i=0; i < nAulas; i++){
-            
+    
+    printf("\n\n\tInsira a data da aula que pretende consultar (dia/mês/ano): ");
+    scanf("%d/%d/%d", &dia, &mes, &ano);
+    if(dataValida(dia, mes, ano) != 1)do{
+        printf("\n\n\tPor favor insira a data da aula válida (dia/mês/ano): ");
+        scanf("%d/%d/%d", &dia, &mes, &ano);
+        fflush(stdin);
+    }while(dataValida(dia, mes, ano) != 1);
+    
+    system("clear||cls");
+    for(i = 0; i < nAulas; i++){
+        if  (aulas[i].dataAula.dia == dia && aulas[i].dataAula.mes == mes && aulas[i].dataAula.ano == ano){
+            flag = 1;
+            break;
         }
-    }else{
-        strcpy(msg, "\n\n\tNenhuma aula foi inserida ainda! A redirecionar ....");
-        esperaApaga(msg, 4);
     }
+    if(flag == 1){
+        printf("\n\n< < < Listagem de aulas em %d/%d/%d > > >", dia, mes, ano);
+        for(i = 0; i < nAulas; i++){
+            if  (aulas[i].dataAula.dia == dia && aulas[i].dataAula.mes == mes && aulas[i].dataAula.ano == ano){
+                printf("\n\n\t Aula - Data:%d/%d/%d, %d - Aluno(a):%d, %s - Instrutor(a):%s [%s]", dia, mes, ano, aulas[i].hora, alunos[i].nAluno, alunos[i].nome, instrutores[i].nome, instrutores[i].email);
+                //posicao de cada instrutor no array que corresponde a pesquisa
+                ids[cont] = i;
+                cont++;
+            }
+        }
+	}
+	printf("\n\n (Prima qualquer tecla para voltar!)");
+    getch();
 }
 
 //consultarAula

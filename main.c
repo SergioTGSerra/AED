@@ -2403,7 +2403,7 @@ int dadosAulas(int aula){
 
 //Consultar aula por dia
 void consultaAulaDia(){
-	int i, op, cont = 1, ids[30], flag = 0, dia, mes, ano;
+	int i, op, flag = 0, dia, mes, ano;
     char op2, msg[100];
     system("clear||cls");
     
@@ -2425,14 +2425,18 @@ void consultaAulaDia(){
     if(flag == 1){
         printf("\n\n< < < Listagem de aulas em %d/%d/%d > > >", dia, mes, ano);
         for(i = 0; i < nAulas; i++){
-            if  (aulas[i].dataAula.dia == dia && aulas[i].dataAula.mes == mes && aulas[i].dataAula.ano == ano){
-                printf("\n\n\t Aula - Data:%d/%d/%d, %d - Aluno(a):%d, %s - Instrutor(a):%s [%s]", dia, mes, ano, aulas[i].hora, alunos[i].nAluno, alunos[i].nome, instrutores[i].nome, instrutores[i].email);
-                //posicao de cada instrutor no array que corresponde a pesquisa
-                ids[cont] = i;
-                cont++;
+            if(aulas[i].dataAula.dia == dia && aulas[i].dataAula.mes == mes && aulas[i].dataAula.ano == ano){
+                i nInstrutor nAluno
+                for(){
+                    if(nome Aluno && nome instrutor){
+                        i nInstrutor nAluno
+                    }
+                }
             }
         }
-	}
+	}else{
+        //apresenta mensagem e sai
+    }
 	printf("\n\n (Prima qualquer tecla para voltar!)");
     getch();
 }

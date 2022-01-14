@@ -2417,7 +2417,7 @@ void consultaAulaDia(){
     
     system("clear||cls");
     for(i = 0; i < nAulas; i++){
-        if  (aulas[i].dataAula.dia == dia && aulas[i].dataAula.mes == mes && aulas[i].dataAula.ano == ano){
+        if(aulas[i].dataAula.dia == dia && aulas[i].dataAula.mes == mes && aulas[i].dataAula.ano == ano){
             flag = 1;
             break;
         }
@@ -2426,10 +2426,19 @@ void consultaAulaDia(){
         printf("\n\n< < < Listagem de aulas em %d/%d/%d > > >", dia, mes, ano);
         for(i = 0; i < nAulas; i++){
             if(aulas[i].dataAula.dia == dia && aulas[i].dataAula.mes == mes && aulas[i].dataAula.ano == ano){
-                i nInstrutor nAluno
-                for(){
-                    if(nome Aluno && nome instrutor){
-                        i nInstrutor nAluno
+                //vai apresentar aulas num determinado dia
+                //i - 1 aula
+                //aula[i] nAluno, nInstrutor
+                //nAluno e pelo nInstrutor temos de ir buscar o nome
+                //j nos dois inicializado a 0
+                for(j = 0; j < nInstrutores; j++){
+                    if(aulas[i].nInstrutor == instrutores[j].nInstrutor){
+                        printf(instrutor[j].nome);
+                    }
+                }
+                for(j = 0; j < nAlunos; j++){
+                    if(aulas[i].nAluno == alunos[j].nAluno){
+                        printf(Aluno[j].nome);
                     }
                 }
             }

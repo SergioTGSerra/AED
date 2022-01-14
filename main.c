@@ -2351,7 +2351,7 @@ void marcarAula(){
             && mes == aulas[i].dataAula.mes
             && ano == aulas[i].dataAula.ano
             && hora == aulas[i].hora
-	    && intrutor == instrutores[i].nInstrutor
+	    && instrutor == instrutores[i].nInstrutor
             )return 1;
         }
         return 0;
@@ -2403,7 +2403,7 @@ int dadosAulas(int aula){
 
 //Consultar aula por dia
 void consultaAulaDia(){
-	int i, op, flag = 0, dia, mes, ano;
+	int i, j, k, op, flag = 0, dia, mes, ano;
     char op2, msg[100];
     system("clear||cls");
     
@@ -2422,32 +2422,32 @@ void consultaAulaDia(){
             break;
         }
     }
+	
     if(flag == 1){
         printf("\n\n< < < Listagem de aulas em %d/%d/%d > > >", dia, mes, ano);
         for(i = 0; i < nAulas; i++){
             if(aulas[i].dataAula.dia == dia && aulas[i].dataAula.mes == mes && aulas[i].dataAula.ano == ano){
-                //vai apresentar aulas num determinado dia
-                //i - 1 aula
-                //aula[i] nAluno, nInstrutor
-                //nAluno e pelo nInstrutor temos de ir buscar o nome
-                //j nos dois inicializado a 0
-                for(j = 0; j < nInstrutores; j++){
-                    if(aulas[i].nInstrutor == instrutores[j].nInstrutor){
-                        printf(instrutor[j].nome);
-                    }
-                }
-                for(j = 0; j < nAlunos; j++){
-                    if(aulas[i].nAluno == alunos[j].nAluno){
-                        printf(Aluno[j].nome);
-                    }
-                }
-            }
-        }
-	}else{
-        //apresenta mensagem e sai
-    }
-	printf("\n\n (Prima qualquer tecla para voltar!)");
-    getch();
+            	printf ("\n\n\tAula - Data:%d/%d/%d - Hora:%d", dia, mes, ano, aulas[i].hora);
+        	}
+        
+        	for(j = 0; j < nAlunos; j++){
+            	if(aulas[i].dataAula.dia == dia && aulas[i].dataAula.mes == mes && aulas[i].dataAula.ano == ano && aulas[i].aluno == alunos[j].nAluno){
+                	printf (" - Alunos:%d, %s", alunos[j].nAluno, alunos[j].nome);
+            	}
+    		}
+        	for(k = 0; k < nInstrutores; k++){
+            	if(aulas[i].dataAula.dia == dia && aulas[i].dataAula.mes == mes && aulas[i].dataAula.ano == ano && aulas[i].instrutor == instrutores[k].nInstrutor){
+                	printf(" - Instrutor:%s, %s", instrutores[k].nome, instrutores[k].email);
+				}
+			}
+		}
+		printf("\n\nPrima uma tecla para sair!!");
+		getch();
+	}	
+	else {
+		printf ("Nenhuma aula encontrada com essa data!! A redirecionar....");
+		esperaApaga(msg, 4);
+	}
 }
 
 //consultarAula

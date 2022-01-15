@@ -1,3 +1,4 @@
+ 
 ////////////////////////////////////////////////////////////////////////////////////
 //Bibliotecas
 ////////////////////////////////////////////////////////////////////////////////////
@@ -1109,14 +1110,14 @@ void listarLocalidade() {
         strcpy(localAlunos[i],alunos[i].morada.localidade);
         strcpy(nomeAlunos[i],alunos[i].nome);
     }
-    for(i=0;i<nAlunos;i++){
-        for(j=i+1;j<nAlunos;j++){
-            if(strcmp(localAlunos[i],localAlunos[j])>0){
-                strcpy(temp1,localAlunos[i]);
-                strcpy(localAlunos[i],localAlunos[j]);
-                strcpy(localAlunos[j],temp1);
-                strcpy(temp2,nomeAlunos[i]);
-                strcpy(nomeAlunos[i],nomeAlunos[j]);
+    for(i=0;i<nAlunos - 1;i++){
+        for(j=0;j<nAlunos - i -1;j++){
+            if(strcmp(localAlunos[j],localAlunos[j +1])>0){
+                strcpy(temp1,localAlunos[j]);
+                strcpy(localAlunos[j],localAlunos[j +1]);
+                strcpy(localAlunos[j +1],temp1);
+                strcpy(temp2,nomeAlunos[j]);
+                strcpy(nomeAlunos[j],nomeAlunos[j + 1]);
                 strcpy(nomeAlunos[j],temp2);
             }
         }
@@ -1143,14 +1144,14 @@ void listarCpostal() {
         strcpy(cpostalAlunos[i],alunos[i].morada.cpostal);
         strcpy(nomeAlunos[i],alunos[i].nome);
     }
-    for(i=0;i<nAlunos;i++){
-        for(j=i+1;j<nAlunos;j++){
-            if(strcmp(cpostalAlunos[i],cpostalAlunos[j])>0){
-                strcpy(temp1,cpostalAlunos[i]);
-                strcpy(cpostalAlunos[i],cpostalAlunos[j]);
-                strcpy(cpostalAlunos[j],temp1);
-                strcpy(temp2,nomeAlunos[i]);
-                strcpy(nomeAlunos[i],nomeAlunos[j]);
+    for(i=0;i<nAlunos - 1;i++){
+        for(j=0;j<nAlunos - i - 1;j++){
+            if(strcmp(cpostalAlunos[j],cpostalAlunos[j + 1])>0){
+                strcpy(temp1,cpostalAlunos[j]);
+                strcpy(cpostalAlunos[j],cpostalAlunos[j + 1]);
+                strcpy(cpostalAlunos[j+1],temp1);
+                strcpy(temp2,nomeAlunos[j]);
+                strcpy(nomeAlunos[j],nomeAlunos[j + 1]);
                 strcpy(nomeAlunos[j],temp2);
             }
         }
@@ -2140,15 +2141,15 @@ void listarLocalidadeINST() {
         strcpy(localInstrutores[i],instrutores[i].morada.localidade);
         strcpy(nomeInstrutores[i],instrutores[i].nome);
     }
-    for(i=0;i<nInstrutores;i++){
-        for(j=i+1;j<nInstrutores;j++){
-            if(strcmp(localInstrutores[i],localInstrutores[j])>0){
-                strcpy(temp1,localInstrutores[i]);
-                strcpy(localInstrutores[i],localInstrutores[j]);
-                strcpy(localInstrutores[j],temp1);
-                strcpy(temp2,nomeInstrutores[i]);
-                strcpy(nomeInstrutores[i],nomeInstrutores[j]);
-                strcpy(nomeInstrutores[j],temp2);
+    for(i=0;i<nInstrutores - 1;i++){
+        for(j=i+1;j<nInstrutores - i - 1;j++){
+            if(strcmp(localInstrutores[j],localInstrutores[j + 1])>0){
+                strcpy(temp1,localInstrutores[j]);
+                strcpy(localInstrutores[j],localInstrutores[j + 1]);
+                strcpy(localInstrutores[j + 1],temp1);
+                strcpy(temp2,nomeInstrutores[j]);
+                strcpy(nomeInstrutores[j],nomeInstrutores[j +1]);
+                strcpy(nomeInstrutores[j+1],temp2);
             }
         }
     }
@@ -2174,15 +2175,15 @@ void listarCpostalINST() {
         strcpy(cpostalInstrutores[i],instrutores[i].morada.cpostal);
         strcpy(nomeInstrutores[i],instrutores[i].nome);
     }
-    for(i=0;i<nInstrutores;i++){
-        for(j=i+1;j<nInstrutores;j++){
-            if(strcmp(cpostalInstrutores[i],cpostalInstrutores[j])>0){
-                strcpy(temp1,cpostalInstrutores[i]);
-                strcpy(cpostalInstrutores[i],cpostalInstrutores[j]);
-                strcpy(cpostalInstrutores[j],temp1);
-                strcpy(temp2,nomeInstrutores[i]);
-                strcpy(nomeInstrutores[i],nomeInstrutores[j]);
-                strcpy(nomeInstrutores[j],temp2);
+    for(i=0;i<nInstrutores - 1;i++){
+        for(j=i+1;j<nInstrutores - i - 1;j++){
+            if(strcmp(cpostalInstrutores[j],cpostalInstrutores[j +1])>0){
+                strcpy(temp1,cpostalInstrutores[j]);
+                strcpy(cpostalInstrutores[j],cpostalInstrutores[j +1]);
+                strcpy(cpostalInstrutores[j +1],temp1);
+                strcpy(temp2,nomeInstrutores[j]);
+                strcpy(nomeInstrutores[j],nomeInstrutores[j +1]);
+                strcpy(nomeInstrutores[j +1],temp2);
             }
         }
     }
@@ -2422,7 +2423,6 @@ void consultaAulaDia(){
             break;
         }
     }
-	
     if(flag == 1){
         printf("\n\n< < < Listagem de aulas em %d/%d/%d > > >", dia, mes, ano);
         for(i = 0; i < nAulas; i++){
@@ -2500,7 +2500,7 @@ void consultarAulas(){
     printf("\n\n< < < MENU CONSULTA DE AULAS > > >");
     printf("\n\n\t1 - Consultar por dia");
     printf("\n\n\t2 - Consultar por aluno");
-    printf("\n\n\t2 - Consultar por instrutor");
+    printf("\n\n\t3 - Consultar por instrutor");
     printf("\n\n\t0 - Voltar");
     printf("\n\nInsira a sua opção: ");
     scanf("%d", &op);
@@ -2510,9 +2510,10 @@ void consultarAulas(){
             consultaAulaDia();
         break;
         case 2:
-	    consultarAulaAluno();
+        	consultarAulaAluno();
         break;
         case 3:
+        	consultarAulaInstrutor();
         break;
     } 
     }while (op != 0);

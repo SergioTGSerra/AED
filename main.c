@@ -2450,6 +2450,48 @@ void consultaAulaDia(){
 	}
 }
 
+//Consultar por aluno
+void consultarAulaAluno(){
+	char nome[50], msg[100];
+	int i, j, k, flag = 0;
+	system("clear||cls");
+    printf("\n\n\tInsira o nome do aluno que pretende consultar as aulas: ");
+    scanf(" %50[^\n]s", &nome);
+    if(strlen(nome) < 3) do{
+        printf("\n\n\tPor favor insira pelo menos 3 caracteres para procurar pelo nome: ");
+        scanf(" %50[^\n]s", &nome);
+    }while(strlen(nome) < 3);
+    system("clear||cls");
+    for(i = 0; i < nAlunos; i++){
+        if (strstr(alunos[i].nome, nome)){
+            flag = 1;
+            break;
+        }
+    }
+    if(flag == 1){
+    	printf ("\n\n< < < Listagem das aulas de %s > > >", nome);
+    	for(i = 0; i < nAulas; i++){
+    		for(j = 0; j < nAlunos; j++){
+            	if(aulas[i].aluno == alunos[j].nAluno && strstr(alunos[j].nome, nome)){
+            		printf ("\n\n\tAula - Data:%d/%d/%d - Hora:%d", aulas[i].dataAula.dia, aulas[i].dataAula.mes, aulas[i].dataAula.ano, aulas[i].hora);
+                	printf (" - Alunos:%d, %s", alunos[j].nAluno, alunos[j].nome);
+                }
+        		for(k = 0; k < nInstrutores; k++){
+            		if(aulas[i].instrutor == instrutores[k].nInstrutor && aulas[i].aluno ==alunos[j].nAluno && strstr(alunos[j].nome, nome) ){
+                		printf(" - Instrutor:%s, %s", instrutores[k].nome, instrutores[k].email);
+					}
+				}
+			}
+		}
+		printf("\n\nPrima uma tecla para sair!!");
+		getch();
+	}
+	else {
+		printf ("Nenhum aluno encontrado com esse nome!! A redirecionar....");
+		esperaApaga(msg, 4);
+	}
+}
+
 //consultarAula
 void consultarAulas(){
     int op;
@@ -2468,6 +2510,7 @@ void consultarAulas(){
             consultaAulaDia();
         break;
         case 2:
+	    consultarAulaAluno();
         break;
         case 3:
         break;

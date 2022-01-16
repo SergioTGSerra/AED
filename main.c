@@ -2445,7 +2445,7 @@ void consultaAulaDia(){
 		getch();
 	}	
 	else {
-		printf ("Nenhuma aula encontrada com essa data!! A redirecionar....");
+		strcpy(msg, "Nenhuma aula encontrada com essa data!! A redirecionar....");
 		esperaApaga(msg, 4);
 	}
 }
@@ -2487,10 +2487,53 @@ void consultarAulaAluno(){
 		getch();
 	}
 	else {
-		printf ("Nenhum aluno encontrado com esse nome!! A redirecionar....");
+		strcpy(msg, "Nenhum aluno encontrado com esse nome!! A redirecionar....");
 		esperaApaga(msg, 4);
 	}
 }
+
+//Consultar por instrutor
+void consultarAulaInstrutor(){
+	char nome[50], msg[100];
+	int i, j, k, flag = 0;
+	system("clear||cls");
+    printf("\n\n\tInsira o nome do instrutor que pretende consultar as aulas: ");
+    scanf(" %50[^\n]s", &nome);
+    if(strlen(nome) < 3) do{
+        printf("\n\n\tPor favor insira pelo menos 3 caracteres para procurar pelo nome: ");
+        scanf(" %50[^\n]s", &nome);
+    }while(strlen(nome) < 3);
+    system("clear||cls");
+    for(i = 0; i < nInstrutores; i++){
+        if (strstr(instrutores[i].nome, nome)){
+            flag = 1;
+            break;
+        }
+    }
+    if(flag == 1){
+    	printf ("\n\n< < < Listagem das aulas de %s > > >", nome);
+    	for(i = 0; i < nAulas; i++){
+    		for(j = 0; j < nInstrutores; j++){
+            	if(aulas[i].instrutor == instrutores[j].nInstrutor && strstr(instrutores[j].nome, nome)){
+            		printf ("\n\n\tAula - Data:%d/%d/%d - Hora:%d", aulas[i].dataAula.dia, aulas[i].dataAula.mes, aulas[i].dataAula.ano, aulas[i].hora);
+                	printf (" - Instrutor:%s, %s", instrutores[j].nome, instrutores[j].email);
+                }
+        		for(k = 0; k < nAlunos; k++){
+            		if(aulas[i].aluno == alunos[k].nAluno && aulas[i].instrutor == instrutores[j].nInstrutor && strstr(instrutores[j].nome, nome)){
+                		printf(" - Aluno:%d, %s", alunos[k].nAluno, alunos[k].nome);
+					}
+				}
+			}
+		}
+		printf("\n\nPrima uma tecla para sair!!");
+		getch();
+	}
+	else {
+		strcpy(msg, "Nenhum instrutor encontrado com esse nome!! A redirecionar....");
+		esperaApaga(msg, 4);
+	}
+}
+
 
 //consultarAula
 void consultarAulas(){

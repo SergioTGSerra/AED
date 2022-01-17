@@ -2316,15 +2316,9 @@ typedef struct {
 AULAS aulas[100];
 
 //marcar Aula
+//marcar Aula
 void marcarAula(){
-    int i, cont = 1, flag = 0;
-    char op, msg[100];
-    system("clear||cls");
-    printf("\n\n< < < Marcar Aula de Condução > > >");
-    
- //marcar Aula
-void marcarAula(){
-    int i, cont = 1, flag = 0;
+    int i, cont = 1, flag = 0, aula;
     char op, msg[100];
     system("clear||cls");
     printf("\n\n< < < Marcar Aula de Condução > > >");
@@ -2374,6 +2368,7 @@ void marcarAula(){
     	do{
         	if(flag == 1) printf("\n\n\tJá existe uma aula marcada nesse dia a essa hora, com esse instrutor por favor ensira outro dia/hora!");
         	//Data Aula
+        		system("clear||cls");
         		printf("\n\n\tInsira a data da aula (dia/mês/ano): ");
         		scanf("%d/%d/%d", &aulas[nAulas].dataAula.dia, &aulas[nAulas].dataAula.mes, &aulas[nAulas].dataAula.ano);
         		fflush(stdin);
@@ -2391,8 +2386,13 @@ void marcarAula(){
         flag = 1;
 
     	}while(exiteDataHora(aulas[nAulas].dataAula.dia, aulas[nAulas].dataAula.mes, aulas[nAulas].dataAula.ano, aulas[nAulas].hora, instrutores[i].nInstrutor) == 1);
-
-    	printf("\n(NOTA:Depois de confirmada a aula não pode ser desmaracada!!)\nPretende confirmar a marcação da aula?(y/N): ");
+		
+		system("clear||cls");
+		printf("\n\n< < < Dados da aula de %d/%d/%d > > >", aulas[nAulas].dataAula.dia, aulas[nAulas].dataAula.mes, aulas[nAulas].dataAula.ano);
+    	printf("\n\n\tHora: %d", aulas[nAulas].hora);
+    	printf("\n\n\tAluno: %d", aulas[nAulas].aluno);
+    	printf("\n\n\tInstrutor: %d", aulas[nAulas].instrutor);
+    	printf("\n\n(NOTA:Depois de confirmada a aula não pode ser desmaracada!!)\nPretende confirmar a marcação da aula?(y/N): ");
     	scanf("%c", &op);
     	nAulas++;
     	if (op == 'y' || op == 'Y'){
@@ -2407,15 +2407,7 @@ void marcarAula(){
 	}
 }
 
-//consultar dados de uma aula
-int dadosAulas(int aula){
-    if (aulas[aula].aluno == 0) return 0;
-    system("clear||cls");
-    printf("\n\n< < < Dados da aula de %d/%d/%d > > >", aulas[nAulas].dataAula.dia, aulas[nAulas].dataAula.mes, aulas[nAulas].dataAula.ano);
-    printf("\n\n\tHora: %d", aulas[aula].hora);
-    printf("\n\n\tAluno: %d", aulas[aula].aluno);
-    printf("\n\n\tInstrutor: %d", aulas[aula].instrutor);
-}
+
 
 //Consultar aula por dia
 void consultaAulaDia(){

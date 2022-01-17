@@ -2318,7 +2318,7 @@ AULAS aulas[100];
 //marcar Aula
 //marcar Aula
 void marcarAula(){
-    int i, cont = 1, flag = 0, aula;
+    int i, cont = 1, flag = 0;
     char op, msg[100];
     system("clear||cls");
     printf("\n\n< < < Marcar Aula de Condução > > >");
